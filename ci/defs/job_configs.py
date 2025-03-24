@@ -745,6 +745,41 @@ class JobConfigs:
             ["Build (amd_ubsan)"],
         ],
     )
+    performance_comparison_with_master_head_jobs = Job.Config(
+        name=JobNames.PERFORMANCE,
+        runs_on=["#from param"],
+        command="python3 ./ci/jobs/performance_tests.py --test-options {PARAMETER}",
+        run_in_docker="clickhouse/stateless-test",
+        digest_config=Job.CacheDigestConfig(
+            include_paths=[
+                "./tests/performance/",
+                "./ci/jobs/scripts/perf/",
+                "./ci/jobs/performance_tests.py",
+            ],
+        ),
+        timeout=2 * 3600,
+    ).parametrize(
+        parameter=[
+            "amd_release,master_head,1/3",
+            "amd_release,master_head,2/3",
+            "amd_release,master_head,3/3",
+            "arm_release,master_head,1/3",
+            "arm_release,master_head,2/3",
+            "arm_release,master_head,3/3",
+        ],
+        runs_on=[RunnerLabels.FUNC_TESTER_AMD for _ in range(3)]
+        + [RunnerLabels.FUNC_TESTER_ARM for _ in range(3)],
+        requires=[[ArtifactNames.CH_AMD_RELEASE] for _ in range(3)]
+        + [[ArtifactNames.CH_ARM_RELEASE] for _ in range(3)],
+        provides=[
+            [ArtifactNames.PERF_REPORTS_AMD_1],
+            [ArtifactNames.PERF_REPORTS_AMD_2],
+            [ArtifactNames.PERF_REPORTS_AMD_3],
+            [ArtifactNames.PERF_REPORTS_ARM_1],
+            [ArtifactNames.PERF_REPORTS_ARM_2],
+            [ArtifactNames.PERF_REPORTS_ARM_3],
+        ],
+    )
     performance_comparison_amd_jobs = Job.Config(
         name=JobNames.PERFORMANCE,
         runs_on=["..params.."],

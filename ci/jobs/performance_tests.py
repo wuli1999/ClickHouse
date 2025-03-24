@@ -221,7 +221,7 @@ def main():
     for test_option in test_options:
         if "/" in test_option:
             batch_num, total_batches = map(int, test_option.split("/"))
-        if test_option == "head_master":
+        if test_option == "master_head":
             compare_against_master = True
         elif test_option == "prev_release":
             compare_against_release = True
