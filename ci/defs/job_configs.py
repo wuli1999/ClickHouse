@@ -749,7 +749,8 @@ class JobConfigs:
         name=JobNames.PERFORMANCE,
         runs_on=["#from param"],
         command="python3 ./ci/jobs/performance_tests.py --test-options {PARAMETER}",
-        run_in_docker="clickhouse/stateless-test",
+        # TODO: switch to stateless-test image
+        run_in_docker="clickhouse/performance-comparison",
         digest_config=Job.CacheDigestConfig(
             include_paths=[
                 "./tests/performance/",
@@ -769,8 +770,8 @@ class JobConfigs:
         ],
         runs_on=[RunnerLabels.FUNC_TESTER_AMD for _ in range(3)]
         + [RunnerLabels.FUNC_TESTER_ARM for _ in range(3)],
-        requires=[[ArtifactNames.CH_AMD_RELEASE] for _ in range(3)]
-        + [[ArtifactNames.CH_ARM_RELEASE] for _ in range(3)],
+        requires=[[ArtifactNames.CH_AMD_BINARY] for _ in range(3)]
+        + [[ArtifactNames.CH_ARM_BIN] for _ in range(3)],
         provides=[
             [ArtifactNames.PERF_REPORTS_AMD_1],
             [ArtifactNames.PERF_REPORTS_AMD_2],
