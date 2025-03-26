@@ -10,4 +10,4 @@ set (CLICKHOUSE_BENCHMARK_LINK
 
 clickhouse_program_add(benchmark)
 
-target_link_libraries (clickhouse-benchmark-lib PRIVATE clickhouse-client-lib)
+target_link_libraries (vxdfs-benchmark-lib PRIVATE vxdfs-client-lib)
