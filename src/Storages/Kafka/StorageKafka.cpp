@@ -1211,7 +1211,7 @@ void registerStorageKafka(StorageFactory & factory)
         if (args.columns.getAll() != supported_columns)
         {
             throw Exception(ErrorCodes::BAD_ARGUMENTS, "KafkaEngine doesn't support DEFAULT/MATERIALIZED/EPHEMERAL expressions for columns"
-                                                       /*", See https://clickhouse.com/docs/en/engines/table-engines/integrations/kafka/#configuration*/");
+                                                       /*", See https://clickhouse.com/docs/en/engines/table-engines/integrations/kafka/#configuration"*/);
         }
 
         return std::make_shared<StorageKafka>(args.table_id, args.getContext(), args.columns, std::move(kafka_settings), collection_name);
