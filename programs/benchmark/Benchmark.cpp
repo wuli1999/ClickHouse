@@ -583,15 +583,15 @@ int mainEntryClickHouseBenchmark(int argc, char ** argv)
         std::optional<std::string> env_password_str;
         std::optional<std::string> env_quota_key_str;
 
-        const char * env_user = getenv("CLICKHOUSE_USER"); // NOLINT(concurrency-mt-unsafe)
+        const char * env_user = getenv("VXDFS_USER"); // NOLINT(concurrency-mt-unsafe)
         if (env_user != nullptr)
             env_user_str.emplace(std::string(env_user));
 
-        const char * env_password = getenv("CLICKHOUSE_PASSWORD"); // NOLINT(concurrency-mt-unsafe)
+        const char * env_password = getenv("VXDFS_PASSWORD"); // NOLINT(concurrency-mt-unsafe)
         if (env_password != nullptr)
             env_password_str.emplace(std::string(env_password));
 
-        const char * env_quota_key = getenv("CLICKHOUSE_QUOTA_KEY"); // NOLINT(concurrency-mt-unsafe)
+        const char * env_quota_key = getenv("VXDFS_QUOTA_KEY"); // NOLINT(concurrency-mt-unsafe)
         if (env_quota_key != nullptr)
             env_quota_key_str.emplace(std::string(env_quota_key));
 
@@ -636,7 +636,7 @@ int mainEntryClickHouseBenchmark(int argc, char ** argv)
         {
             std::cout << "Usage: " << argv[0] << " [options] < queries.txt\n";
             std::cout << desc << "\n";
-            std::cout << "\nSee also: https://clickhouse.com/docs/en/operations/utilities/clickhouse-benchmark/\n";
+            // std::cout << "\nSee also: https://clickhouse.com/docs/en/operations/utilities/clickhouse-benchmark/\n";
             return 0;
         }
 
