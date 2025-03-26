@@ -11,8 +11,8 @@ else ()
 endif ()
 
 add_custom_target (self-extracting ALL
-    ${CMAKE_COMMAND} -E remove clickhouse clickhouse-stripped
-    COMMAND ${COMPRESSOR} ${DECOMPRESSOR} clickhouse ../clickhouse
-    COMMAND ${COMPRESSOR} ${DECOMPRESSOR} clickhouse-stripped ../clickhouse-stripped
-    DEPENDS clickhouse clickhouse-stripped compressor
+    ${CMAKE_COMMAND} -E remove vxdfs vxdfs-stripped
+    COMMAND ${COMPRESSOR} ${DECOMPRESSOR} vxdfs ../vxdfs
+    COMMAND ${COMPRESSOR} ${DECOMPRESSOR} vxdfs-stripped ../vxdfs-stripped
+    DEPENDS vxdfs vxdfs-stripped compressor
 )
