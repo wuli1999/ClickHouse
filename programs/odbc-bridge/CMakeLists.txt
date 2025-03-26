@@ -16,7 +16,7 @@ set (CLICKHOUSE_ODBC_BRIDGE_SOURCES
     createFunctionBaseCast.cpp
 )
 
-clickhouse_add_executable(clickhouse-odbc-bridge ${CLICKHOUSE_ODBC_BRIDGE_SOURCES})
+clickhouse_add_executable(vxdfs-odbc-bridge ${CLICKHOUSE_ODBC_BRIDGE_SOURCES})
 
 target_link_libraries(vxdfs-odbc-bridge PRIVATE
     daemon
