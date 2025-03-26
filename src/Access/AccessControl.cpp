@@ -615,10 +615,10 @@ AuthResult AccessControl::authenticate(const Credentials & credentials, const Po
         /// It is typical when users install ClickHouse, type some password and instantly forget it.
         if (credentials.getUserName().empty() || credentials.getUserName() == "default")
             message << "\n\n"
-                << "If you have installed ClickHouse and forgot password you can reset it in the configuration file.\n"
-                << "The password for default user is typically located at /etc/clickhouse-server/users.d/default-password.xml\n"
+                << "If you have installed vxdfs and forgot password you can reset it in the configuration file.\n"
+                << "The password for default user is typically located at /etc/vxdfs-server/users.d/default-password.xml\n"
                 << "and deleting this file will reset the password.\n"
-                << "See also /etc/clickhouse-server/users.xml on the server where ClickHouse is installed.\n\n";
+                << "See also /etc/vxdfs-server/users.xml on the server where vxdfs is installed.\n\n";
 
         /// We use the same message for all authentication failures because we don't want to give away any unnecessary information for security reasons,
         /// only the log will show the exact reason.
