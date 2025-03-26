@@ -807,7 +807,7 @@ void StorageKafka::updateConfiguration(cppkafka::Configuration & kafka_config)
     }
 #else // USE_KRB5
     if (kafka_config.has_property("sasl.kerberos.keytab") || kafka_config.has_property("sasl.kerberos.principal"))
-        LOG_WARNING(log, "Ignoring Kerberos-related parameters because ClickHouse was built without krb5 library support.");
+        LOG_WARNING(log, "Ignoring Kerberos-related parameters because vxdfs was built without krb5 library support.");
 #endif // USE_KRB5
 
     // Update consumer topic-specific configuration (legacy syntax, retained for compatibility). Example with topic "football":
@@ -1183,7 +1183,7 @@ void registerStorageKafka(StorageFactory & factory)
                             "of getting data from Kafka, consider using a setting kafka_thread_per_consumer=1, "
                             "and ensure you have enough threads "
                             "in MessageBrokerSchedulePool (background_message_broker_schedule_pool_size). "
-                            "See also https://clickhouse.com/docs/en/integrations/kafka#tuning-performance", max_consumers);
+                            /*"See also https://clickhouse.com/docs/en/integrations/kafka#tuning-performance"*/, max_consumers);
         }
         else if (num_consumers < 1)
         {
@@ -1210,8 +1210,8 @@ void registerStorageKafka(StorageFactory & factory)
         // Kafka engine allows only ordinary columns without default expression or alias columns.
         if (args.columns.getAll() != supported_columns)
         {
-            throw Exception(ErrorCodes::BAD_ARGUMENTS, "KafkaEngine doesn't support DEFAULT/MATERIALIZED/EPHEMERAL expressions for columns. "
-                                                       "See https://clickhouse.com/docs/en/engines/table-engines/integrations/kafka/#configuration");
+            throw Exception(ErrorCodes::BAD_ARGUMENTS, "KafkaEngine doesn't support DEFAULT/MATERIALIZED/EPHEMERAL expressions for columns"
+                                                       /*", See https://clickhouse.com/docs/en/engines/table-engines/integrations/kafka/#configuration*/");
         }
 
         return std::make_shared<StorageKafka>(args.table_id, args.getContext(), args.columns, std::move(kafka_settings), collection_name);
