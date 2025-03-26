@@ -107,7 +107,7 @@ int printHelp(int, char **)
 {
     std::cerr << "Use one of the following commands:" << std::endl;
     for (auto & application : clickhouse_applications)
-        std::cerr << "clickhouse " << application.first << " [args] " << std::endl;
+        std::cerr << "vxdfs " << application.first << " [args] " << std::endl;
     return -1;
 }
 
@@ -350,7 +350,7 @@ void dumpCoverage()
 
     /// The format is even simpler than Clang's "sancov": an array of 64-bit addresses, native byte order, no header.
 
-    if (const char * coverage_filename_prefix = getenv("CLICKHOUSE_WRITE_COVERAGE")) // NOLINT(concurrency-mt-unsafe)
+    if (const char * coverage_filename_prefix = getenv("VXDFS_WRITE_COVERAGE")) // NOLINT(concurrency-mt-unsafe)
     {
         auto dump = [](const std::string & name, auto span)
         {
@@ -404,7 +404,7 @@ bool isClickhouseApp(std::string_view app_suffix, std::vector<char *> & argv)
     }
 
     /// Use app if clickhouse binary is run through symbolic link with name clickhouse-app
-    std::string app_name = "clickhouse-" + std::string(app_suffix);
+    std::string app_name = "vxdfs-" + std::string(app_suffix);
     return !argv.empty() && (app_name == argv[0] || endsWith(argv[0], "/" + app_name));
 }
 
@@ -463,7 +463,7 @@ int main(int argc_, char ** argv_)
 
     /// This is used for testing. For example,
     /// clickhouse-local should be able to run a simple query without throw/catch.
-    if (getenv("CLICKHOUSE_TERMINATE_ON_ANY_EXCEPTION")) // NOLINT(concurrency-mt-unsafe)
+    if (getenv("VXDFS_TERMINATE_ON_ANY_EXCEPTION")) // NOLINT(concurrency-mt-unsafe)
         DB::terminate_on_any_exception = true;
 
     /// Reset new handler to default (that throws std::bad_alloc)

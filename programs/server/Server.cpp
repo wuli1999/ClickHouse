@@ -197,9 +197,9 @@ int mainEntryClickHouseServer(int argc, char ** argv)
     {
         LOG_ERROR(&app.logger(),
             "jemalloc.background_thread was requested, "
-            "however ClickHouse uses percpu_arena and background_thread most likely will not give any benefits, "
-            "and also background_thread is not compatible with ClickHouse watchdog "
-            "(that can be disabled with CLICKHOUSE_WATCHDOG_ENABLE=0)");
+            "however vxdfs uses percpu_arena and background_thread most likely will not give any benefits, "
+            "and also background_thread is not compatible with vxdfs watchdog "
+            "(that can be disabled with VXDFS_WATCHDOG_ENABLE=0)");
     }
 
     /// Do not fork separate process from watchdog if we attached to terminal.
@@ -207,7 +207,7 @@ int mainEntryClickHouseServer(int argc, char ** argv)
     /// Can be overridden by environment variable (cannot use server config at this moment).
     if (argc > 0)
     {
-        const char * env_watchdog = getenv("CLICKHOUSE_WATCHDOG_ENABLE"); // NOLINT(concurrency-mt-unsafe)
+        const char * env_watchdog = getenv("VXDFS_WATCHDOG_ENABLE"); // NOLINT(concurrency-mt-unsafe)
         if (env_watchdog)
         {
             if (0 == strcmp(env_watchdog, "1"))
@@ -971,7 +971,7 @@ try
         }
     }
     else
-        executable_path = "/usr/bin/clickhouse";    /// It is used for information messages.
+        executable_path = "/usr/bin/vxdfs";    /// It is used for information messages.
 
     /// After full config loaded
     {
@@ -997,7 +997,7 @@ try
                     if (0 != mlock(addr, len))
                         LOG_WARNING(log, "Failed mlock: {}", errnoToString());
                     else
-                        LOG_TRACE(log, "The memory map of clickhouse executable has been mlock'ed, total {}", ReadableSize(len));
+                        LOG_TRACE(log, "The memory map of vxdfs executable has been mlock'ed, total {}", ReadableSize(len));
                 }
                 catch (...)
                 {
@@ -1007,7 +1007,7 @@ try
             else
             {
                 LOG_INFO(log, "It looks like the process has no CAP_IPC_LOCK capability, binary mlock will be disabled."
-                    " It could happen due to incorrect ClickHouse package installation."
+                    " It could happen due to incorrect vxdfs package installation."
                     " You could resolve the problem manually with 'sudo setcap cap_ipc_lock=+ep {}'."
                     " Note that it will not work on 'nosuid' mounted filesystems.", executable_path);
             }
@@ -1683,7 +1683,7 @@ try
             });
         }
 #else
-        throw Exception(ErrorCodes::SUPPORT_IS_DISABLED, "ClickHouse server built without NuRaft library. Cannot use internal coordination.");
+        throw Exception(ErrorCodes::SUPPORT_IS_DISABLED, "vxdfs server built without NuRaft library. Cannot use internal coordination.");
 #endif
 
     }
@@ -1933,12 +1933,12 @@ try
     if (tasks_stats_provider == TasksStatsCounters::MetricsProvider::None)
     {
         LOG_INFO(log, "It looks like this system does not have procfs mounted at /proc location,"
-            " neither clickhouse-server process has CAP_NET_ADMIN capability."
+            " neither vxdfs-server process has CAP_NET_ADMIN capability."
             " 'taskstats' performance statistics will be disabled."
-            " It could happen due to incorrect ClickHouse package installation."
+            " It could happen due to incorrect vxdfs package installation."
             " You can try to resolve the problem manually with 'sudo setcap cap_net_admin=+ep {}'."
             " Note that it will not work on 'nosuid' mounted filesystems."
-            " It also doesn't work if you run clickhouse-server inside network namespace as it happens in some containers.",
+            " It also doesn't work if you run vxdfs-server inside network namespace as it happens in some containers.",
             executable_path);
     }
     else
@@ -1949,7 +1949,7 @@ try
     if (!hasLinuxCapability(CAP_SYS_NICE))
     {
         LOG_INFO(log, "It looks like the process has no CAP_SYS_NICE capability, the setting 'os_thread_priority' will have no effect."
-            " It could happen due to incorrect ClickHouse package installation."
+            " It could happen due to incorrect vxdfs package installation."
             " You could resolve the problem manually with 'sudo setcap cap_sys_nice=+ep {}'."
             " Note that it will not work on 'nosuid' mounted filesystems.",
             executable_path);
@@ -2025,7 +2025,7 @@ try
         if (has_zookeeper && config().has("distributed_ddl"))
         {
             /// DDL worker should be started after all tables were loaded
-            String ddl_zookeeper_path = config().getString("distributed_ddl.path", "/clickhouse/task_queue/ddl/");
+            String ddl_zookeeper_path = config().getString("distributed_ddl.path", "/vxdfs/task_queue/ddl/");
             int pool_size = config().getInt("distributed_ddl.pool_size", 1);
             if (pool_size < 1)
                 throw Exception(ErrorCodes::ARGUMENT_OUT_OF_BOUND, "distributed_ddl.pool_size should be greater then 0");

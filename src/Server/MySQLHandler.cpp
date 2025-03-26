@@ -600,7 +600,7 @@ void MySQLHandler::erasePreparedStatement(UInt32 statement_id)
 void MySQLHandler::authPluginSSL()
 {
     throw Exception(ErrorCodes::SUPPORT_IS_DISABLED,
-                    "ClickHouse was built without SSL support. Try specifying password using double SHA1 in users.xml.");
+                    "vxdfs was built without SSL support. Try specifying password using double SHA1 in users.xml.");
 }
 
 void MySQLHandler::finishHandshakeSSL(

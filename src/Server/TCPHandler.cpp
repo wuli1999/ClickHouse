@@ -124,10 +124,10 @@ NameToNameMap convertToQueryParameters(const Settings & passed_params)
 void correctQueryClientInfo(const ClientInfo & session_client_info, ClientInfo & client_info)
 {
     if (client_info.getVersionNumber() <= VersionNumber(23, 8, 1) &&
-        session_client_info.client_name == "ClickHouse client" &&
-        (client_info.client_name == "ClickHouse" || client_info.client_name == "ClickHouse "))
+        session_client_info.client_name == "vxdfs client" &&
+        (client_info.client_name == "vxdfs" || client_info.client_name == "vxdfs "))
     {
-        client_info.client_name = "ClickHouse client";
+        client_info.client_name = "vxdfs client";
     }
 }
 
@@ -1358,7 +1358,7 @@ std::string formatHTTPErrorResponseWhenUserIsConnectedToWrongPort(const Poco::Ut
 {
     std::string result = fmt::format(
         "HTTP/1.0 400 Bad Request\r\n\r\n"
-        "Port {} is for clickhouse-client program\r\n",
+        "Port {} is for vxdfs-client program\r\n",
         config.getString("tcp_port"));
 
     if (config.has("http_port"))
@@ -1378,7 +1378,7 @@ std::string formatHTTPErrorResponseWhenUserIsConnectedToWrongPort(const Poco::Ut
     UInt64 rand = rng();
     return encodeSHA256(&rand, sizeof(rand));
 #else
-    throw Exception(ErrorCodes::SUPPORT_IS_DISABLED, "Can't generate challenge, because ClickHouse was built without OpenSSL");
+    throw Exception(ErrorCodes::SUPPORT_IS_DISABLED, "Can't generate challenge, because vxdfs was built without OpenSSL");
 #endif
 }
 
@@ -1845,7 +1845,7 @@ void TCPHandler::receiveQuery()
         is_interserver_authenticated = true;
 #else
         auto exception = Exception(ErrorCodes::AUTHENTICATION_FAILED,
-            "Inter-server secret support is disabled, because ClickHouse was built without SSL library");
+            "Inter-server secret support is disabled, because vxdfs was built without SSL library");
         session->onAuthenticationFailure(/* user_name */ std::nullopt, socket().peerAddress(), exception);
         throw exception; /// NOLINT
 #endif

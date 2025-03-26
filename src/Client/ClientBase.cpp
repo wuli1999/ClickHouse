@@ -2482,11 +2482,11 @@ void ClientBase::runInteractive()
         history_file = config().getString("history_file");
     else
     {
-        auto * history_file_from_env = getenv("CLICKHOUSE_HISTORY_FILE"); // NOLINT(concurrency-mt-unsafe)
+        auto * history_file_from_env = getenv("VXDFS_HISTORY_FILE"); // NOLINT(concurrency-mt-unsafe)
         if (history_file_from_env)
             history_file = history_file_from_env;
         else if (!home_path.empty())
-            history_file = home_path + "/.clickhouse-client-history";
+            history_file = home_path + "/.vxdfs-client-history";
     }
 
     if (!history_file.empty() && !fs::exists(history_file))
@@ -2962,7 +2962,7 @@ void ClientBase::init(int argc, char ** argv)
         ("stage", po::value<std::string>()->default_value("complete"), "Request query processing up to specified stage: complete,fetch_columns,with_mergeable_state,with_mergeable_state_after_aggregation,with_mergeable_state_after_aggregation_and_limit")
         ("progress", po::value<ProgressOption>()->implicit_value(ProgressOption::TTY, "tty")->default_value(ProgressOption::DEFAULT, "default"), "Print progress of queries execution - to TTY: tty|on|1|true|yes; to STDERR non-interactive mode: err; OFF: off|0|false|no; DEFAULT - interactive to TTY, non-interactive is off")
 
-        ("disable_suggestion,A", "Disable loading suggestion data. Note that suggestion data is loaded asynchronously through a second connection to ClickHouse server. Also it is reasonable to disable suggestion if you want to paste a query with TAB characters. Shorthand option -A is for those who get used to mysql client.")
+        ("disable_suggestion,A", "Disable loading suggestion data. Note that suggestion data is loaded asynchronously through a second connection to vxdfs server. Also it is reasonable to disable suggestion if you want to paste a query with TAB characters. Shorthand option -A is for those who get used to mysql client.")
         ("time,t", "print query execution time to stderr in non-interactive mode (for benchmarks)")
 
         ("echo", "in batch mode, print query before execution")
@@ -2973,7 +2973,7 @@ void ClientBase::init(int argc, char ** argv)
 
         ("suggestion_limit", po::value<int>()->default_value(10000), "Suggestion limit for how many databases, tables and columns to fetch.")
 
-        ("format,f", po::value<std::string>(), "default output format (and input format for clickhouse-local)")
+        ("format,f", po::value<std::string>(), "default output format (and input format for vxdfs-local)")
         ("output-format", po::value<std::string>(), "default output format (this option has preference over --format)")
 
         ("vertical,E", "vertical output format, same as --format=Vertical or FORMAT Vertical or \\G at end of command")

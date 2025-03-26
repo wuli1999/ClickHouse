@@ -350,13 +350,13 @@ bool HTTPHandler::authenticateUser(
 
     /// The user and password can be passed by headers (similar to X-Auth-*),
     /// which is used by load balancers to pass authentication information.
-    std::string user = request.get("X-ClickHouse-User", "");
-    std::string password = request.get("X-ClickHouse-Key", "");
-    std::string quota_key = request.get("X-ClickHouse-Quota", "");
+    std::string user = request.get("X-vxdfs-User", "");
+    std::string password = request.get("X-vxdfs-Key", "");
+    std::string quota_key = request.get("X-vxdfs-Quota", "");
 
-    /// The header 'X-ClickHouse-SSL-Certificate-Auth: on' enables checking the common name
+    /// The header 'X-vxdfs-SSL-Certificate-Auth: on' enables checking the common name
     /// extracted from the SSL certificate used for this connection instead of checking password.
-    bool has_ssl_certificate_auth = (request.get("X-ClickHouse-SSL-Certificate-Auth", "") == "on");
+    bool has_ssl_certificate_auth = (request.get("X-vxdfs-SSL-Certificate-Auth", "") == "on");
     bool has_auth_headers = !user.empty() || !password.empty() || !quota_key.empty() || has_ssl_certificate_auth;
 
     /// User name and password can be passed using HTTP Basic auth or query parameters
@@ -395,7 +395,7 @@ bool HTTPHandler::authenticateUser(
                                 "Invalid authentication: SSL certificate authentication requires nonempty certificate's Common Name");
 #else
             throw Exception(ErrorCodes::SUPPORT_IS_DISABLED,
-                            "SSL certificate authentication disabled because ClickHouse was built without SSL library");
+                            "SSL certificate authentication disabled because vxdfs was built without SSL library");
 #endif
         }
     }
@@ -759,8 +759,8 @@ void HTTPHandler::processQuery(
         reserved_param_suffixes.emplace_back("_structure");
     }
 
-    std::string database = request.get("X-ClickHouse-Database", "");
-    std::string default_format = request.get("X-ClickHouse-Format", "");
+    std::string database = request.get("X-vxdfs-Database", "");
+    std::string default_format = request.get("X-vxdfs-Format", "");
 
     SettingsChanges settings_changes;
     for (const auto & [key, value] : params)
@@ -797,7 +797,7 @@ void HTTPHandler::processQuery(
     context->applySettingsChanges(settings_changes);
 
     /// Set the query id supplied by the user, if any, and also update the OpenTelemetry fields.
-    context->setCurrentQueryId(params.get("query_id", request.get("X-ClickHouse-Query-Id", "")));
+    context->setCurrentQueryId(params.get("query_id", request.get("X-vxdfs-Query-Id", "")));
 
     /// Initialize query scope, once query_id is initialized.
     /// (To track as much allocations as possible)
@@ -837,7 +837,7 @@ void HTTPHandler::processQuery(
     };
 
     /// While still no data has been sent, we will report about query execution progress by sending HTTP headers.
-    /// Note that we add it unconditionally so the progress is available for `X-ClickHouse-Summary`
+    /// Note that we add it unconditionally so the progress is available for `X-vxdfs-Summary`
     append_callback([&used_output](const Progress & progress)
     {
         used_output.out_holder->onProgress(progress);
@@ -859,7 +859,7 @@ void HTTPHandler::processQuery(
 
     auto set_query_result = [&response, this] (const QueryResultDetails & details)
     {
-        response.add("X-ClickHouse-Query-Id", details.query_id);
+        response.add("X-vxdfs-Query-Id", details.query_id);
 
         if (content_type_override)
             response.setContentType(*content_type_override);
@@ -867,10 +867,10 @@ void HTTPHandler::processQuery(
             response.setContentType(*details.content_type);
 
         if (details.format)
-            response.add("X-ClickHouse-Format", *details.format);
+            response.add("X-vxdfs-Format", *details.format);
 
         if (details.timezone)
-            response.add("X-ClickHouse-Timezone", *details.timezone);
+            response.add("X-vxdfs-Timezone", *details.timezone);
     };
 
     auto handle_exception_in_output_format = [&](IOutputFormat & output_format)
@@ -980,7 +980,7 @@ void HTTPHandler::formatExceptionForClient(int exception_code, HTTPServerRequest
     if (used_output.out_holder)
         used_output.out_holder->setExceptionCode(exception_code);
     else
-        response.set("X-ClickHouse-Exception-Code", toString<int>(exception_code));
+        response.set("X-vxdfs-Exception-Code", toString<int>(exception_code));
 
     /// FIXME: make sure that no one else is reading from the same stream at the moment.
 
@@ -993,7 +993,7 @@ void HTTPHandler::formatExceptionForClient(int exception_code, HTTPServerRequest
     }
 
     if (exception_code == ErrorCodes::REQUIRED_PASSWORD)
-        response.requireAuthentication("ClickHouse server HTTP API");
+        response.requireAuthentication("vxdfs server HTTP API");
     else
         response.setStatusAndReason(exceptionCodeToHTTPStatus(exception_code));
 }
@@ -1024,7 +1024,7 @@ void HTTPHandler::handleRequest(HTTPServerRequest & request, HTTPServerResponse 
     SCOPE_EXIT({
         // make sure the response status is recorded
         if (thread_trace_context)
-            thread_trace_context->root_span.addAttribute("clickhouse.http_status", response.getStatus());
+            thread_trace_context->root_span.addAttribute("vxdfs.http_status", response.getStatus());
     });
 
     try
@@ -1055,10 +1055,10 @@ void HTTPHandler::handleRequest(HTTPServerRequest & request, HTTPServerResponse 
             context->getSettingsRef(),
             context->getOpenTelemetrySpanLog());
         thread_trace_context->root_span.kind = OpenTelemetry::SERVER;
-        thread_trace_context->root_span.addAttribute("clickhouse.uri", request.getURI());
+        thread_trace_context->root_span.addAttribute("vxdfs.uri", request.getURI());
 
         response.setContentType("text/plain; charset=UTF-8");
-        response.set("X-ClickHouse-Server-Display-Name", server_display_name);
+        response.set("X-vxdfs-Server-Display-Name", server_display_name);
 
         if (!request.get("Origin", "").empty())
             tryAddHTTPOptionHeadersFromConfig(response, server.config());
@@ -1105,7 +1105,7 @@ void HTTPHandler::handleRequest(HTTPServerRequest & request, HTTPServerResponse 
         if (used_output.isFinalized())
         {
             if (thread_trace_context)
-                thread_trace_context->root_span.addAttribute("clickhouse.exception", "Cannot flush data to client");
+                thread_trace_context->root_span.addAttribute("vxdfs.exception", "Cannot flush data to client");
 
             tryLogCurrentException(log, "Cannot flush data to client");
             return;

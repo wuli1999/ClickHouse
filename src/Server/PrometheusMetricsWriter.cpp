@@ -42,10 +42,10 @@ void convertHelpToSingleLine(std::string & help)
     std::replace(help.begin(), help.end(), '\n', ' ');
 }
 
-constexpr auto profile_events_prefix = "ClickHouseProfileEvents_";
-constexpr auto current_metrics_prefix = "ClickHouseMetrics_";
-constexpr auto asynchronous_metrics_prefix = "ClickHouseAsyncMetrics_";
-constexpr auto error_metrics_prefix = "ClickHouseErrorMetric_";
+constexpr auto profile_events_prefix = "vxdfsProfileEvents_";
+constexpr auto current_metrics_prefix = "vxdfsMetrics_";
+constexpr auto asynchronous_metrics_prefix = "vxdfsAsyncMetrics_";
+constexpr auto error_metrics_prefix = "vxdfsErrorMetric_";
 
 void writeEvent(DB::WriteBuffer & wb, ProfileEvents::Event event)
 {

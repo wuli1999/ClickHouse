@@ -330,7 +330,7 @@ void Connection::sendHello()
         sendClusterNameAndSalt();
 #else
         throw Exception(ErrorCodes::SUPPORT_IS_DISABLED,
-                        "Inter-server secret support is disabled, because ClickHouse was built without SSL library");
+                        "Inter-server secret support is disabled, because vxdfs was built without SSL library");
 #endif
     }
 #if USE_SSH
@@ -634,8 +634,8 @@ void Connection::sendQuery(
     std::function<void(const Progress &)>)
 {
     OpenTelemetry::SpanHolder span("Connection::sendQuery()", OpenTelemetry::CLIENT);
-    span.addAttribute("clickhouse.query_id", query_id_);
-    span.addAttribute("clickhouse.query", query);
+    span.addAttribute("vxdfs.query_id", query_id_);
+    span.addAttribute("vxdfs.query", query);
     span.addAttribute("target", [this] () { return this->getHost() + ":" + std::to_string(this->getPort()); });
 
     ClientInfo new_client_info;
@@ -730,7 +730,7 @@ void Connection::sendQuery(
             writeStringBinary(hash, *out);
 #else
             throw Exception(ErrorCodes::SUPPORT_IS_DISABLED,
-                            "Inter-server secret support is disabled, because ClickHouse was built without SSL library");
+                            "Inter-server secret support is disabled, because vxdfs was built without SSL library");
 #endif
         }
         else
