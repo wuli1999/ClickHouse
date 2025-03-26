@@ -18,7 +18,7 @@ set (CLICKHOUSE_ODBC_BRIDGE_SOURCES
 
 clickhouse_add_executable(clickhouse-odbc-bridge ${CLICKHOUSE_ODBC_BRIDGE_SOURCES})
 
-target_link_libraries(clickhouse-odbc-bridge PRIVATE
+target_link_libraries(vxdfs-odbc-bridge PRIVATE
     daemon
     dbms
     bridge
@@ -27,14 +27,14 @@ target_link_libraries(clickhouse-odbc-bridge PRIVATE
     ch_contrib::unixodbc
 )
 
-set_target_properties(clickhouse-odbc-bridge PROPERTIES RUNTIME_OUTPUT_DIRECTORY ..)
-target_compile_options (clickhouse-odbc-bridge PRIVATE -Wno-reserved-id-macro -Wno-keyword-macro)
+set_target_properties(vxdfs-odbc-bridge PROPERTIES RUNTIME_OUTPUT_DIRECTORY ..)
+target_compile_options (vxdfs-odbc-bridge PRIVATE -Wno-reserved-id-macro -Wno-keyword-macro)
 
 if (SPLIT_DEBUG_SYMBOLS)
-    clickhouse_split_debug_symbols(TARGET clickhouse-odbc-bridge DESTINATION_DIR ${CMAKE_CURRENT_BINARY_DIR}/../${SPLITTED_DEBUG_SYMBOLS_DIR} BINARY_PATH ../clickhouse-odbc-bridge)
+    clickhouse_split_debug_symbols(TARGET vxdfs-odbc-bridge DESTINATION_DIR ${CMAKE_CURRENT_BINARY_DIR}/../${SPLITTED_DEBUG_SYMBOLS_DIR} BINARY_PATH ../vxdfs-odbc-bridge)
 else()
-    clickhouse_make_empty_debug_info_for_nfpm(TARGET clickhouse-odbc-bridge DESTINATION_DIR ${CMAKE_CURRENT_BINARY_DIR}/../${SPLITTED_DEBUG_SYMBOLS_DIR})
-    install(TARGETS clickhouse-odbc-bridge RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR} COMPONENT clickhouse)
+    clickhouse_make_empty_debug_info_for_nfpm(TARGET vxdfs-odbc-bridge DESTINATION_DIR ${CMAKE_CURRENT_BINARY_DIR}/../${SPLITTED_DEBUG_SYMBOLS_DIR})
+    install(TARGETS vxdfs-odbc-bridge RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR} COMPONENT vxdfs)
 endif()
 
 if(ENABLE_TESTS)
