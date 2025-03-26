@@ -18,7 +18,7 @@
 curl https://clickhouse.com/ | sh
 ```
 
-## Useful Links
+## Useful Links:
 
 * [Official website](https://clickhouse.com/) has a quick high-level overview of ClickHouse on the main page.
 * [ClickHouse Cloud](https://clickhouse.cloud) ClickHouse as a service, built by the creators and maintainers.
