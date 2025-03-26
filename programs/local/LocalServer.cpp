@@ -237,7 +237,7 @@ void LocalServer::tryInitPath()
         /// as we can't accurately distinguish those situations we don't touch any existent folders
         /// we just try to pick some free name for our working folder
 
-        default_path = parent_folder / fmt::format("clickhouse-local-{}-{}-{}", getpid(), time(nullptr), randomSeed());
+        default_path = parent_folder / fmt::format("vxdfs-local-{}-{}-{}", getpid(), time(nullptr), randomSeed());
 
         if (exists(default_path))
             throw Exception(ErrorCodes::FILE_ALREADY_EXISTS, "Unsuccessful attempt to create working directory: {} already exists.", default_path.string());
@@ -582,7 +582,7 @@ void LocalServer::processConfig()
         config().setString("logger", "logger");
         auto log_level_default = logging ? level : "fatal";
         config().setString("logger.level", config().getString("log-level", config().getString("send_logs_level", log_level_default)));
-        buildLoggers(config(), logger(), "clickhouse-local");
+        buildLoggers(config(), logger(), "vxdfs-local");
     }
 
     shared_context = Context::createShared();
@@ -737,9 +737,9 @@ void LocalServer::processConfig()
 [[ maybe_unused ]] static std::string getHelpHeader()
 {
     return
-        "usage: clickhouse-local [initial table definition] [--query <query>]\n"
+        "usage: vxdfs-local [initial table definition] [--query <query>]\n"
 
-        "clickhouse-local allows to execute SQL queries on your data files via single command line call."
+        "vxdfs-local allows to execute SQL queries on your data files via single command line call."
         " To do so, initially you need to define your data source and its format."
         " After you can execute your SQL queries in usual manner.\n"
 
@@ -755,7 +755,7 @@ void LocalServer::processConfig()
     return
         "Example printing memory used by each Unix user:\n"
         "ps aux | tail -n +2 | awk '{ printf(\"%s\\t%s\\n\", $1, $4) }' | "
-        "clickhouse-local -S \"user String, mem Float64\" -q"
+        "vxdfs-local -S \"user String, mem Float64\" -q"
             " \"SELECT user, round(sum(mem), 2) as mem_total FROM table GROUP BY user ORDER"
             " BY mem_total DESC FORMAT PrettyCompact\"";
 }
