@@ -27,6 +27,6 @@ set_target_properties(vxdfs-library-bridge PROPERTIES RUNTIME_OUTPUT_DIRECTORY .
 if (SPLIT_DEBUG_SYMBOLS)
     clickhouse_split_debug_symbols(TARGET vxdfs-library-bridge DESTINATION_DIR ${CMAKE_CURRENT_BINARY_DIR}/../${SPLITTED_DEBUG_SYMBOLS_DIR} BINARY_PATH ../vxdfs-library-bridge)
 else()
-    clickhouse_make_empty_debug_info_for_nfpm(TARGET clickhouse-library-bridge DESTINATION_DIR ${CMAKE_CURRENT_BINARY_DIR}/../${SPLITTED_DEBUG_SYMBOLS_DIR})
+    clickhouse_make_empty_debug_info_for_nfpm(TARGET vxdfs-library-bridge DESTINATION_DIR ${CMAKE_CURRENT_BINARY_DIR}/../${SPLITTED_DEBUG_SYMBOLS_DIR})
     install(TARGETS vxdfs-library-bridge RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR} COMPONENT vxdfs)
 endif()
