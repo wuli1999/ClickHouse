@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.20)
 
-project(ClickHouse LANGUAGES C CXX ASM)
+project(vxdfs LANGUAGES C CXX ASM)
+set(ClickHouse_SOURCE_DIR ${vxdfs_SOURCE_DIR})
 
 # If turned off: e.g. when ENABLE_FOO is ON, but FOO tool was not found, the CMake will continue.
 option(FAIL_ON_UNSUPPORTED_OPTIONS_COMBINATION
