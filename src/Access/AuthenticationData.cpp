@@ -46,7 +46,7 @@ AuthenticationData::Digest AuthenticationData::Util::encodeSHA256(std::string_vi
     ::DB::encodeSHA256(text, hash.data());
     return hash;
 #else
-    throw Exception(ErrorCodes::SUPPORT_IS_DISABLED, "SHA256 passwords support is disabled, because ClickHouse was built without SSL library");
+    throw Exception(ErrorCodes::SUPPORT_IS_DISABLED, "SHA256 passwords support is disabled, because vxdfs was built without SSL library");
 #endif
 }
 
@@ -82,7 +82,7 @@ AuthenticationData::Digest AuthenticationData::Util::encodeBcrypt(std::string_vi
 #else
     throw Exception(
         ErrorCodes::SUPPORT_IS_DISABLED,
-        "bcrypt passwords support is disabled, because ClickHouse was built without bcrypt library");
+        "bcrypt passwords support is disabled, because vxdfs was built without bcrypt library");
 #endif
 }
 
@@ -96,7 +96,7 @@ bool AuthenticationData::Util::checkPasswordBcrypt(std::string_view password [[m
 #else
     throw Exception(
         ErrorCodes::SUPPORT_IS_DISABLED,
-        "bcrypt passwords support is disabled, because ClickHouse was built without bcrypt library");
+        "bcrypt passwords support is disabled, because vxdfs was built without bcrypt library");
 #endif
 }
 
@@ -326,7 +326,7 @@ std::shared_ptr<ASTAuthenticationData> AuthenticationData::toAST() const
 
             break;
 #else
-            throw Exception(ErrorCodes::SUPPORT_IS_DISABLED, "SSH is disabled, because ClickHouse is built without OpenSSL");
+            throw Exception(ErrorCodes::SUPPORT_IS_DISABLED, "SSH is disabled, because vxdfs is built without OpenSSL");
 #endif
         }
         case AuthenticationType::HTTP:
@@ -377,7 +377,7 @@ AuthenticationData AuthenticationData::fromAST(const ASTAuthenticationData & que
         auth_data.setSSHKeys(std::move(keys));
         return auth_data;
 #else
-        throw Exception(ErrorCodes::SUPPORT_IS_DISABLED, "SSH is disabled, because ClickHouse is built without OpenSSL");
+        throw Exception(ErrorCodes::SUPPORT_IS_DISABLED, "SSH is disabled, because vxdfs is built without OpenSSL");
 #endif
     }
 
@@ -442,7 +442,7 @@ AuthenticationData AuthenticationData::fromAST(const ASTAuthenticationData & que
             auth_data.setSalt(salt);
 #else
             throw Exception(ErrorCodes::SUPPORT_IS_DISABLED,
-                            "SHA256 passwords support is disabled, because ClickHouse was built without SSL library");
+                            "SHA256 passwords support is disabled, because vxdfs was built without SSL library");
 #endif
         }
 
