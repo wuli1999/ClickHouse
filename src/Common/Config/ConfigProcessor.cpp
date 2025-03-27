@@ -97,10 +97,7 @@ void ConfigProcessor::registerEmbeddedConfig(std::string name, std::string_view 
 
 void ConfigProcessor::checkRootNodeName(const struct LoadedConfig& loadedConfig)
 {
-    if(loadedConfig.preprocessed_xml == nullptr)
-        return;
-    
-    Node* node = XMLUtils::getRootNode(document);
+    Node* node = XMLUtils::getRootNode(loadedConfig.preprocessed_xml.get());
     std::string node_name = node->nodeName();
     if(node_name != "vxdfs")
     {
