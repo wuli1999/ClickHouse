@@ -105,13 +105,13 @@ bool Authentication::areCredentialsValid(
             case AuthenticationType::BCRYPT_PASSWORD:
             case AuthenticationType::LDAP:
             case AuthenticationType::HTTP:
-                throw Authentication::Require<BasicCredentials>("ClickHouse Basic Authentication");
+                throw Authentication::Require<BasicCredentials>("vxdfs Basic Authentication");
 
             case AuthenticationType::KERBEROS:
                 return external_authenticators.checkKerberosCredentials(auth_data.getKerberosRealm(), *gss_acceptor_context);
 
             case AuthenticationType::SSL_CERTIFICATE:
-                throw Authentication::Require<BasicCredentials>("ClickHouse X.509 Authentication");
+                throw Authentication::Require<BasicCredentials>("vxdfs X.509 Authentication");
 
             case AuthenticationType::SSH_KEY:
                 throw Authentication::Require<SshCredentials>("Ssh Keys Authentication");
@@ -139,10 +139,10 @@ bool Authentication::areCredentialsValid(
             case AuthenticationType::LDAP:
             case AuthenticationType::KERBEROS:
             case AuthenticationType::HTTP:
-                throw Authentication::Require<BasicCredentials>("ClickHouse Basic Authentication");
+                throw Authentication::Require<BasicCredentials>("vxdfs Basic Authentication");
 
             case AuthenticationType::SSL_CERTIFICATE:
-                throw Authentication::Require<BasicCredentials>("ClickHouse X.509 Authentication");
+                throw Authentication::Require<BasicCredentials>("vxdfs X.509 Authentication");
 
             case AuthenticationType::SSH_KEY:
                 throw Authentication::Require<SshCredentials>("Ssh Keys Authentication");
@@ -175,7 +175,7 @@ bool Authentication::areCredentialsValid(
                 throw Authentication::Require<GSSAcceptorContext>(auth_data.getKerberosRealm());
 
             case AuthenticationType::SSL_CERTIFICATE:
-                throw Authentication::Require<BasicCredentials>("ClickHouse X.509 Authentication");
+                throw Authentication::Require<BasicCredentials>("vxdfs X.509 Authentication");
 
             case AuthenticationType::SSH_KEY:
                 throw Authentication::Require<SshCredentials>("Ssh Keys Authentication");
@@ -207,7 +207,7 @@ bool Authentication::areCredentialsValid(
             case AuthenticationType::BCRYPT_PASSWORD:
             case AuthenticationType::LDAP:
             case AuthenticationType::HTTP:
-                throw Authentication::Require<BasicCredentials>("ClickHouse Basic Authentication");
+                throw Authentication::Require<BasicCredentials>("vxdfs Basic Authentication");
 
             case AuthenticationType::KERBEROS:
                 throw Authentication::Require<GSSAcceptorContext>(auth_data.getKerberosRealm());
@@ -234,19 +234,19 @@ bool Authentication::areCredentialsValid(
             case AuthenticationType::BCRYPT_PASSWORD:
             case AuthenticationType::LDAP:
             case AuthenticationType::HTTP:
-                throw Authentication::Require<BasicCredentials>("ClickHouse Basic Authentication");
+                throw Authentication::Require<BasicCredentials>("vxdfs Basic Authentication");
 
             case AuthenticationType::KERBEROS:
                 throw Authentication::Require<GSSAcceptorContext>(auth_data.getKerberosRealm());
 
             case AuthenticationType::SSL_CERTIFICATE:
-                throw Authentication::Require<SSLCertificateCredentials>("ClickHouse X.509 Authentication");
+                throw Authentication::Require<SSLCertificateCredentials>("vxdfs X.509 Authentication");
 
             case AuthenticationType::SSH_KEY:
 #if USE_SSH
                 return checkSshSignature(auth_data.getSSHKeys(), ssh_credentials->getSignature(), ssh_credentials->getOriginal());
 #else
-                throw Exception(ErrorCodes::SUPPORT_IS_DISABLED, "SSH is disabled, because ClickHouse is built without OpenSSL");
+                throw Exception(ErrorCodes::SUPPORT_IS_DISABLED, "SSH is disabled, because vxdfs is built without OpenSSL");
 #endif
             case AuthenticationType::MAX:
                 break;
