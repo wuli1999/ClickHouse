@@ -256,10 +256,10 @@ bool DeleteStaleBackups::parse(IParser::Pos & /* pos */, std::shared_ptr<ASTKeep
 void DeleteStaleBackups::execute(const ASTKeeperQuery * /* query */, KeeperClient * client) const
 {
     client->askConfirmation(
-        "You are going to delete all inactive backups in /clickhouse/backups.",
+        "You are going to delete all inactive backups in /vxdfs/backups.",
         [client]
         {
-            fs::path backup_root = "/clickhouse/backups";
+            fs::path backup_root = "/vxdfs/backups";
             auto backups = client->zookeeper->getChildren(backup_root);
             std::sort(backups.begin(), backups.end());
 
