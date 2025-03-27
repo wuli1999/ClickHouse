@@ -356,7 +356,7 @@ static ConfigurationPtr getConfigurationFromXMLString(const char * xml_data)
 void LocalServer::setupUsers()
 {
     static const char * minimal_default_user_xml =
-        "<clickhouse>"
+        "<vxdfs>"
         "    <profiles>"
         "        <default></default>"
         "    </profiles>"
@@ -373,7 +373,7 @@ void LocalServer::setupUsers()
         "    <quotas>"
         "        <default></default>"
         "    </quotas>"
-        "</clickhouse>";
+        "</vxdfs>";
 
     ConfigurationPtr users_config;
     auto & access_control = global_context->getAccessControl();
