@@ -95,6 +95,18 @@ void ConfigProcessor::registerEmbeddedConfig(std::string name, std::string_view 
     embedded_configs[name] = content;
 }
 
+void ConfigProcessor::checkRootNodeName(const struct LoadedConfig& loadedConfig)
+{
+    if(loadedConfig.preprocessed_xml == nullptr)
+        return;
+    
+    Node* node = XMLUtils::getRootNode(document);
+    std::string node_name = node->nodeName();
+    if(node_name != "vxdfs")
+    {
+        throw Exception(ErrorCodes::CANNOT_LOAD_CONFIG, "The configuration file's root node name is wrong. It should be: vxdfs");
+    }    
+}
 
 /// Vector containing the name of the element and a sorted list of attribute names and values
 /// (except "remove" and "replace" attributes).
