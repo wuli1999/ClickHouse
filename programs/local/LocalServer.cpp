@@ -125,7 +125,7 @@ void LocalServer::initialize(Poco::Util::Application & self)
         config_processor.setConfigPath(fs::path(config_path).parent_path());
         auto loaded_config = config_processor.loadConfig();
 
-        ConfigProcessor::checkRootNodeName(loaded_config)
+        ConfigProcessor::checkRootNodeName(loaded_config);
 
         config().add(loaded_config.configuration.duplicate(), PRIO_DEFAULT, false);
     }
@@ -401,7 +401,7 @@ void LocalServer::setupUsers()
         else
         {
             ConfigProcessor config_processor(users_config_path);
-            const auto loaded_config = config_processor.loadConfig();
+            auto loaded_config = config_processor.loadConfig();
             ConfigProcessor::checkRootNodeName(loaded_config);
             users_config = loaded_config.configuration;
         }
