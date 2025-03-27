@@ -83,7 +83,7 @@ public:
         std::string config_path;
     };
 
-    static void checkRootNodeName(const struct LoadedConfig& loadedConfig);
+    static void checkRootNodeName(struct LoadedConfig& loadedConfig);
 
     /// If allow_zk_includes is true, expect that the configuration XML can contain from_zk nodes.
     /// If it is the case, set has_zk_includes to true and don't write config-preprocessed.xml,

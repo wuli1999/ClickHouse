@@ -95,7 +95,7 @@ void ConfigProcessor::registerEmbeddedConfig(std::string name, std::string_view 
     embedded_configs[name] = content;
 }
 
-void ConfigProcessor::checkRootNodeName(const struct LoadedConfig& loadedConfig)
+void ConfigProcessor::checkRootNodeName(struct LoadedConfig& loadedConfig)
 {
     Node* node = XMLUtils::getRootNode(loadedConfig.preprocessed_xml.get());
     std::string node_name = node->nodeName();
