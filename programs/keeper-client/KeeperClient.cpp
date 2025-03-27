@@ -161,7 +161,7 @@ void KeeperClient::defineOptions(Poco::Util::OptionSet & options)
             .binding("operation-timeout"));
 
     options.addOption(
-        Poco::Util::Option("config-file", "c", "if set, will try to get a connection string from clickhouse config. default `config.xml`")
+        Poco::Util::Option("config-file", "c", "if set, will try to get a connection string from vxdfs config. default `config.xml`")
             .argument("<file>")
             .binding("config-file"));
 
@@ -368,7 +368,7 @@ int KeeperClient::main(const std::vector<String> & /* args */)
     DB::ConfigProcessor config_processor(config().getString("config-file", "config.xml"));
 
     /// This will handle a situation when clickhouse is running on the embedded config, but config.d folder is also present.
-    config_processor.registerEmbeddedConfig("config.xml", "<clickhouse/>");
+    config_processor.registerEmbeddedConfig("config.xml", "<vxdfs/>");
     auto clickhouse_config = config_processor.loadConfig();
 
     Poco::Util::AbstractConfiguration::Keys keys;
