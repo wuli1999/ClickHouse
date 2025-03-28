@@ -1,4 +1,4 @@
-<!-- Config set into /etc/clickhouse-client/. It's used if no other configs are found. -->
+<!-- Config set into /etc/vxdfs-client/. It's used if no other configs are found. -->
 <config>
     <openSSL>
         <client> <!-- Used for connection to server's secure tcp port -->
@@ -14,7 +14,7 @@
         </client>
     </openSSL>
     <!--
-        It's a custom prompt settings for the clickhouse-client
+        It's a custom prompt settings for the vxdfs-client
 
         Possible macros:
             {host}
@@ -26,7 +26,7 @@
 
           [1]: https://misc.flogisoft.com/bash/tip_colors_and_formatting
 
-        But note, that ClickHouse does not use readline anymore, instead it uses
+        But note, that vxdfs does not use readline anymore, instead it uses
         replxx. This means that you don't need the following:
         - RL_PROMPT_START_IGNORE (\001)
         - RL_PROMPT_END_IGNORE   (\002)
@@ -55,12 +55,12 @@
     <history_file>/home/user/clickhouse_custom_history.log</history_file>
     <max_parser_depth>2500</max_parser_depth>
 
-        The same can be done on user-level configuration, just create & adjust: ~/.clickhouse-client/config.xml
+        The same can be done on user-level configuration, just create & adjust: ~/.vxdfs-client/config.xml
     -->
 
     <!-- Directory containing the proto files for the well-known Protobuf types.
       -->
-    <google_protos_path>/usr/share/clickhouse/protos/</google_protos_path>
+    <google_protos_path>/usr/share/vxdfs/protos/</google_protos_path>
 
     <!-- Analog of .netrc -->
     <![CDATA[
