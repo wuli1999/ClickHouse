@@ -2,16 +2,16 @@
 set -e
 # set -x
 
-PROGRAM=clickhouse-keeper
-KEEPER_USER=${KEEPER_USER:-clickhouse}
-KEEPER_GROUP=${KEEPER_GROUP:-clickhouse}
+PROGRAM=vxdfs-keeper
+KEEPER_USER=${KEEPER_USER:-vxdfs}
+KEEPER_GROUP=${KEEPER_GROUP:-vxdfs}
 # Please note that we don't support paths with whitespaces. This is rather ignorant.
 KEEPER_CONFDIR=${KEEPER_CONFDIR:-/etc/$PROGRAM}
-KEEPER_DATADIR=${KEEPER_DATADIR:-/var/lib/clickhouse}
+KEEPER_DATADIR=${KEEPER_DATADIR:-/var/lib/vxdfs}
 KEEPER_LOGDIR=${KEEPER_LOGDIR:-/var/log/$PROGRAM}
 
 [ -f /usr/share/debconf/confmodule ] && . /usr/share/debconf/confmodule
-[ -f /etc/default/clickhouse-keeper ] && . /etc/default/clickhouse-keeper
+[ -f /etc/default/vxdfs-keeper ] && . /etc/default/vxdfs-keeper
 
 if [ ! -f "/etc/debian_version" ]; then
     not_deb_os=1

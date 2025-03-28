@@ -1,9 +1,9 @@
 # package sources should be placed in ${PWD}/root
 # nfpm should run from the same directory with a config
-name: "clickhouse-keeper-dbg"
+name: "vxdfs-keeper-dbg"
 description: |
-  debugging symbols for clickhouse-keeper
-    This package contains the debugging symbols for clickhouse-keeper.
+  debugging symbols for vxdfs-keeper
+    This package contains the debugging symbols for vxdfs-keeper.
 
 
 #
@@ -11,26 +11,26 @@ description: |
 arch: "${DEB_ARCH}" # amd64, arm64
 platform: "linux"
 version: "${CLICKHOUSE_VERSION_STRING}"
-vendor: "ClickHouse Inc."
-homepage: "https://clickhouse.com"
+vendor: "vxdfs"
+homepage: ""
 license: "Apache"
-section: "database"
+section: "storage"
 priority: "optional"
-maintainer: "ClickHouse Dev Team <packages+linux@clickhouse.com>"
+maintainer: "vxdfs"
 deb:
   fields:
-    Source: clickhouse
+    Source: vxdfs
 
 # Package specific content
 contents:
-- src: root/usr/lib/debug/usr/bin/clickhouse-keeper.debug
-  dst: /usr/lib/debug/usr/bin/clickhouse-keeper.debug
+- src: root/usr/lib/debug/usr/bin/vxdfs-keeper.debug
+  dst: /usr/lib/debug/usr/bin/vxdfs-keeper.debug
 # docs
-- src: ../AUTHORS
-  dst: /usr/share/doc/clickhouse-keeper-dbg/AUTHORS
-- src: ../CHANGELOG.md
-  dst: /usr/share/doc/clickhouse-keeper-dbg/CHANGELOG.md
-- src: ../LICENSE
-  dst: /usr/share/doc/clickhouse-keeper-dbg/LICENSE
-- src: ../README.md
-  dst: /usr/share/doc/clickhouse-keeper-dbg/README.md
+#- src: ../AUTHORS
+#  dst: /usr/share/doc/vxdfs-keeper-dbg/AUTHORS
+#- src: ../CHANGELOG.md
+#  dst: /usr/share/doc/vxdfs-keeper-dbg/CHANGELOG.md
+#- src: ../LICENSE
+#  dst: /usr/share/doc/vxdfs-keeper-dbg/LICENSE
+#- src: ../README.md
+#  dst: /usr/share/doc/vxdfs-keeper-dbg/README.md

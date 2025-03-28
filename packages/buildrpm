@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+
+mkdir -p root/etc/vxdfs-client
+mkdir -p root/usr/bin
+mkdir -p root/usr/share/bash-completion/completions
+mkdir -p root/usr/share
+mkdir -p root/etc/vxdfs-keeper/
+mkdir -p root/etc/vxdfs-server/
+mv  clickhouse-common-static-dbg.yaml clickhouse-common-static-dbg.yaml.ignore
+mv  clickhouse-keeper-dbg.yaml clickhouse-keeper-dbg.yaml.ignore
+
+cp ../build/programs/vxdfs-stripped root/usr/bin/vxdfs
+cp ../build/programs/vxdfs-stripped root/usr/share/vxdfs
+cp ../build/programs/vxdfs-library-bridge root/usr/bin/
+cp ../build/programs/vxdfs-odbc-bridge root/usr/bin/
+
+cp ../programs/server/config.xml root/etc/vxdfs-server/
+cp ../programs/server/users.xml root/etc/vxdfs-server/
+cp ../programs/bash-completion/completions -r root/usr/share/bash-completion/completions
+cp ../programs/keeper/keeper_config.xml root/etc/vxdfs-keeper/
+cp ../programs/client/clickhouse-client.xml root/etc/vxdfs-client/config.xml
+
+cp clickhouse-keeper.service vxdfs-keeper.service
+cp clickhouse-keeper.postinstall vxdfs-keeper.postinstall
+cp clickhouse-server.init vxdfs-server.init
+cp clickhouse-server.service vxdfs-server.service
+cp clickhouse-server.postinstall vxdfs-server.postinstall
+
+./build --rpm
+
+rm -rf root/
+mv clickhouse-common-static-dbg.yaml.ignore clickhouse-common-static-dbg.yaml
+mv clickhouse-keeper-dbg.yaml.ignore clickhouse-keeper-dbg.yaml
+rm -f vxdfs-keeper.service vxdfs-keeper.postinstall vxdfs-server.init vxdfs-server.service vxdfs-server.postinstall
+

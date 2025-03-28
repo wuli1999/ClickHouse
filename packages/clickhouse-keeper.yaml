@@ -1,9 +1,9 @@
 # package sources should be placed in ${PWD}/root
 # nfpm should run from the same directory with a config
-name: "clickhouse-keeper"
+name: "vxdfs-keeper"
 description: |
-  Static clickhouse-keeper binary
-    A stand-alone clickhouse-keeper package
+  Static vxdfs-keeper binary
+    A stand-alone vxdfs-keeper package
 
 
 #
@@ -11,45 +11,48 @@ description: |
 arch: "${DEB_ARCH}" # amd64, arm64
 platform: "linux"
 version: "${CLICKHOUSE_VERSION_STRING}"
-vendor: "ClickHouse Inc."
-homepage: "https://clickhouse.com"
+vendor: "vxdfs"
+homepage: ""
 license: "Apache"
-section: "database"
+section: "storage"
 priority: "optional"
-maintainer: "ClickHouse Dev Team <packages+linux@clickhouse.com>"
+maintainer: "vxdfs"
 deb:
   fields:
-    Source: clickhouse
+    Source: vxdfs
 
 # Package specific content
 conflicts:
-- clickhouse-server
-suggests:
-- clickhouse-keeper-dbg
+- vxdfs-server
+#suggests:
+#- vxdfs-keeper-dbg
 
 contents:
-- src: root/etc/clickhouse-keeper/keeper_config.xml
-  dst: /etc/clickhouse-keeper/keeper_config.xml
+- src: root/etc/vxdfs-keeper/keeper_config.xml
+  dst: /etc/vxdfs-keeper/keeper_config.xml
   type: config|noreplace
-- src: clickhouse-keeper.service
-  dst: /lib/systemd/system/clickhouse-keeper.service
-- src: root/usr/bin/clickhouse-keeper
-  dst: /usr/bin/clickhouse-keeper
-- src: clickhouse-keeper
-  dst: /usr/bin/clickhouse-keeper-client
+- src: vxdfs-keeper.service
+  dst: /lib/systemd/system/vxdfs-keeper.service
+
+- src: root/usr/bin/vxdfs
+  dst: /usr/bin/vxdfs-keeper
+
+- src: vxdfs-keeper
+  dst: /usr/bin/vxdfs-keeper-client
   type: symlink
-- src: clickhouse-keeper
-  dst: /usr/bin/clickhouse-keeper-converter
+  
+- src: vxdfs-keeper
+  dst: /usr/bin/vxdfs-keeper-converter
   type: symlink
 # docs
-- src: ../AUTHORS
-  dst: /usr/share/doc/clickhouse-keeper/AUTHORS
-- src: ../CHANGELOG.md
-  dst: /usr/share/doc/clickhouse-keeper/CHANGELOG.md
-- src: ../LICENSE
-  dst: /usr/share/doc/clickhouse-keeper/LICENSE
-- src: ../README.md
-  dst: /usr/share/doc/clickhouse-keeper/README.md
+#- src: ../AUTHORS
+#  dst: /usr/share/doc/vxdfs-keeper/AUTHORS
+#- src: ../CHANGELOG.md
+#  dst: /usr/share/doc/vxdfs-keeper/CHANGELOG.md
+#- src: ../LICENSE
+#  dst: /usr/share/doc/vxdfs-keeper/LICENSE
+#- src: ../README.md
+#  dst: /usr/share/doc/vxdfs-keeper/README.md
 
 scripts:
-  postinstall: ./clickhouse-keeper.postinstall
+  postinstall: ./vxdfs-keeper.postinstall

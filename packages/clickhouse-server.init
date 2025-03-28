@@ -1,11 +1,11 @@
 #!/bin/sh
 ### BEGIN INIT INFO
-# Provides:          clickhouse-server
+# Provides:          vxdfs-server
 # Default-Start:     2 3 4 5
 # Default-Stop:      0 1 6
 # Should-Start:      $time $network
 # Should-Stop:       $network
-# Short-Description: clickhouse-server daemon
+# Short-Description: vxdfs-server daemon
 ### END INIT INFO
 #
 # NOTES:
@@ -15,17 +15,17 @@
 #
 #   [1]: https://wiki.debian.org/LSBInitScripts
 
-CLICKHOUSE_USER=clickhouse
+CLICKHOUSE_USER=vxdfs
 CLICKHOUSE_GROUP=${CLICKHOUSE_USER}
 SHELL=/bin/bash
-PROGRAM=clickhouse-server
-CLICKHOUSE_GENERIC_PROGRAM=clickhouse
+PROGRAM=vxdfs-server
+CLICKHOUSE_GENERIC_PROGRAM=vxdfs
 CLICKHOUSE_PROGRAM_ENV=""
 EXTRACT_FROM_CONFIG=${CLICKHOUSE_GENERIC_PROGRAM}-extract-from-config
 CLICKHOUSE_CONFDIR=/etc/$PROGRAM
-CLICKHOUSE_LOGDIR=/var/log/clickhouse-server
+CLICKHOUSE_LOGDIR=/var/log/vxdfs-server
 CLICKHOUSE_LOGDIR_USER=root
-CLICKHOUSE_DATADIR=/var/lib/clickhouse
+CLICKHOUSE_DATADIR=/var/lib/vxdfs
 if [ -d "/var/lock" ]; then
     LOCALSTATEDIR=/var/lock
 else
@@ -37,7 +37,7 @@ if [ ! -d "$LOCALSTATEDIR" ]; then
 fi
 
 CLICKHOUSE_BINDIR=/usr/bin
-CLICKHOUSE_CRONFILE=/etc/cron.d/clickhouse-server
+CLICKHOUSE_CRONFILE=/etc/cron.d/vxdfs-server
 CLICKHOUSE_CONFIG=$CLICKHOUSE_CONFDIR/config.xml
 LOCKFILE=$LOCALSTATEDIR/$PROGRAM
 CLICKHOUSE_PIDDIR=/var/run/$PROGRAM
@@ -49,7 +49,7 @@ command -v flock >/dev/null && FLOCK=flock
 
 # Override defaults from optional config file and export them automatically
 set -a
-test -f /etc/default/clickhouse && . /etc/default/clickhouse
+test -f /etc/default/vxdfs  && . /etc/default/vxdfs
 set +a
 
 die()
@@ -100,7 +100,7 @@ forcestop()
 
 service_or_func()
 {
-    if [ -x "/bin/systemctl" ] && [ -f /etc/systemd/system/clickhouse-server.service ] && [ -d /run/systemd/system ]; then
+    if [ -x "/bin/systemctl" ] && [ -f /etc/systemd/system/vxdfs-server.service ] && [ -d /run/systemd/system ]; then
         systemctl $1 $PROGRAM
     else
         $1
@@ -117,7 +117,7 @@ forcerestart()
 use_cron()
 {
     # 1. running systemd
-    if [ -x "/bin/systemctl" ] && [ -f /etc/systemd/system/clickhouse-server.service ] && [ -d /run/systemd/system ]; then
+    if [ -x "/bin/systemctl" ] && [ -f /etc/systemd/system/vxdfs-server.service ] && [ -d /run/systemd/system ]; then
         return 1
     fi
     # 2. checking whether the config is existed

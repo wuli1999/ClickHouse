@@ -1,81 +1,84 @@
 # package sources should be placed in ${PWD}/root
 # nfpm should run from the same directory with a config
-name: "clickhouse-server"
+name: "vxdfs-server"
 description: |
-  Server binary for ClickHouse
-    ClickHouse is a column-oriented database management system
-    that allows generating analytical data reports in real time.
+  Server binary for vxdfs
+    vxdfs is a high performence distributed file system.
     This package provides clickhouse common configuration files
 
 # Common packages config
 arch: "${DEB_ARCH}" # amd64, arm64
 platform: "linux"
 version: "${CLICKHOUSE_VERSION_STRING}"
-vendor: "ClickHouse Inc."
-homepage: "https://clickhouse.com"
+vendor: "vxdfs"
+homepage: ""
 license: "Apache"
-section: "database"
+section: "storage"
 priority: "optional"
-maintainer: "ClickHouse Dev Team <packages+linux@clickhouse.com>"
+maintainer: "vxdfs"
 deb:
   fields:
-    Source: clickhouse
+    Source: vxdfs
 
 # Package specific content
 replaces:
-- clickhouse-server-common
-- clickhouse-server-base
+
 provides:
-- clickhouse-keeper
-- clickhouse-server-common
+- vxdfs-keeper
+
 recommends:
 - libcap2-bin
 
 overrides:
   deb:
     depends:
-    - clickhouse-common-static (= ${CLICKHOUSE_VERSION_STRING})
+    - vxdfs-common-static (= ${CLICKHOUSE_VERSION_STRING})
   rpm:
     depends:
-    - clickhouse-common-static = ${CLICKHOUSE_VERSION_STRING}
+    - vxdfs-common-static = ${CLICKHOUSE_VERSION_STRING}
 
 contents:
-- src: root/etc/clickhouse-server/config.xml
-  dst: /etc/clickhouse-server/config.xml
+- src: root/etc/vxdfs-server/config.xml
+  dst: /etc/vxdfs-server/config.xml
   type: config|noreplace
-- src: root/etc/clickhouse-server/users.xml
-  dst: /etc/clickhouse-server/users.xml
+- src: root/etc/vxdfs-server/users.xml
+  dst: /etc/vxdfs-server/users.xml
   type: config|noreplace
-- src: clickhouse-server.init
-  dst: /etc/init.d/clickhouse-server
-- src: clickhouse-server.service
-  dst: /lib/systemd/system/clickhouse-server.service
-- src: root/usr/bin/clickhouse-server
-  dst: /usr/bin/clickhouse-server
-# clickhouse-keeper part
-- src: root/etc/clickhouse-keeper/keeper_config.xml
-  dst: /etc/clickhouse-keeper/keeper_config.xml
-  type: config|noreplace
-- src: clickhouse-keeper.service
-  dst: /lib/systemd/system/clickhouse-keeper.service
-- src: clickhouse
-  dst: /usr/bin/clickhouse-keeper
+- src: vxdfs-server.init
+  dst: /etc/init.d/vxdfs-server
+- src: vxdfs-server.service
+  dst: /lib/systemd/system/vxdfs-server.service
+
+- src: vxdfs
+  dst: /usr/bin/vxdfs-server
   type: symlink
-- src: clickhouse
-  dst: /usr/bin/clickhouse-keeper-client
+
+# vxdfs-keeper part
+- src: root/etc/vxdfs-keeper/keeper_config.xml
+  dst: /etc/vxdfs-keeper/keeper_config.xml
+  type: config|noreplace
+- src: vxdfs-keeper.service
+  dst: /lib/systemd/system/vxdfs-keeper.service
+- src: vxdfs
+  dst: /usr/bin/vxdfs-keeper
   type: symlink
-- src: clickhouse
-  dst: /usr/bin/clickhouse-keeper-converter
+
+- src: vxdfs
+  dst: /usr/bin/vxdfs-keeper-client
+  type: symlink
+  
+- src: vxdfs
+  dst: /usr/bin/vxdfs-keeper-converter
   type: symlink
 # docs
-- src: ../AUTHORS
-  dst: /usr/share/doc/clickhouse-server/AUTHORS
-- src: ../CHANGELOG.md
-  dst: /usr/share/doc/clickhouse-server/CHANGELOG.md
-- src: ../LICENSE
-  dst: /usr/share/doc/clickhouse-server/LICENSE
-- src: ../README.md
-  dst: /usr/share/doc/clickhouse-server/README.md
+#- src: ../AUTHORS
+#  dst: /usr/share/doc/vxdfs-server/AUTHORS
+#- src: ../CHANGELOG.md
+#  dst: /usr/share/doc/vxdfs-server/CHANGELOG.md
+#- src: ../LICENSE
+#  dst: /usr/share/doc/vxdfs-server/LICENSE
+#- src: ../README.md
+#  dst: /usr/share/doc/vxdfs-server/README.md
 
 scripts:
-  postinstall: ./clickhouse-server.postinstall
+  postinstall: ./vxdfs-server.postinstall

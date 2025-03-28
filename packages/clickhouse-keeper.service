@@ -1,5 +1,5 @@
 [Unit]
-Description=ClickHouse Keeper - zookeeper compatible distributed coordination server
+Description=vxdfs Keeper - zookeeper compatible distributed coordination server
 Requires=network-online.target
 # NOTE: that After/Wants=time-sync.target is not enough, you need to ensure
 # that the time was adjusted already, if you use systemd-timesyncd you are
@@ -10,13 +10,13 @@ Wants=time-sync.target
 
 [Service]
 Type=simple
-User=clickhouse
-Group=clickhouse
+User=vxdfs
+Group=vxdfs
 Restart=always
 RestartSec=30
 # %p is resolved to the systemd unit name
 RuntimeDirectory=%p
-ExecStart=/usr/bin/clickhouse-keeper --config=/etc/clickhouse-keeper/keeper_config.xml --pid-file=%t/%p/%p.pid
+ExecStart=/usr/bin/vxdfs-keeper --config=/etc/vxdfs-keeper/keeper_config.xml --pid-file=%t/%p/%p.pid
 # Minus means that this file is optional.
 EnvironmentFile=-/etc/default/%p
 LimitCORE=infinity
