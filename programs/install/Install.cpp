@@ -49,9 +49,9 @@ INCBIN(resource_users_xml, SOURCE_DIR "/programs/server/users.xml");
   * - copying the binary to binary directory (/usr/bin).
   * - creation of symlinks for tools.
   * - creation of clickhouse user and group.
-  * - creation of config directory (/etc/clickhouse-server).
+  * - creation of config directory (/etc/vxdfs-server).
   * - creation of default configuration files.
-  * - creation of a directory for logs (/var/log/clickhouse-server).
+  * - creation of a directory for logs (/var/log/vxdfs-server).
   * - creation of a data directory if not exists.
   * - setting a password for default user.
   * - choose an option to listen connections.
@@ -60,7 +60,7 @@ INCBIN(resource_users_xml, SOURCE_DIR "/programs/server/users.xml");
   * - setting ulimits for the user.
   * - (todo) put service in cron.
   *
-  * It does not install clickhouse-odbc-bridge.
+  * It does not install vxdfs-odbc-bridge.
   */
 
 namespace DB
@@ -86,10 +86,10 @@ static constexpr auto DEFAULT_CLICKHOUSE_SERVER_GROUP = "";
 static constexpr auto DEFAULT_CLICKHOUSE_BRIDGE_USER = "";
 static constexpr auto DEFAULT_CLICKHOUSE_BRIDGE_GROUP = "";
 #else
-static constexpr auto DEFAULT_CLICKHOUSE_SERVER_USER = "clickhouse";
-static constexpr auto DEFAULT_CLICKHOUSE_SERVER_GROUP = "clickhouse";
-static constexpr auto DEFAULT_CLICKHOUSE_BRIDGE_USER = "clickhouse-bridge";
-static constexpr auto DEFAULT_CLICKHOUSE_BRIDGE_GROUP = "clickhouse-bridge";
+static constexpr auto DEFAULT_CLICKHOUSE_SERVER_USER = "vxdfs";
+static constexpr auto DEFAULT_CLICKHOUSE_SERVER_GROUP = "vxdfs";
+static constexpr auto DEFAULT_CLICKHOUSE_BRIDGE_USER = "vxdfs-bridge";
+static constexpr auto DEFAULT_CLICKHOUSE_BRIDGE_GROUP = "vxdfs-bridge";
 #endif
 
 using namespace DB;
@@ -227,12 +227,12 @@ int mainEntryClickHouseInstall(int argc, char ** argv)
             ("help,h", "produce help message")
             ("prefix", po::value<std::string>()->default_value("/"), "prefix for all paths")
             ("binary-path", po::value<std::string>()->default_value("usr/bin"), "where to install binaries")
-            ("config-path", po::value<std::string>()->default_value("etc/clickhouse-server"), "where to install configs")
-            ("log-path", po::value<std::string>()->default_value("var/log/clickhouse-server"), "where to create log directory")
-            ("data-path", po::value<std::string>()->default_value("var/lib/clickhouse"), "directory for data")
-            ("pid-path", po::value<std::string>()->default_value("var/run/clickhouse-server"), "directory for pid file")
-            ("user", po::value<std::string>()->default_value(DEFAULT_CLICKHOUSE_SERVER_USER), "clickhouse user to create")
-            ("group", po::value<std::string>()->default_value(DEFAULT_CLICKHOUSE_SERVER_GROUP), "clickhouse group to create")
+            ("config-path", po::value<std::string>()->default_value("etc/vxdfs-server"), "where to install configs")
+            ("log-path", po::value<std::string>()->default_value("var/log/vxdfs-server"), "where to create log directory")
+            ("data-path", po::value<std::string>()->default_value("var/lib/vxdfs"), "directory for data")
+            ("pid-path", po::value<std::string>()->default_value("var/run/vxdfs-server"), "directory for pid file")
+            ("user", po::value<std::string>()->default_value(DEFAULT_CLICKHOUSE_SERVER_USER), "vxdfs user to create")
+            ("group", po::value<std::string>()->default_value(DEFAULT_CLICKHOUSE_SERVER_GROUP), "vxdfs group to create")
             ("noninteractive,y", "run non-interactively")
             ("link", "create symlink to the binary instead of copying to binary-path")
         ;
@@ -242,7 +242,7 @@ int mainEntryClickHouseInstall(int argc, char ** argv)
 
         if (options.count("help"))
         {
-            std::cout << "Install ClickHouse without .deb/.rpm/.tgz packages (having the binary only)\n\n";
+            std::cout << "Install vxdfs without .deb/.rpm/.tgz packages (having the binary only)\n\n";
             std::cout << "Usage: " << formatWithSudo(std::string(argv[0]) + " install [options]", getuid() != 0) << '\n';
             std::cout << desc << '\n';
             return 0;
@@ -284,9 +284,9 @@ int mainEntryClickHouseInstall(int argc, char ** argv)
         fs::path prefix = options["prefix"].as<std::string>();
         fs::path bin_dir = prefix / options["binary-path"].as<std::string>();
 
-        fs::path main_bin_path = bin_dir / "clickhouse";
-        fs::path main_bin_tmp_path = bin_dir / "clickhouse.new";
-        fs::path main_bin_old_path = bin_dir / "clickhouse.old";
+        fs::path main_bin_path = bin_dir / "vxdfs";
+        fs::path main_bin_tmp_path = bin_dir / "vxdfs.new";
+        fs::path main_bin_old_path = bin_dir / "vxdfs.old";
 
         size_t binary_size = fs::file_size(binary_self_path);
 
@@ -348,18 +348,18 @@ int mainEntryClickHouseInstall(int argc, char ** argv)
                 if (old_binary_exists && binary_self_canonical_path == fs::canonical(main_bin_path))
                 {
                     already_installed = true;
-                    fmt::print("ClickHouse binary is already located at {}\n", main_bin_path.string());
+                    fmt::print("vxdfs binary is already located at {}\n", main_bin_path.string());
                 }
                 /// Check if binary has the same content.
                 else if (old_binary_exists && binary_size == fs::file_size(main_bin_path))
                 {
-                    fmt::print("Found already existing ClickHouse binary at {} having the same size. Will check its contents.\n",
+                    fmt::print("Found already existing vxdfs binary at {} having the same size. Will check its contents.\n",
                         main_bin_path.string());
 
                     if (filesEqual(binary_self_path.string(), main_bin_path.string()))
                     {
                         already_installed = true;
-                        fmt::print("ClickHouse binary is already located at {} and it has the same content as {}\n",
+                        fmt::print("vxdfs binary is already located at {} and it has the same content as {}\n",
                             main_bin_path.string(), binary_self_canonical_path.string());
                     }
                 }
@@ -380,10 +380,10 @@ int mainEntryClickHouseInstall(int argc, char ** argv)
 
                 size_t available_space = fs::space(bin_dir).available;
                 if (available_space < binary_size)
-                    throw Exception(ErrorCodes::NOT_ENOUGH_SPACE, "Not enough space for clickhouse binary in {}, required {}, available {}.",
+                    throw Exception(ErrorCodes::NOT_ENOUGH_SPACE, "Not enough space for vxdfs binary in {}, required {}, available {}.",
                         bin_dir.string(), ReadableSize(binary_size), ReadableSize(available_space));
 
-                fmt::print("Copying ClickHouse binary to {}\n", main_bin_tmp_path.string());
+                fmt::print("Copying vxdfs binary to {}\n", main_bin_tmp_path.string());
 
                 try
                 {
@@ -407,7 +407,7 @@ int mainEntryClickHouseInstall(int argc, char ** argv)
                 catch (const Exception & e)
                 {
                     if (e.code() == ErrorCodes::CANNOT_OPEN_FILE && geteuid() != 0)
-                        std::cerr << "Install must be run as root: " << formatWithSudo("./clickhouse install") << '\n';
+                        std::cerr << "Install must be run as root: " << formatWithSudo("./vxdfs install") << '\n';
                     throw;
                 }
 
@@ -429,18 +429,18 @@ int mainEntryClickHouseInstall(int argc, char ** argv)
 
         std::initializer_list<std::string_view> tools
         {
-            "clickhouse-server",
-            "clickhouse-client",
-            "clickhouse-local",
-            "clickhouse-benchmark",
-            "clickhouse-obfuscator",
-            "clickhouse-git-import",
-            "clickhouse-compressor",
-            "clickhouse-format",
-            "clickhouse-extract-from-config",
-            "clickhouse-keeper",
-            "clickhouse-keeper-converter",
-            "clickhouse-disks",
+            "vxdfs-server",
+            "vxdfs-client",
+            "vxdfs-local",
+            "vxdfs-benchmark",
+            "vxdfs-obfuscator",
+            "vxdfs-git-import",
+            "vxdfs-compressor",
+            "vxdfs-format",
+            "vxdfs-extract-from-config",
+            "vxdfs-keeper",
+            "vxdfs-keeper-converter",
+            "vxdfs-disks",
             "ch",
             "chl",
             "chc",
@@ -455,7 +455,7 @@ int mainEntryClickHouseInstall(int argc, char ** argv)
             {
                 /// Do not replace short named symlinks if they are already present in the system
                 /// to avoid collision with other tools.
-                if (!tool.starts_with("clickhouse"))
+                if (!tool.starts_with("vxdfs"))
                 {
                     fmt::print("Symlink {} already exists. Will keep it.\n", symlink_path.string());
                     need_to_create = false;
@@ -504,15 +504,15 @@ int mainEntryClickHouseInstall(int argc, char ** argv)
 
         if (!group.empty())
         {
-            fmt::print("Creating clickhouse group if it does not exist.\n");
+            fmt::print("Creating vxdfs group if it does not exist.\n");
             createGroup(group);
         }
         else
-            fmt::print("Will not create a dedicated clickhouse group.\n");
+            fmt::print("Will not create a dedicated vxdfs group.\n");
 
         if (!user.empty())
         {
-            fmt::print("Creating clickhouse user if it does not exist.\n");
+            fmt::print("Creating vxdfs user if it does not exist.\n");
             createUser(user, group);
 
             if (group.empty())
@@ -547,7 +547,7 @@ int mainEntryClickHouseInstall(int argc, char ** argv)
             }
         }
         else
-            fmt::print("Will not create a dedicated clickhouse user.\n");
+            fmt::print("Will not create a dedicated vxdfs user.\n");
 
         /// Creating configuration files and directories.
 
@@ -605,12 +605,12 @@ int mainEntryClickHouseInstall(int argc, char ** argv)
                 if (!fs::exists(data_file))
                 {
                     WriteBufferFromFile out(data_file);
-                    out << "<clickhouse>\n"
+                    out << "<vxdfs>\n"
                     "    <path>" << data_path.string() << "</path>\n"
                     "    <tmp_path>" << (data_path / "tmp").string() << "</tmp_path>\n"
                     "    <user_files_path>" << (data_path / "user_files").string() << "</user_files_path>\n"
                     "    <format_schema_path>" << (data_path / "format_schemas").string() << "</format_schema_path>\n"
-                    "</clickhouse>\n";
+                    "</vxdfs>\n";
                     out.sync();
                     out.finalize();
                     fs::permissions(data_file, fs::perms::owner_read, fs::perm_options::replace);
@@ -622,12 +622,12 @@ int mainEntryClickHouseInstall(int argc, char ** argv)
                 if (!fs::exists(logger_file))
                 {
                     WriteBufferFromFile out(logger_file);
-                    out << "<clickhouse>\n"
+                    out << "<vxdfs>\n"
                     "    <logger>\n"
-                    "        <log>" << (log_path / "clickhouse-server.log").string() << "</log>\n"
-                    "        <errorlog>" << (log_path / "clickhouse-server.err.log").string() << "</errorlog>\n"
+                    "        <log>" << (log_path / "vxdfs-server.log").string() << "</log>\n"
+                    "        <errorlog>" << (log_path / "vxdfs-server.err.log").string() << "</errorlog>\n"
                     "    </logger>\n"
-                    "</clickhouse>\n";
+                    "</vxdfs>\n";
                     out.sync();
                     out.finalize();
                     fs::permissions(logger_file, fs::perms::owner_read, fs::perm_options::replace);
@@ -639,13 +639,13 @@ int mainEntryClickHouseInstall(int argc, char ** argv)
                 if (!fs::exists(user_directories_file))
                 {
                     WriteBufferFromFile out(user_directories_file);
-                    out << "<clickhouse>\n"
+                    out << "<vxdfs>\n"
                     "    <user_directories>\n"
                     "        <local_directory>\n"
                     "            <path>" << (data_path / "access").string() << "</path>\n"
                     "        </local_directory>\n"
                     "    </user_directories>\n"
-                    "</clickhouse>\n";
+                    "</vxdfs>\n";
                     out.sync();
                     out.finalize();
                     fs::permissions(user_directories_file, fs::perms::owner_read, fs::perm_options::replace);
@@ -657,7 +657,7 @@ int mainEntryClickHouseInstall(int argc, char ** argv)
                 if (!fs::exists(openssl_file))
                 {
                     WriteBufferFromFile out(openssl_file);
-                    out << "<clickhouse>\n"
+                    out << "<vxdfs>\n"
                     "    <openSSL>\n"
                     "        <server>\n"
                     "            <certificateFile>" << (config_dir / "server.crt").string() << "</certificateFile>\n"
@@ -665,7 +665,7 @@ int mainEntryClickHouseInstall(int argc, char ** argv)
                     "            <dhParamsFile>" << (config_dir / "dhparam.pem").string() << "</dhParamsFile>\n"
                     "        </server>\n"
                     "    </openSSL>\n"
-                    "</clickhouse>\n";
+                    "</vxdfs>\n";
                     out.sync();
                     out.finalize();
                     fs::permissions(openssl_file, fs::perms::owner_read, fs::perm_options::replace);
@@ -773,8 +773,8 @@ int mainEntryClickHouseInstall(int argc, char ** argv)
         /// Data directory is not accessible to anyone except clickhouse.
         fs::permissions(data_path, fs::perms::owner_all, fs::perm_options::replace);
 
-        fs::path odbc_bridge_path = bin_dir / "clickhouse-odbc-bridge";
-        fs::path library_bridge_path = bin_dir / "clickhouse-library-bridge";
+        fs::path odbc_bridge_path = bin_dir / "vxdfs-odbc-bridge";
+        fs::path library_bridge_path = bin_dir / "vxdfs-library-bridge";
 
         if (fs::exists(odbc_bridge_path) || fs::exists(library_bridge_path))
         {
@@ -835,25 +835,25 @@ int mainEntryClickHouseInstall(int argc, char ** argv)
                 hash_hex.resize(64);
                 for (size_t i = 0; i < 32; ++i)
                     writeHexByteLowercase(hash[i], &hash_hex[2 * i]);
-                out << "<clickhouse>\n"
+                out << "<vxdfs>\n"
                     "    <users>\n"
                     "        <default>\n"
                     "            <password remove='1' />\n"
                     "            <password_sha256_hex>" << hash_hex << "</password_sha256_hex>\n"
                     "        </default>\n"
                     "    </users>\n"
-                    "</clickhouse>\n";
+                    "</vxdfs>\n";
                 out.sync();
                 out.finalize();
                 fmt::print("{}Password for the default user is saved in file {}.{}\n", start_hilite, password_file, end_hilite);
 #else
-                out << "<clickhouse>\n"
+                out << "<vxdfs>\n"
                     "    <users>\n"
                     "        <default>\n"
                     "            <password><![CDATA[" << password << "]]></password>\n"
                     "        </default>\n"
                     "    </users>\n"
-                    "</clickhouse>\n";
+                    "</vxdfs>\n";
                 out.sync();
                 out.finalize();
                 fmt::print("{}Password for the default user is saved in plaintext in file {}.{}\n", start_hilite, password_file, end_hilite);
@@ -878,12 +878,12 @@ int mainEntryClickHouseInstall(int argc, char ** argv)
           */
 
 #if defined(OS_LINUX)
-        fmt::print("Setting capabilities for clickhouse binary. This is optional.\n");
+        fmt::print("Setting capabilities for vxdfs binary. This is optional.\n");
         std::string command = fmt::format("command -v setcap >/dev/null"
             " && command -v capsh >/dev/null"
             " && capsh --has-p=cap_net_admin,cap_ipc_lock,cap_sys_nice,cap_net_bind_service+ep >/dev/null 2>&1"
             " && setcap 'cap_net_admin,cap_ipc_lock,cap_sys_nice,cap_net_bind_service+ep' {0}"
-            " || echo \"Cannot set 'net_admin' or 'ipc_lock' or 'sys_nice' or 'net_bind_service' capability for clickhouse binary."
+            " || echo \"Cannot set 'net_admin' or 'ipc_lock' or 'sys_nice' or 'net_bind_service' capability for vxdfs binary."
                 " This is optional. Taskstats accounting will be disabled."
                 " To enable taskstats accounting you may add the required capability later manually.\"",
             fs::canonical(main_bin_path).string());
@@ -897,9 +897,9 @@ int mainEntryClickHouseInstall(int argc, char ** argv)
             {
                 std::string listen_file = config_d / "listen.xml";
                 WriteBufferFromFile out(listen_file);
-                out << "<clickhouse>\n"
+                out << "<vxdfs>\n"
                     "    <listen_host>::</listen_host>\n"
-                    "</clickhouse>\n";
+                    "</vxdfs>\n";
                 out.sync();
                 out.finalize();
                 fmt::print("The choice is saved in file {}.\n", listen_file);
@@ -929,27 +929,27 @@ int mainEntryClickHouseInstall(int argc, char ** argv)
         if (has_password_for_default_user)
             maybe_password = " --password";
 
-        fs::path pid_file = pid_path / "clickhouse-server.pid";
+        fs::path pid_file = pid_path / "vxdfs-server.pid";
         if (fs::exists(pid_file))
         {
             fmt::print(
-                "\nClickHouse has been successfully installed.\n"
-                "\nRestart clickhouse-server with:\n"
+                "\nvxdfs has been successfully installed.\n"
+                "\nRestart vxdfs-server with:\n"
                 " {}\n"
-                "\nStart clickhouse-client with:\n"
-                " clickhouse-client{}\n\n",
-                formatWithSudo("clickhouse restart"),
+                "\nStart vxdfs-client with:\n"
+                " vxdfs-client{}\n\n",
+                formatWithSudo("vxdfs restart"),
                 maybe_password);
         }
         else
         {
             fmt::print(
-                "\nClickHouse has been successfully installed.\n"
-                "\nStart clickhouse-server with:\n"
+                "\nvxdfs has been successfully installed.\n"
+                "\nStart vxdfs-server with:\n"
                 " {}\n"
-                "\nStart clickhouse-client with:\n"
-                " clickhouse-client{}\n\n",
-                formatWithSudo("clickhouse start"),
+                "\nStart vxdfs-client with:\n"
+                " vxdfs-client{}\n\n",
+                formatWithSudo("vxdfs start"),
                 maybe_password);
         }
     }
@@ -1099,7 +1099,7 @@ namespace
 
         if (!pid)
         {
-            auto sh = ShellCommand::execute("pidof clickhouse-server");
+            auto sh = ShellCommand::execute("pidof vxdfs-server");
 
             if (tryReadIntText(pid, sh->out))
             {
@@ -1133,7 +1133,7 @@ namespace
 
         if (!pid)
         {
-            fmt::print("Now there is no clickhouse-server process.\n");
+            fmt::print("Now there is no vxdfs-server process.\n");
         }
 
         return pid;
@@ -1218,9 +1218,9 @@ int mainEntryClickHouseStart(int argc, char ** argv)
             ("help,h", "produce help message")
             ("prefix", po::value<std::string>()->default_value("/"), "prefix for all paths")
             ("binary-path", po::value<std::string>()->default_value("usr/bin"), "directory with binary")
-            ("config-path", po::value<std::string>()->default_value("etc/clickhouse-server"), "directory with configs")
-            ("pid-path", po::value<std::string>()->default_value("var/run/clickhouse-server"), "directory for pid file")
-            ("user", po::value<std::string>()->default_value(DEFAULT_CLICKHOUSE_SERVER_USER), "clickhouse user")
+            ("config-path", po::value<std::string>()->default_value("etc/vxdfs-server"), "directory with configs")
+            ("pid-path", po::value<std::string>()->default_value("var/run/vxdfs-server"), "directory for pid file")
+            ("user", po::value<std::string>()->default_value(DEFAULT_CLICKHOUSE_SERVER_USER), "vxdfs user")
             ("max-tries", po::value<unsigned>()->default_value(60), "Max number of tries for waiting the server (with 1 second delay)")
         ;
 
@@ -1236,9 +1236,9 @@ int mainEntryClickHouseStart(int argc, char ** argv)
         std::string user = options["user"].as<std::string>();
 
         fs::path prefix = options["prefix"].as<std::string>();
-        fs::path executable = prefix / options["binary-path"].as<std::string>() / "clickhouse-server";
+        fs::path executable = prefix / options["binary-path"].as<std::string>() / "vxdfs-server";
         fs::path config = prefix / options["config-path"].as<std::string>() / "config.xml";
-        fs::path pid_file = prefix / options["pid-path"].as<std::string>() / "clickhouse-server.pid";
+        fs::path pid_file = prefix / options["pid-path"].as<std::string>() / "vxdfs-server.pid";
         unsigned max_tries = options["max-tries"].as<unsigned>();
 
         return start(user, executable, config, pid_file, max_tries);
@@ -1259,7 +1259,7 @@ int mainEntryClickHouseStop(int argc, char ** argv)
         desc.add_options()
             ("help,h", "produce help message")
             ("prefix", po::value<std::string>()->default_value("/"), "prefix for all paths")
-            ("pid-path", po::value<std::string>()->default_value("var/run/clickhouse-server"), "directory for pid file")
+            ("pid-path", po::value<std::string>()->default_value("var/run/vxdfs-server"), "directory for pid file")
             ("force", po::bool_switch(), "Stop with KILL signal instead of TERM")
             ("do-not-kill", po::bool_switch(), "Do not send KILL even if TERM did not help")
             ("max-tries", po::value<unsigned>()->default_value(60), "Max number of tries for waiting the server to finish after sending TERM (with 1 second delay)")
@@ -1275,7 +1275,7 @@ int mainEntryClickHouseStop(int argc, char ** argv)
         }
 
         fs::path prefix = options["prefix"].as<std::string>();
-        fs::path pid_file = prefix / options["pid-path"].as<std::string>() / "clickhouse-server.pid";
+        fs::path pid_file = prefix / options["pid-path"].as<std::string>() / "vxdfs-server.pid";
 
         bool force = options["force"].as<bool>();
         bool do_not_kill = options["do-not-kill"].as<bool>();
@@ -1298,7 +1298,7 @@ int mainEntryClickHouseStatus(int argc, char ** argv)
         desc.add_options()
             ("help,h", "produce help message")
             ("prefix", po::value<std::string>()->default_value("/"), "prefix for all paths")
-            ("pid-path", po::value<std::string>()->default_value("var/run/clickhouse-server"), "directory for pid file")
+            ("pid-path", po::value<std::string>()->default_value("var/run/vxdfs-server"), "directory for pid file")
         ;
 
         po::variables_map options;
@@ -1311,7 +1311,7 @@ int mainEntryClickHouseStatus(int argc, char ** argv)
         }
 
         fs::path prefix = options["prefix"].as<std::string>();
-        fs::path pid_file = prefix / options["pid-path"].as<std::string>() / "clickhouse-server.pid";
+        fs::path pid_file = prefix / options["pid-path"].as<std::string>() / "vxdfs-server.pid";
 
         isRunning(pid_file);
     }
@@ -1334,9 +1334,9 @@ int mainEntryClickHouseRestart(int argc, char ** argv)
             ("help,h", "produce help message")
             ("prefix", po::value<std::string>()->default_value("/"), "prefix for all paths")
             ("binary-path", po::value<std::string>()->default_value("usr/bin"), "directory with binary")
-            ("config-path", po::value<std::string>()->default_value("etc/clickhouse-server"), "directory with configs")
-            ("pid-path", po::value<std::string>()->default_value("var/run/clickhouse-server"), "directory for pid file")
-            ("user", po::value<std::string>()->default_value(DEFAULT_CLICKHOUSE_SERVER_USER), "clickhouse user")
+            ("config-path", po::value<std::string>()->default_value("etc/vxdfs-server"), "directory with configs")
+            ("pid-path", po::value<std::string>()->default_value("var/run/vxdfs-server"), "directory for pid file")
+            ("user", po::value<std::string>()->default_value(DEFAULT_CLICKHOUSE_SERVER_USER), "vxdfs user")
             ("force", po::value<bool>()->default_value(false), "Stop with KILL signal instead of TERM")
             ("do-not-kill", po::bool_switch(), "Do not send KILL even if TERM did not help")
             ("max-tries", po::value<unsigned>()->default_value(60), "Max number of tries for waiting the server (with 1 second delay)")
@@ -1354,9 +1354,9 @@ int mainEntryClickHouseRestart(int argc, char ** argv)
         std::string user = options["user"].as<std::string>();
 
         fs::path prefix = options["prefix"].as<std::string>();
-        fs::path executable = prefix / options["binary-path"].as<std::string>() / "clickhouse-server";
+        fs::path executable = prefix / options["binary-path"].as<std::string>() / "vxdfs-server";
         fs::path config = prefix / options["config-path"].as<std::string>() / "config.xml";
-        fs::path pid_file = prefix / options["pid-path"].as<std::string>() / "clickhouse-server.pid";
+        fs::path pid_file = prefix / options["pid-path"].as<std::string>() / "vxdfs-server.pid";
 
         bool force = options["force"].as<bool>();
         bool do_not_kill = options["do-not-kill"].as<bool>();
