@@ -34,7 +34,7 @@ bool enableSecureConnection(const Poco::Util::AbstractConfiguration & config, co
     if (config.getBool("no-secure", false))
         return false;
 
-    bool is_clickhouse_cloud = connection_host.ends_with(".clickhouse.cloud") || connection_host.ends_with(".clickhouse-staging.com");
+    bool is_clickhouse_cloud = connection_host.ends_with(".vxdfs.cloud") || connection_host.ends_with(".vxdfs-staging.com");
     return is_clickhouse_cloud;
 }
 
@@ -100,7 +100,7 @@ ConnectionParameters::ConnectionParameters(const Poco::Util::AbstractConfigurati
 
         ssh_private_key = std::move(key);
 #else
-        throw Exception(ErrorCodes::SUPPORT_IS_DISABLED, "SSH is disabled, because ClickHouse is built without OpenSSL");
+        throw Exception(ErrorCodes::SUPPORT_IS_DISABLED, "SSH is disabled, because vxdfs is built without OpenSSL");
 #endif
     }
 

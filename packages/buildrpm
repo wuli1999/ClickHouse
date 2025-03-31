@@ -16,7 +16,7 @@ cp ../build/programs/vxdfs-odbc-bridge root/usr/bin/
 
 cp ../programs/server/config.xml root/etc/vxdfs-server/
 cp ../programs/server/users.xml root/etc/vxdfs-server/
-cp ../programs/bash-completion/completions -r root/usr/share/bash-completion/completions
+# cp ../programs/bash-completion/completions -r root/usr/share/bash-completion/completions
 cp ../programs/keeper/keeper_config.xml root/etc/vxdfs-keeper/
 cp ../programs/client/clickhouse-client.xml root/etc/vxdfs-client/config.xml
 
