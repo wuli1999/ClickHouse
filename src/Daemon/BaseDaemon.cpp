@@ -1200,11 +1200,11 @@ void BaseDaemon::setupWatchdog()
         notify_sync.close();
 
         /// Change short thread name and process name.
-        setThreadName("clckhouse-watch");   /// 15 characters
+        setThreadName("vxdfs-watch");   /// 15 characters
 
         if (argv0)
         {
-            const char * new_process_name = "clickhouse-watchdog";
+            const char * new_process_name = "vxdfs-watchdog";
             memset(argv0, 0, original_process_name.size());
             memcpy(argv0, new_process_name, std::min(strlen(new_process_name), original_process_name.size()));
         }
