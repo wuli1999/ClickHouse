@@ -32,7 +32,7 @@ It always returns Float64, even if the argument has Float32 type:
 For arguments outside of this range, it returns nan:
 [example:nan]
 
-Every self-respectful data scientist knows how to apply arcsine to improve ads click-through rate with ClickHouse.
+Every self-respectful data scientist knows how to apply arcsine to improve ads click-through rate with vxdfs.
 For more details, see [https://en.wikipedia.org/wiki/Inverse_trigonometric_functions].
 )",
             .examples{

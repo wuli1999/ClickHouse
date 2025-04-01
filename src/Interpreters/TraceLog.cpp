@@ -34,7 +34,7 @@ ColumnsDescription TraceLogElement::getColumnsDescription()
         {"event_time", std::make_shared<DataTypeDateTime>(), "Timestamp of the sampling moment."},
         {"event_time_microseconds", std::make_shared<DataTypeDateTime64>(6), "Timestamp of the sampling moment with microseconds precision."},
         {"timestamp_ns", std::make_shared<DataTypeUInt64>(), "Timestamp of the sampling moment in nanoseconds."},
-        {"revision", std::make_shared<DataTypeUInt32>(), "ClickHouse server build revision."},
+        {"revision", std::make_shared<DataTypeUInt32>(), "vxdfs server build revision."},
         {"trace_type", std::make_shared<TraceDataType>(trace_values), "Trace type: "
             "`Real` represents collecting stack traces by wall-clock time. "
             "`CPU` represents collecting stack traces by CPU time. "
@@ -45,7 +45,7 @@ ColumnsDescription TraceLogElement::getColumnsDescription()
         },
         {"thread_id", std::make_shared<DataTypeUInt64>(), "Thread identifier."},
         {"query_id", std::make_shared<DataTypeString>(), "Query identifier that can be used to get details about a query that was running from the query_log system table."},
-        {"trace", std::make_shared<DataTypeArray>(std::make_shared<DataTypeUInt64>()), "Stack trace at the moment of sampling. Each element is a virtual memory address inside ClickHouse server process."},
+        {"trace", std::make_shared<DataTypeArray>(std::make_shared<DataTypeUInt64>()), "Stack trace at the moment of sampling. Each element is a virtual memory address inside vxdfs server process."},
         {"size", std::make_shared<DataTypeInt64>(), "For trace types Memory, MemorySample or MemoryPeak is the amount of memory allocated, for other trace types is 0."},
         {"ptr", std::make_shared<DataTypeUInt64>(), "The address of the allocated chunk."},
         {"event", std::make_shared<DataTypeLowCardinality>(std::make_shared<DataTypeString>()), "For trace type ProfileEvent is the name of updated profile event, for other trace types is an empty string."},

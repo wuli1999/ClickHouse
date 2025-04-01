@@ -341,11 +341,11 @@ void PocoHTTPClient::makeRequestInternalImpl(
     auto method = getMethod(request);
 
     auto sdk_attempt = extractAttemptFromInfo(getOrEmpty(request.GetHeaders(), Aws::Http::SDK_REQUEST_HEADER));
-    auto ch_attempt = extractAttemptFromInfo(getOrEmpty(request.GetHeaders(), "clickhouse-request"));
+    auto ch_attempt = extractAttemptFromInfo(getOrEmpty(request.GetHeaders(), "vxdfs-request"));
     bool first_attempt = ch_attempt == "1" && sdk_attempt == "1";
 
     if (enable_s3_requests_logging)
-        LOG_TEST(log, "Make request to: {}, aws sdk attempt: {}, clickhouse attempt: {}", uri, sdk_attempt, ch_attempt);
+        LOG_TEST(log, "Make request to: {}, aws sdk attempt: {}, vxdfs attempt: {}", uri, sdk_attempt, ch_attempt);
 
     switch (request.GetMethod())
     {
@@ -388,7 +388,7 @@ void PocoHTTPClient::makeRequestInternalImpl(
             Poco::URI target_uri(uri);
 
             if (enable_s3_requests_logging && !proxy_configuration.isEmpty())
-                LOG_TEST(log, "Due to reverse proxy host name ({}) won't be resolved on ClickHouse side", uri);
+                LOG_TEST(log, "Due to reverse proxy host name ({}) won't be resolved on vxdfs side", uri);
 
             auto group = for_disk_s3 ? HTTPConnectionGroupType::DISK : HTTPConnectionGroupType::STORAGE;
 

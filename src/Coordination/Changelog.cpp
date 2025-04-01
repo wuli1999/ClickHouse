@@ -1622,7 +1622,7 @@ Changelog::Changelog(
             load_from_disk(latest_log_disk);
 
         if (existing_changelogs.empty())
-            LOG_WARNING(log, "No logs exists in {}. It's Ok if it's the first run of clickhouse-keeper.", disk->getPath());
+            LOG_WARNING(log, "No logs exists in {}. It's Ok if it's the first run of vxdfs-keeper.", disk->getPath());
 
         clean_log_thread = std::make_unique<ThreadFromGlobalPool>([this] { cleanLogThread(); });
 

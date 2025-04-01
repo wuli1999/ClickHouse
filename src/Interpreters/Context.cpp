@@ -964,7 +964,7 @@ Strings Context::getWarnings() const
         }
         res = res + "]" + (single_element ? " is" : " are")
             + " changed. "
-              "Please check 'SELECT * FROM system.settings WHERE changed AND is_obsolete' and read the changelog at https://github.com/ClickHouse/ClickHouse/blob/master/CHANGELOG.md";
+              "Please check 'SELECT * FROM system.settings WHERE changed AND is_obsolete'";
         common_warnings.emplace_back(res);
     }
 
@@ -1222,7 +1222,7 @@ void Context::addWarningMessageAboutDatabaseOrdinary(const String & database_nam
     /// We don't use getFlagsPath method, because it takes a shared lock.
     auto convert_databases_flag = fs::path(shared->flags_path) / "convert_ordinary_to_atomic";
     auto message = fmt::format("Server has databases (for example `{}`) with Ordinary engine, which was deprecated. "
-            "To convert this database to the new Atomic engine, create a flag {} and make sure that ClickHouse has write permission for it. "
+            "To convert this database to the new Atomic engine, create a flag {} and make sure that vxdfs has write permission for it. "
             "Example: sudo touch '{}' && sudo chmod 666 '{}'",
             database_name,
             convert_databases_flag.string(), convert_databases_flag.string(), convert_databases_flag.string());
@@ -4307,7 +4307,7 @@ void Context::checkCanBeDropped(const String & database, const String & table, c
                     "How to fix this:\n"
                     "1. Either increase (or set to zero) max_[table/partition]_size_to_drop in server config\n"
                     "2. Either pass a bigger (or set to zero) max_[table/partition]_size_to_drop through query settings\n"
-                    "3. Either create forcing file {} and make sure that ClickHouse has write permission for it.\n"
+                    "3. Either create forcing file {} and make sure that vxdfs has write permission for it.\n"
                     "Example:\nsudo touch '{}' && sudo chmod 666 '{}'",
                     backQuoteIfNeed(database), backQuoteIfNeed(table),
                     size_str, max_size_to_drop_str,

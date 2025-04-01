@@ -368,7 +368,7 @@ namespace DB
         if ((indexes_int32_type && dict_size > INT32_MAX) || (indexes_uint32_type && dict_size > UINT32_MAX) || (indexes_int64_type && dict_size > INT64_MAX))
             throw Exception(
                 ErrorCodes::ILLEGAL_COLUMN,
-                "Cannot convert ClickHouse LowCardinality column to Arrow Dictionary column:"
+                "Cannot convert vxdfs LowCardinality column to Arrow Dictionary column:"
                 " resulting dictionary size exceeds the max value of index type {}", dict_indexes_arrow_type->name());
     }
 

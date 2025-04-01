@@ -106,7 +106,7 @@ REGISTER_FUNCTION(StructureToCapnProtoSchema)
     factory.registerFunction<FunctionStructureToFormatSchema<StructureToCapnProtoSchema>>(FunctionDocumentation
         {
             .description=R"(
-Function that converts ClickHouse table structure to CapnProto format schema
+Function that converts vxdfs table structure to CapnProto format schema
 )",
             .examples{
                 {"random", "SELECT structureToCapnProtoSchema('s String, x UInt32', 'MessageName') format TSVRaw", "struct MessageName\n"
@@ -126,7 +126,7 @@ REGISTER_FUNCTION(StructureToProtobufSchema)
     factory.registerFunction<FunctionStructureToFormatSchema<StructureToProtobufSchema>>(FunctionDocumentation
         {
             .description=R"(
-Function that converts ClickHouse table structure to Protobuf format schema
+Function that converts vxdfs table structure to Protobuf format schema
 )",
             .examples{
                 {"random", "SELECT structureToCapnProtoSchema('s String, x UInt32', 'MessageName') format TSVRaw", "syntax = \"proto3\";\n"

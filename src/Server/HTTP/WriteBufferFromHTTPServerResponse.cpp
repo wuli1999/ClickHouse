@@ -56,12 +56,12 @@ void WriteBufferFromHTTPServerResponse::writeHeaderProgressImpl(const char * hea
 void WriteBufferFromHTTPServerResponse::writeHeaderSummary()
 {
     accumulated_progress.incrementElapsedNs(progress_watch.elapsed());
-    writeHeaderProgressImpl("X-ClickHouse-Summary: ");
+    writeHeaderProgressImpl("X-vxdfs-Summary: ");
 }
 
 void WriteBufferFromHTTPServerResponse::writeHeaderProgress()
 {
-    writeHeaderProgressImpl("X-ClickHouse-Progress: ");
+    writeHeaderProgressImpl("X-vxdfs-Progress: ");
 }
 
 void WriteBufferFromHTTPServerResponse::writeExceptionCode()
@@ -70,7 +70,7 @@ void WriteBufferFromHTTPServerResponse::writeExceptionCode()
         return;
     if (headers_started_sending)
     {
-        socketSendBytes("X-ClickHouse-Exception-Code: ", sizeof("X-ClickHouse-Exception-Code: ") - 1);
+        socketSendBytes("X-vxdfs-Exception-Code: ", sizeof("X-vxdfs-Exception-Code: ") - 1);
         auto str_code = std::to_string(exception_code);
         socketSendBytes(str_code.data(), str_code.size());
         socketSendBytes("\r\n", 2);
@@ -155,7 +155,7 @@ void WriteBufferFromHTTPServerResponse::setExceptionCode(int exception_code_)
     if (headers_started_sending)
         exception_code = exception_code_;
     else
-        response.set("X-ClickHouse-Exception-Code", toString<int>(exception_code_));
+        response.set("X-vxdfs-Exception-Code", toString<int>(exception_code_));
 }
 
 WriteBufferFromHTTPServerResponse::~WriteBufferFromHTTPServerResponse()

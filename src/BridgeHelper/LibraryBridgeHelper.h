@@ -19,7 +19,7 @@ protected:
 
     void startBridge(std::unique_ptr<ShellCommand> cmd) const override;
 
-    String serviceAlias() const override { return "clickhouse-library-bridge"; }
+    String serviceAlias() const override { return "vxdfs-library-bridge"; }
 
     String serviceFileName() const override { return serviceAlias(); }
 

@@ -387,7 +387,7 @@ String ServerStatCommand::run()
     auto & stats = keeper_dispatcher.getKeeperConnectionStats();
     Keeper4LWInfo keeper_info = keeper_dispatcher.getKeeper4LWInfo();
 
-    write("ClickHouse Keeper version", String(VERSION_DESCRIBE) + "-" + VERSION_GITHASH);
+    write("vxdfs Keeper version", String(VERSION_DESCRIBE) + "-" + VERSION_GITHASH);
 
     StringBuffer latency;
     latency << stats.getMinLatency() << "/" << stats.getAvgLatency() << "/" << stats.getMaxLatency();
@@ -416,7 +416,7 @@ String StatCommand::run()
     auto & stats = keeper_dispatcher.getKeeperConnectionStats();
     Keeper4LWInfo keeper_info = keeper_dispatcher.getKeeper4LWInfo();
 
-    write("ClickHouse Keeper version", String(VERSION_DESCRIBE) + "-" + VERSION_GITHASH);
+    write("vxdfs Keeper version", String(VERSION_DESCRIBE) + "-" + VERSION_GITHASH);
 
     buf << "Clients:\n";
     KeeperTCPHandler::dumpConnections(buf, true);
@@ -501,7 +501,7 @@ String EnviCommand::run()
 
     StringBuffer buf;
     buf << "Environment:\n";
-    buf << "clickhouse.keeper.version=" << VERSION_DESCRIBE << '-' << VERSION_GITHASH << '\n';
+    buf << "vxdfs.keeper.version=" << VERSION_DESCRIBE << '-' << VERSION_GITHASH << '\n';
 
     buf << "host.name=" << Environment::nodeName() << '\n';
     buf << "os.name=" << Environment::osDisplayName() << '\n';

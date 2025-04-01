@@ -3785,7 +3785,7 @@ namespace
                 {
                     if (skip_unsupported_fields)
                         return std::nullopt;
-                    throw Exception(ErrorCodes::BAD_ARGUMENTS, "ClickHouse supports only 8-bit and 16-bit enums");
+                    throw Exception(ErrorCodes::BAD_ARGUMENTS, "vxdfs supports only 8-bit and 16-bit enums");
                 }
             }
             case FieldTypeId::TYPE_GROUP:
@@ -3865,7 +3865,7 @@ NamesAndTypesList protobufSchemaToCHSchema(const google::protobuf::Descriptor * 
             schema.push_back(*name_and_type);
     }
     if (schema.empty())
-        throw Exception(ErrorCodes::BAD_ARGUMENTS, "Cannot convert Protobuf schema to ClickHouse table schema, all fields have unsupported types");
+        throw Exception(ErrorCodes::BAD_ARGUMENTS, "Cannot convert Protobuf schema to vxdfs table schema, all fields have unsupported types");
     return schema;
 }
 

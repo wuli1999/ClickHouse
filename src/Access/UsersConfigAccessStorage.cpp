@@ -249,7 +249,7 @@ namespace
             }
             user->auth_data.setSSHKeys(std::move(keys));
 #else
-            throw Exception(ErrorCodes::SUPPORT_IS_DISABLED, "SSH is disabled, because ClickHouse is built without OpenSSL");
+            throw Exception(ErrorCodes::SUPPORT_IS_DISABLED, "SSH is disabled, because vxdfs is built without OpenSSL");
 #endif
         }
         else if (has_http_auth)

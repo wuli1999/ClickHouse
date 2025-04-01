@@ -49,16 +49,16 @@ ColumnsDescription StorageSystemUsers::getColumnsDescription()
         },
         {"auth_params", std::make_shared<DataTypeString>(), "Authentication parameters in the JSON format depending on the auth_type."},
         {"host_ip", std::make_shared<DataTypeArray>(std::make_shared<DataTypeString>()),
-            "IP addresses of hosts that are allowed to connect to the ClickHouse server."
+            "IP addresses of hosts that are allowed to connect to the vxdfs server."
         },
         {"host_names", std::make_shared<DataTypeArray>(std::make_shared<DataTypeString>()),
-            "Names of hosts that are allowed to connect to the ClickHouse server."
+            "Names of hosts that are allowed to connect to the vxdfs server."
         },
         {"host_names_regexp", std::make_shared<DataTypeArray>(std::make_shared<DataTypeString>()),
-            "Regular expression for host names that are allowed to connect to the ClickHouse server."
+            "Regular expression for host names that are allowed to connect to the vxdfs server."
         },
         {"host_names_like", std::make_shared<DataTypeArray>(std::make_shared<DataTypeString>()),
-            "Names of hosts that are allowed to connect to the ClickHouse server, set using the LIKE predicate."
+            "Names of hosts that are allowed to connect to the vxdfs server, set using the LIKE predicate."
         },
         {"default_roles_all", std::make_shared<DataTypeUInt8>(),
             "Shows that all granted roles set for user by default."

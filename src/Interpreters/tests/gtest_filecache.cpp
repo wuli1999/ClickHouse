@@ -339,8 +339,8 @@ TEST_F(FileCacheTest, LRUPolicy)
     std::string query_id = "query_id";
 
     Poco::XML::DOMParser dom_parser;
-    std::string xml(R"CONFIG(<clickhouse>
-</clickhouse>)CONFIG");
+    std::string xml(R"CONFIG(<vxdfs>
+</vxdfs>)CONFIG");
     Poco::AutoPtr<Poco::XML::Document> document = dom_parser.parseString(xml);
     Poco::AutoPtr<Poco::Util::XMLConfiguration> config = new Poco::Util::XMLConfiguration(document);
     getMutableContext().context->setConfig(config);
@@ -1050,8 +1050,8 @@ TEST_F(FileCacheTest, CachedReadBuffer)
     std::string query_id = "query_id";
 
     Poco::XML::DOMParser dom_parser;
-    std::string xml(R"CONFIG(<clickhouse>
-</clickhouse>)CONFIG");
+    std::string xml(R"CONFIG(<vxdfs>
+</vxdfs>)CONFIG");
     Poco::AutoPtr<Poco::XML::Document> document = dom_parser.parseString(xml);
     Poco::AutoPtr<Poco::Util::XMLConfiguration> config = new Poco::Util::XMLConfiguration(document);
     getMutableContext().context->setConfig(config);
@@ -1171,8 +1171,8 @@ TEST_F(FileCacheTest, SLRUPolicy)
     std::string query_id = "query_id"; /// To work with cache need query_id and query context.
 
     Poco::XML::DOMParser dom_parser;
-    std::string xml(R"CONFIG(<clickhouse>
-</clickhouse>)CONFIG");
+    std::string xml(R"CONFIG(<vxdfs>
+</vxdfs>)CONFIG");
     Poco::AutoPtr<Poco::XML::Document> document = dom_parser.parseString(xml);
     Poco::AutoPtr<Poco::Util::XMLConfiguration> config = new Poco::Util::XMLConfiguration(document);
     getMutableContext().context->setConfig(config);

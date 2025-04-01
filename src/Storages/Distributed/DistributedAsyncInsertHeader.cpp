@@ -49,7 +49,7 @@ DistributedAsyncInsertHeader DistributedAsyncInsertHeader::read(ReadBufferFromFi
         readVarUInt(distributed_header.revision, header_buf);
         if (DBMS_TCP_PROTOCOL_VERSION < distributed_header.revision)
         {
-            LOG_WARNING(log, "ClickHouse shard version is older than ClickHouse initiator version. It may lack support for new features.");
+            LOG_WARNING(log, "vxdfs shard version is older than vxdfs initiator version. It may lack support for new features.");
         }
 
         readStringBinary(distributed_header.insert_query, header_buf);
@@ -112,12 +112,12 @@ OpenTelemetry::TracingContextHolderPtr DistributedAsyncInsertHeader::createTraci
         function,
         client_info.client_trace_context,
         std::move(open_telemetry_span_log));
-    trace_context->root_span.addAttribute("clickhouse.shard_num", shard_num);
-    trace_context->root_span.addAttribute("clickhouse.cluster", cluster);
-    trace_context->root_span.addAttribute("clickhouse.distributed", distributed_table);
-    trace_context->root_span.addAttribute("clickhouse.remote", remote_table);
-    trace_context->root_span.addAttribute("clickhouse.rows", rows);
-    trace_context->root_span.addAttribute("clickhouse.bytes", bytes);
+    trace_context->root_span.addAttribute("vxdfs.shard_num", shard_num);
+    trace_context->root_span.addAttribute("vxdfs.cluster", cluster);
+    trace_context->root_span.addAttribute("vxdfs.distributed", distributed_table);
+    trace_context->root_span.addAttribute("vxdfs.remote", remote_table);
+    trace_context->root_span.addAttribute("vxdfs.rows", rows);
+    trace_context->root_span.addAttribute("vxdfs.bytes", bytes);
     return trace_context;
 }
 

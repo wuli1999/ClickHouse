@@ -48,8 +48,8 @@
     M(Read, "Number of read (read, pread, io_getevents, etc.) syscalls in fly") \
     M(RemoteRead, "Number of read with remote reader in fly") \
     M(Write, "Number of write (write, pwrite, io_getevents, etc.) syscalls in fly") \
-    M(NetworkReceive, "Number of threads receiving data from network. Only ClickHouse-related network interaction is included, not by 3rd party libraries.") \
-    M(NetworkSend, "Number of threads sending data to network. Only ClickHouse-related network interaction is included, not by 3rd party libraries.") \
+    M(NetworkReceive, "Number of threads receiving data from network. Only vxdfs-related network interaction is included, not by 3rd party libraries.") \
+    M(NetworkSend, "Number of threads sending data to network. Only vxdfs-related network interaction is included, not by 3rd party libraries.") \
     M(SendScalars, "Number of connections that are sending data for scalars to remote servers.") \
     M(SendExternalTables, "Number of connections that are sending data for external tables to remote servers. External tables are used to implement GLOBAL IN and GLOBAL JOIN operators with distributed subqueries.") \
     M(QueryThread, "Number of query processing threads") \
@@ -273,7 +273,7 @@
     M(DistrCacheUsedConnections, "Number of currently used connections to Distributed Cache") \
     M(DistrCacheReadRequests, "Number of executed Read requests to Distributed Cache") \
     M(DistrCacheWriteRequests, "Number of executed Write requests to Distributed Cache") \
-    M(DistrCacheServerConnections, "Number of open connections to ClickHouse server from Distributed Cache") \
+    M(DistrCacheServerConnections, "Number of open connections to vxdfs server from Distributed Cache") \
     \
     M(StorageConnectionsStored, "Total count of sessions stored in the session pool for storages") \
     M(StorageConnectionsTotal, "Total count of all sessions: stored in the pool and actively used right now for storages") \

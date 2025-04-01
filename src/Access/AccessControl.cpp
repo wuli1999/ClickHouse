@@ -612,7 +612,7 @@ AuthResult AccessControl::authenticate(const Credentials & credentials, const Po
         message << credentials.getUserName() << ": Authentication failed: password is incorrect, or there is no user with such name.";
 
         /// Better exception message for usability.
-        /// It is typical when users install ClickHouse, type some password and instantly forget it.
+        /// It is typical when users install vxdfs, type some password and instantly forget it.
         if (credentials.getUserName().empty() || credentials.getUserName() == "default")
             message << "\n\n"
                 << "If you have installed vxdfs and forgot password you can reset it in the configuration file.\n"

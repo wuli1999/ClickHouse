@@ -55,7 +55,7 @@ void HDFSBuilderWrapper::loadFromConfig(
             need_kinit = true;
             hadoop_kerberos_keytab = config.getString(key_path);
             #else // USE_KRB5
-            LOG_WARNING(getLogger("HDFSClient"), "hadoop_kerberos_keytab parameter is ignored because ClickHouse was built without support of krb5 library.");
+            LOG_WARNING(getLogger("HDFSClient"), "hadoop_kerberos_keytab parameter is ignored because vxdfs was built without support of krb5 library.");
             #endif // USE_KRB5
             continue;
         }
@@ -66,7 +66,7 @@ void HDFSBuilderWrapper::loadFromConfig(
             hadoop_kerberos_principal = config.getString(key_path);
             hdfsBuilderSetPrincipal(hdfs_builder, hadoop_kerberos_principal.c_str());
             #else // USE_KRB5
-            LOG_WARNING(getLogger("HDFSClient"), "hadoop_kerberos_principal parameter is ignored because ClickHouse was built without support of krb5 library.");
+            LOG_WARNING(getLogger("HDFSClient"), "hadoop_kerberos_principal parameter is ignored because vxdfs was built without support of krb5 library.");
             #endif // USE_KRB5
             continue;
         }
@@ -81,7 +81,7 @@ void HDFSBuilderWrapper::loadFromConfig(
             hadoop_security_kerberos_ticket_cache_path = config.getString(key_path);
             // standard param - pass further
             #else // USE_KRB5
-            LOG_WARNING(getLogger("HDFSClient"), "hadoop.security.kerberos.ticket.cache.path parameter is ignored because ClickHouse was built without support of krb5 library.");
+            LOG_WARNING(getLogger("HDFSClient"), "hadoop.security.kerberos.ticket.cache.path parameter is ignored because vxdfs was built without support of krb5 library.");
             #endif // USE_KRB5
         }
 

@@ -125,7 +125,7 @@ DiskSelectorPtr DiskSelector::updateFromConfig(
         {
             LOG_WARNING(
                 getLogger("DiskSelector"),
-                "{} disappeared from configuration, this change will be applied after restart of ClickHouse",
+                "{} disappeared from configuration, this change will be applied after restart of vxdfs",
                 warning.str());
         }
     }

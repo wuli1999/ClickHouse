@@ -62,7 +62,7 @@ namespace
     {
         throw Exception(
             ErrorCodes::CAPN_PROTO_BAD_CAST,
-            "Cannot convert ClickHouse column \"{}\" with type {} to CapnProto type {}",
+            "Cannot convert vxdfs column \"{}\" with type {} to CapnProto type {}",
             name,
             type->getName(),
             getCapnProtoFullTypeName(capnp_type));
@@ -376,14 +376,14 @@ namespace
         UInt16 getValue(const ColumnPtr & column, size_t row_num)
         {
             if (!capnp_enum_is_superset)
-                throw Exception(ErrorCodes::CAPN_PROTO_BAD_CAST, "Cannot convert ClickHouse enum to CapnProto enum: CapnProto enum values/names is not a superset of ClickHouse enum values/names");
+                throw Exception(ErrorCodes::CAPN_PROTO_BAD_CAST, "Cannot convert vxdfs enum to CapnProto enum: CapnProto enum values/names is not a superset of vxdfs enum values/names");
 
             EnumType enum_value = assert_cast<const ColumnVector<EnumType> &>(*column).getElement(row_num);
             if (enum_comparing_mode == FormatSettings::CapnProtoEnumComparingMode::BY_VALUES)
                 return static_cast<UInt16>(enum_value);
             auto it = ch_to_capnp_values.find(enum_value);
             if (it == ch_to_capnp_values.end())
-                throw Exception(ErrorCodes::INCORRECT_DATA, "Unexpected value {} in ClickHouse enum", enum_value);
+                throw Exception(ErrorCodes::INCORRECT_DATA, "Unexpected value {} in vxdfs enum", enum_value);
 
             return it->second;
         }
@@ -391,7 +391,7 @@ namespace
         void insertValue(IColumn & column, UInt16 capnp_enum_value)
         {
             if (!ch_enum_is_superset)
-                throw Exception(ErrorCodes::CAPN_PROTO_BAD_CAST, "Cannot convert CapnProto enum to ClickHouse enum: ClickHouse enum values/names is not a superset of CapnProto enum values/names");
+                throw Exception(ErrorCodes::CAPN_PROTO_BAD_CAST, "Cannot convert CapnProto enum to vxdfs enum: vxdfs enum values/names is not a superset of CapnProto enum values/names");
 
             if (enum_comparing_mode == FormatSettings::CapnProtoEnumComparingMode::BY_VALUES)
             {
@@ -1141,7 +1141,7 @@ namespace
             if (checkIfStructContainsUnnamedUnion(struct_schema))
                 throw Exception(
                     ErrorCodes::CAPN_PROTO_BAD_CAST,
-                    "Cannot convert ClickHouse column \"{}\" with type {} to CapnProto Struct with unnamed union {}",
+                    "Cannot convert vxdfs column \"{}\" with type {} to CapnProto Struct with unnamed union {}",
                     column_name,
                     data_type->getName(),
                     getCapnProtoFullTypeName(capnp_type));
@@ -1149,7 +1149,7 @@ namespace
             if (struct_schema.getFields().size() != 1)
                 throw Exception(
                     ErrorCodes::CAPN_PROTO_BAD_CAST,
-                    "Cannot convert ClickHouse column \"{}\": Map type can be represented as a Struct with one list field, got struct: {}",
+                    "Cannot convert vxdfs column \"{}\": Map type can be represented as a Struct with one list field, got struct: {}",
                     column_name,
                     getCapnProtoFullTypeName(capnp_type));
 
@@ -1157,7 +1157,7 @@ namespace
             if (!field_type.isList())
                 throw Exception(
                     ErrorCodes::CAPN_PROTO_BAD_CAST,
-                    "Cannot convert ClickHouse column \"{}\": Map type can be represented as a Struct with one list field, got field: {}",
+                    "Cannot convert vxdfs column \"{}\": Map type can be represented as a Struct with one list field, got field: {}",
                     column_name,
                     getCapnProtoFullTypeName(field_type));
 
@@ -1165,7 +1165,7 @@ namespace
             if (!list_element_type.isStruct())
                 throw Exception(
                     ErrorCodes::CAPN_PROTO_BAD_CAST,
-                    "Cannot convert ClickHouse column \"{}\": Field of struct that represents Map should be a list of structs, got list of {}",
+                    "Cannot convert vxdfs column \"{}\": Field of struct that represents Map should be a list of structs, got list of {}",
                     column_name,
                     getCapnProtoFullTypeName(list_element_type));
 
@@ -1173,14 +1173,14 @@ namespace
             if (checkIfStructContainsUnnamedUnion(key_value_struct))
                 throw Exception(
                     ErrorCodes::CAPN_PROTO_BAD_CAST,
-                    "Cannot convert ClickHouse column \"{}\": struct that represents Map entries is unnamed union: {}",
+                    "Cannot convert vxdfs column \"{}\": struct that represents Map entries is unnamed union: {}",
                     column_name,
                     getCapnProtoFullTypeName(list_element_type));
 
             if (key_value_struct.getFields().size() != 2)
                 throw Exception(
                     ErrorCodes::CAPN_PROTO_BAD_CAST,
-                    "Cannot convert ClickHouse column \"{}\": struct that represents Map entries should contain only 2 fields, got struct {}",
+                    "Cannot convert vxdfs column \"{}\": struct that represents Map entries should contain only 2 fields, got struct {}",
                     column_name,
                     getCapnProtoFullTypeName(list_element_type));
 
@@ -1259,7 +1259,7 @@ namespace
             if (checkIfStructIsNamedUnion(struct_schema) || checkIfStructContainsUnnamedUnion(struct_schema))
                 throw Exception(
                     ErrorCodes::CAPN_PROTO_BAD_CAST,
-                    "Cannot convert ClickHouse column \"{}\" with type {} to CapnProto named union/struct with unnamed union {}",
+                    "Cannot convert vxdfs column \"{}\" with type {} to CapnProto named union/struct with unnamed union {}",
                     column_name,
                     data_type->getName(),
                     getCapnProtoFullTypeName(capnp_type));
@@ -1274,7 +1274,7 @@ namespace
                 if (nested_types.size() != structure_fields.size())
                     throw Exception(
                         ErrorCodes::CAPN_PROTO_BAD_CAST,
-                        "Cannot convert ClickHouse column \"{}\" with type {} to CapnProto type {}: Tuple and Struct have different sizes {} != {}",
+                        "Cannot convert vxdfs column \"{}\" with type {} to CapnProto type {}: Tuple and Struct have different sizes {} != {}",
                         column_name,
                         data_type->getName(),
                         getCapnProtoFullTypeName(capnp_type),

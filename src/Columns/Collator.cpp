@@ -106,7 +106,7 @@ Collator::Collator(const std::string & locale_)
     }
 #else
     throw DB::Exception(DB::ErrorCodes::SUPPORT_IS_DISABLED,
-                        "Collations support is disabled, because ClickHouse was built without ICU library");
+                        "Collations support is disabled, because vxdfs was built without ICU library");
 #endif
 }
 

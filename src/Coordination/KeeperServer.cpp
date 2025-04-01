@@ -376,7 +376,7 @@ void KeeperServer::launchRaftServer(const Poco::Util::AbstractConfiguration & co
 #if USE_SSL
         setSSLParams(asio_opts);
 #else
-        throw Exception(ErrorCodes::SUPPORT_IS_DISABLED, "SSL support for NuRaft is disabled because ClickHouse was built without SSL support.");
+        throw Exception(ErrorCodes::SUPPORT_IS_DISABLED, "SSL support for NuRaft is disabled because vxdfs was built without SSL support.");
 #endif
     }
 

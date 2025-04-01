@@ -15,7 +15,7 @@ TEST(SchedulerDynamicResourceManager, Smoke)
     ResourceTest t;
 
     t.update(R"CONFIG(
-        <clickhouse>
+        <vxdfs>
             <resources>
                 <res1>
                     <node path="/"><type>inflight_limit</type><max_requests>10</max_requests></node>
@@ -28,7 +28,7 @@ TEST(SchedulerDynamicResourceManager, Smoke)
                 <A><res1>/fair/A</res1></A>
                 <B><res1>/fair/B</res1></B>
             </workload_classifiers>
-        </clickhouse>
+        </vxdfs>
     )CONFIG");
 
     ClassifierPtr cA = t.manager->acquire("A");
@@ -60,7 +60,7 @@ TEST(SchedulerDynamicResourceManager, Fairness)
     ResourceTest t(2 * threads_per_queue + 1);
 
     t.update(R"CONFIG(
-        <clickhouse>
+        <vxdfs>
             <resources>
                 <res1>
                     <node path="/">           <type>inflight_limit</type><max_requests>1</max_requests></node>
@@ -75,7 +75,7 @@ TEST(SchedulerDynamicResourceManager, Fairness)
                 <B><res1>/fair/B</res1></B>
                 <leader><res1>/fair/leader</res1></leader>
             </workload_classifiers>
-        </clickhouse>
+        </vxdfs>
     )CONFIG");
 
     for (int thread = 0; thread < threads_per_queue; thread++)

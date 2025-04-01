@@ -515,7 +515,7 @@ void ReplxxLineReader::openEditor()
 {
     try
     {
-        TemporaryFile editor_file("clickhouse_client_editor_XXXXXX.sql");
+        TemporaryFile editor_file("vxdfs_client_editor_XXXXXX.sql");
         editor_file.write(rx.get_state().text());
         editor_file.close();
 

@@ -54,7 +54,7 @@ namespace
             configuration.quota_key,
             "", /* cluster */
             "", /* cluster_secret */
-            "ClickHouseDictionarySource",
+            "vxdfsDictionarySource",
             Protocol::Compression::Enable,
             configuration.secure ? Protocol::Secure::Enable : Protocol::Secure::Disable));
 
@@ -152,7 +152,7 @@ bool ClickHouseDictionarySource::hasUpdateField() const
 std::string ClickHouseDictionarySource::toString() const
 {
     const std::string & where = configuration.where;
-    return "ClickHouse: " + configuration.db + '.' + configuration.table + (where.empty() ? "" : ", where: " + where);
+    return "vxdfs: " + configuration.db + '.' + configuration.table + (where.empty() ? "" : ", where: " + where);
 }
 
 QueryPipeline ClickHouseDictionarySource::createStreamForQuery(const String & query)
@@ -215,7 +215,7 @@ void registerDictionarySourceClickHouse(DictionarySourceFactory & factory)
         using Configuration = ClickHouseDictionarySource::Configuration;
         std::optional<Configuration> configuration;
 
-        std::string settings_config_prefix = config_prefix + ".clickhouse";
+        std::string settings_config_prefix = config_prefix + ".vxdfs";
         auto named_collection = created_from_ddl ? tryGetNamedCollectionWithOverrides(config, settings_config_prefix, global_context) : nullptr;
 
         if (named_collection)
@@ -294,12 +294,12 @@ void registerDictionarySourceClickHouse(DictionarySourceFactory & factory)
         String dictionary_database = config.getString(".dictionary.database", "");
 
         if (dictionary_name == configuration->table && dictionary_database == configuration->db)
-            throw Exception(ErrorCodes::BAD_ARGUMENTS, "ClickHouseDictionarySource table cannot be dictionary table");
+            throw Exception(ErrorCodes::BAD_ARGUMENTS, "vxdfsDictionarySource table cannot be dictionary table");
 
         return std::make_unique<ClickHouseDictionarySource>(dict_struct, *configuration, sample_block, context);
     };
 
-    factory.registerSource("clickhouse", create_table_source);
+    factory.registerSource("vxdfs", create_table_source);
 }
 
 }

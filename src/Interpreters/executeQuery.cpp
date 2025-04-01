@@ -472,14 +472,14 @@ void logQueryFinish(
     if (query_span)
     {
         query_span->addAttribute("db.statement", elem.query);
-        query_span->addAttribute("clickhouse.query_id", elem.client_info.current_query_id);
-        query_span->addAttribute("clickhouse.query_status", "QueryFinish");
-        query_span->addAttributeIfNotEmpty("clickhouse.tracestate", OpenTelemetry::CurrentContext().tracestate);
-        query_span->addAttributeIfNotZero("clickhouse.read_rows", elem.read_rows);
-        query_span->addAttributeIfNotZero("clickhouse.read_bytes", elem.read_bytes);
-        query_span->addAttributeIfNotZero("clickhouse.written_rows", elem.written_rows);
-        query_span->addAttributeIfNotZero("clickhouse.written_bytes", elem.written_bytes);
-        query_span->addAttributeIfNotZero("clickhouse.memory_usage", elem.memory_usage);
+        query_span->addAttribute("vxdfs.query_id", elem.client_info.current_query_id);
+        query_span->addAttribute("vxdfs.query_status", "QueryFinish");
+        query_span->addAttributeIfNotEmpty("vxdfs.tracestate", OpenTelemetry::CurrentContext().tracestate);
+        query_span->addAttributeIfNotZero("vxdfs.read_rows", elem.read_rows);
+        query_span->addAttributeIfNotZero("vxdfs.read_bytes", elem.read_bytes);
+        query_span->addAttributeIfNotZero("vxdfs.written_rows", elem.written_rows);
+        query_span->addAttributeIfNotZero("vxdfs.written_bytes", elem.written_bytes);
+        query_span->addAttributeIfNotZero("vxdfs.memory_usage", elem.memory_usage);
         query_span->finish();
     }
 }
@@ -544,9 +544,9 @@ void logQueryException(
     if (query_span)
     {
         query_span->addAttribute("db.statement", elem.query);
-        query_span->addAttribute("clickhouse.query_id", elem.client_info.current_query_id);
-        query_span->addAttribute("clickhouse.exception", elem.exception);
-        query_span->addAttribute("clickhouse.exception_code", elem.exception_code);
+        query_span->addAttribute("vxdfs.query_id", elem.client_info.current_query_id);
+        query_span->addAttribute("vxdfs.exception", elem.exception);
+        query_span->addAttribute("vxdfs.exception_code", elem.exception_code);
         query_span->finish();
     }
 }
@@ -622,10 +622,10 @@ void logExceptionBeforeStart(
 
     if (query_span)
     {
-        query_span->addAttribute("clickhouse.exception_code", elem.exception_code);
-        query_span->addAttribute("clickhouse.exception", elem.exception);
+        query_span->addAttribute("vxdfs.exception_code", elem.exception_code);
+        query_span->addAttribute("vxdfs.exception", elem.exception);
         query_span->addAttribute("db.statement", elem.query);
-        query_span->addAttribute("clickhouse.query_id", elem.client_info.current_query_id);
+        query_span->addAttribute("vxdfs.query_id", elem.client_info.current_query_id);
         query_span->finish();
     }
 

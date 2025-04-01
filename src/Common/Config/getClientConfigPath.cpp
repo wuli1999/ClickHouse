@@ -15,10 +15,10 @@ std::optional<std::string> getClientConfigPath(const std::string & home_path)
     bool found = false;
 
     std::vector<std::string> names;
-    names.emplace_back("./clickhouse-client");
+    names.emplace_back("./vxdfs-client");
     if (!home_path.empty())
-        names.emplace_back(home_path + "/.clickhouse-client/config");
-    names.emplace_back("/etc/clickhouse-client/config");
+        names.emplace_back(home_path + "/.vxdfs-client/config");
+    names.emplace_back("/etc/vxdfs-client/config");
 
     for (const auto & name : names)
     {

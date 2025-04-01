@@ -25,9 +25,9 @@ ColumnsDescription StorageSystemZooKeeperConnection::getColumnsDescription()
     return ColumnsDescription
     {
         /* 0 */ {"name", std::make_shared<DataTypeString>(), "ZooKeeper cluster's name."},
-        /* 1 */ {"host", std::make_shared<DataTypeString>(), "The hostname/IP of the ZooKeeper node that ClickHouse connected to."},
-        /* 2 */ {"port", std::make_shared<DataTypeUInt16>(), "The port of the ZooKeeper node that ClickHouse connected to."},
-        /* 3 */ {"index", std::make_shared<DataTypeUInt8>(), "The index of the ZooKeeper node that ClickHouse connected to. The index is from ZooKeeper config."},
+        /* 1 */ {"host", std::make_shared<DataTypeString>(), "The hostname/IP of the ZooKeeper node that vxdfs connected to."},
+        /* 2 */ {"port", std::make_shared<DataTypeUInt16>(), "The port of the ZooKeeper node that vxdfs connected to."},
+        /* 3 */ {"index", std::make_shared<DataTypeUInt8>(), "The index of the ZooKeeper node that vxdfs connected to. The index is from ZooKeeper config."},
         /* 4 */ {"connected_time", std::make_shared<DataTypeDateTime>(), "When the connection was established."},
         /* 5 */ {"session_uptime_elapsed_seconds", std::make_shared<DataTypeUInt64>(), "Seconds elapsed since the connection was established."},
         /* 6 */ {"is_expired", std::make_shared<DataTypeUInt8>(), "Is the current connection expired."},
@@ -35,7 +35,7 @@ ColumnsDescription StorageSystemZooKeeperConnection::getColumnsDescription()
         /* 8 */ {"client_id", std::make_shared<DataTypeInt64>(), "Session id of the connection."},
         /* 9 */ {"xid", std::make_shared<DataTypeInt32>(), "XID of the current session."},
         /* 10*/ {"enabled_feature_flags", std::make_shared<DataTypeArray>(std::move(feature_flags_enum)),
-            "Feature flags which are enabled. Only applicable to ClickHouse Keeper."
+            "Feature flags which are enabled. Only applicable to vxdfs Keeper."
         }
     };
 }

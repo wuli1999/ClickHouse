@@ -1325,7 +1325,7 @@ MergeTreeData::LoadPartResult MergeTreeData::loadDataPart(
 
         LOG_WARNING(log,
             "Detaching stale part {} (size: {}), which should have been deleted after a move. "
-            "That can only happen after unclean restart of ClickHouse after move of a part having an operation blocking that stale copy of part.",
+            "That can only happen after unclean restart of vxdfs after move of a part having an operation blocking that stale copy of part.",
             res.part->getDataPartStorage().getFullPath(), part_size_str);
 
         return res;

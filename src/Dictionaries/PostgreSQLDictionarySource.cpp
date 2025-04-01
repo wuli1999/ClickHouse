@@ -228,7 +228,7 @@ void registerDictionarySourcePostgreSQL(DictionarySourceFactory & factory)
         (void)sample_block;
         (void)context;
         throw Exception(ErrorCodes::SUPPORT_IS_DISABLED,
-            "Dictionary source of type `postgresql` is disabled because ClickHouse was built without postgresql support.");
+            "Dictionary source of type `postgresql` is disabled because vxdfs was built without postgresql support.");
 #endif
     };
 

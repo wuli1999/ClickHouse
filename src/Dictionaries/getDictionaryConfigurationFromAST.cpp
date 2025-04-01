@@ -673,15 +673,15 @@ getInfoIfClickHouseDictionarySource(DictionaryConfigurationPtr & config, Context
 {
     ClickHouseDictionarySourceInfo info;
 
-    bool secure = config->getBool("dictionary.source.clickhouse.secure", false);
+    bool secure = config->getBool("dictionary.source.vxdfs.secure", false);
     UInt16 default_port = secure ? global_context->getTCPPortSecure().value_or(0) : global_context->getTCPPort();
 
-    String host = config->getString("dictionary.source.clickhouse.host", "localhost");
-    UInt16 port = config->getUInt("dictionary.source.clickhouse.port", default_port);
-    String database = config->getString("dictionary.source.clickhouse.db", "");
-    String table = config->getString("dictionary.source.clickhouse.table", "");
+    String host = config->getString("dictionary.source.vxdfs.host", "localhost");
+    UInt16 port = config->getUInt("dictionary.source.vxdfs.port", default_port);
+    String database = config->getString("dictionary.source.vxdfs.db", "");
+    String table = config->getString("dictionary.source.vxdfs.table", "");
 
-    info.query = config->getString("dictionary.source.clickhouse.query", "");
+    info.query = config->getString("dictionary.source.vxdfs.query", "");
 
     if (!table.empty())
         info.table_name = {database, table};

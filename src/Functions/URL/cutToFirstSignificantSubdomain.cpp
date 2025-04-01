@@ -47,7 +47,7 @@ REGISTER_FUNCTION(CutToFirstSignificantSubdomain)
         FunctionDocumentation{
         .description=R"(Returns the part of the domain that includes top-level subdomains up to the "first significant subdomain" (see documentation of the `firstSignificantSubdomain`).)",
         .examples{
-            {"cutToFirstSignificantSubdomain1", "SELECT cutToFirstSignificantSubdomain('https://news.clickhouse.com.tr/')", ""},
+            {"cutToFirstSignificantSubdomain1", "SELECT cutToFirstSignificantSubdomain('https://news.vxdfs.com.tr/')", ""},
             {"cutToFirstSignificantSubdomain2", "SELECT cutToFirstSignificantSubdomain('www.tr')", ""},
             {"cutToFirstSignificantSubdomain3", "SELECT cutToFirstSignificantSubdomain('tr')", ""},
         },

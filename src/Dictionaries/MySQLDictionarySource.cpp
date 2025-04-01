@@ -151,7 +151,7 @@ void registerDictionarySourceMysql(DictionarySourceFactory & factory)
         return std::make_unique<MySQLDictionarySource>(dict_struct, *dictionary_configuration, std::move(pool), sample_block, mysql_input_stream_settings);
 #else
         throw Exception(ErrorCodes::SUPPORT_IS_DISABLED,
-            "Dictionary source of type `mysql` is disabled because ClickHouse was built without mysql support.");
+            "Dictionary source of type `mysql` is disabled because vxdfs was built without mysql support.");
 #endif
     };
 

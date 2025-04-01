@@ -3006,7 +3006,7 @@ void StorageReplicatedMergeTree::cloneReplica(const String & source_replica, Coo
         else if (rc == Coordination::Error::ZNODEEXISTS)
         {
             throw Exception(ErrorCodes::REPLICA_STATUS_CHANGED,
-                            "Can not clone replica, because the {} updated to new ClickHouse version", source_replica);
+                            "Can not clone replica, because the {} updated to new vxdfs version", source_replica);
         }
         else if (responses[1]->error == Coordination::Error::ZBADVERSION)
         {
@@ -3307,7 +3307,7 @@ void StorageReplicatedMergeTree::cloneMetadataIfNeeded(const String & source_rep
         /// For compatibility with version older than 20.3
         /// TODO fix tests and delete it
         LOG_WARNING(log, "Node {} does not exist. "
-                         "Most likely it's because too old version of ClickHouse is running on replica {}. "
+                         "Most likely it's because too old version of vxdfs is running on replica {}. "
                          "Will not check metadata consistency",
                          source_path + "/metadata_version", source_replica);
         return;
@@ -7868,10 +7868,10 @@ void StorageReplicatedMergeTree::clearLockedBlockNumbersInPartition(
         else
         {
             constexpr const char * old_version_warning = "Ephemeral lock {} (referencing {}) is created by a replica "
-                "that running old version of ClickHouse (< 22.11). Cannot remove it, will wait for this lock to disappear. "
+                "that running old version of vxdfs (< 22.11). Cannot remove it, will wait for this lock to disappear. "
                 "Upgrade remaining hosts in the cluster to address this warning.";
             constexpr const char * new_version_warning = "Ephemeral lock {} has unexpected content ({}), "
-                "probably it is created by a replica that running newer version of ClickHouse. "
+                "probably it is created by a replica that running newer version of vxdfs. "
                 "Cannot remove it, will wait for this lock to disappear. Upgrade remaining hosts in the cluster to address this warning.";
 
             if (result.data.starts_with(zookeeper_path + EphemeralLockInZooKeeper::LEGACY_LOCK_PREFIX))

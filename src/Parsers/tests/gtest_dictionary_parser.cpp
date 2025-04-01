@@ -34,7 +34,7 @@ TEST(ParserDictionaryDDL, SimpleDictionary)
                    "    third_column UInt8 DEFAULT 2"
                    " )"
                    " PRIMARY KEY key_column"
-                   " SOURCE(CLICKHOUSE(HOST 'localhost' PORT 9000 USER 'default' PASSWORD '' DB 'test' TABLE 'table_for_dict'))"
+                   " SOURCE(VXDFS(HOST 'localhost' PORT 9000 USER 'default' PASSWORD '' DB 'test' TABLE 'table_for_dict'))"
                    " LAYOUT(FLAT())"
                    " LIFETIME(MIN 1 MAX 10)"
                    " RANGE(MIN second_column MAX third_column)";
@@ -53,7 +53,7 @@ TEST(ParserDictionaryDDL, SimpleDictionary)
     EXPECT_NE(create->dictionary->range, nullptr);
 
     /// source test
-    EXPECT_EQ(create->dictionary->source->name, "clickhouse");
+    EXPECT_EQ(create->dictionary->source->name, "vxdfs");
     auto children = create->dictionary->source->elements->children;
     EXPECT_EQ(children[0]->as<ASTPair>() -> first, "host");
     EXPECT_EQ(children[0]->as<ASTPair>()->second->as<ASTLiteral>()->value.get<String>(), "localhost");
@@ -133,7 +133,7 @@ TEST(ParserDictionaryDDL, AttributesWithMultipleProperties)
                    "    third_column UInt8 DEFAULT 2 EXPRESSION rand() % 100 * 77"
                    " )"
                    " PRIMARY KEY key_column"
-                   " SOURCE(CLICKHOUSE(HOST 'localhost'))";
+                   " SOURCE(VXDFS(HOST 'localhost'))";
 
     ParserCreateDictionaryQuery parser;
     ASTPtr ast = parseQuery(parser, input.data(), input.data() + input.size(), "", 0, 0, 0);
@@ -179,7 +179,7 @@ TEST(ParserDictionaryDDL, CustomAttributePropertiesOrder)
                    "    third_column UInt8 EXPRESSION rand() % 100 * 77 DEFAULT 2 INJECTIVE HIERARCHICAL"
                    " )"
                    " PRIMARY KEY key_column"
-                   " SOURCE(CLICKHOUSE(REPLICA(HOST '127.0.0.1' PRIORITY 1)))"
+                   " SOURCE(VXDFS(REPLICA(HOST '127.0.0.1' PRIORITY 1)))"
                    " LIFETIME(300)";
 
     ParserCreateDictionaryQuery parser;

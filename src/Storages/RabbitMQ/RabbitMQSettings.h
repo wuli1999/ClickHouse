@@ -10,7 +10,7 @@ namespace DB
 
 #define RABBITMQ_RELATED_SETTINGS(M, ALIAS) \
     M(String, rabbitmq_host_port, "", "A host-port to connect to RabbitMQ server.", 0) \
-    M(String, rabbitmq_exchange_name, "clickhouse-exchange", "The exchange name, to which messages are sent.", 0) \
+    M(String, rabbitmq_exchange_name, "vxdfs-exchange", "The exchange name, to which messages are sent.", 0) \
     M(String, rabbitmq_format, "", "The message format.", 0) \
     M(String, rabbitmq_exchange_type, "default", "The exchange type.", 0) \
     M(String, rabbitmq_routing_key_list, "5672", "A string of routing keys, separated by dots.", 0) \

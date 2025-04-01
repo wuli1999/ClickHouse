@@ -132,7 +132,7 @@ namespace
     /// TODO: Probably we could try to replace database and table name in `query` too.
     void visitDictionaryDef(ASTDictionary & dictionary, const DDLRenamingVisitor::Data & data)
     {
-        if (!dictionary.source || dictionary.source->name != "clickhouse" || !dictionary.source->elements)
+        if (!dictionary.source || dictionary.source->name != "vxdfs" || !dictionary.source->elements)
             return;
 
         auto config = getDictionaryConfigurationFromAST(data.create_query->as<ASTCreateQuery &>(), data.global_context);

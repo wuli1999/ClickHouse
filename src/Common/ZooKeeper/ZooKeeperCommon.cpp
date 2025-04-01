@@ -157,7 +157,7 @@ std::string ZooKeeperAuthRequest::toStringImpl() const
 void ZooKeeperCreateRequest::writeImpl(WriteBuffer & out) const
 {
     /// See https://github.com/ClickHouse/clickhouse-private/issues/3029
-    if (path.starts_with("/clickhouse/tables/") && path.find("/parts/") != std::string::npos)
+    if (path.starts_with("/vxdfs/tables/") && path.find("/parts/") != std::string::npos)
     {
         LOG_TRACE(getLogger(__PRETTY_FUNCTION__), "Creating part at path {}", path);
     }

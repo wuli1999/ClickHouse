@@ -330,8 +330,8 @@ Block MergeTreeDataWriter::mergeBlock(
 
     size_t block_size = block.rows();
 
-    span.addAttribute("clickhouse.rows", block_size);
-    span.addAttribute("clickhouse.columns", block.columns());
+    span.addAttribute("vxdfs.rows", block_size);
+    span.addAttribute("vxdfs.columns", block.columns());
 
     auto get_merging_algorithm = [&]() -> std::shared_ptr<IMergingAlgorithm>
     {
@@ -368,7 +368,7 @@ Block MergeTreeDataWriter::mergeBlock(
     if (!merging_algorithm)
         return block;
 
-    span.addAttribute("clickhouse.merging_algorithm", merging_algorithm->getName());
+    span.addAttribute("vxdfs.merging_algorithm", merging_algorithm->getName());
 
     Chunk chunk(block.getColumns(), block_size);
 

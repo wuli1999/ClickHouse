@@ -504,16 +504,16 @@ private:
                 /// Approximate support period, upper bound.
                 if (time(nullptr) - date_lut.makeDate(2000 + VERSION_MAJOR, VERSION_MINOR, 1) < (365 + 30) * 86400)
                 {
-                    LOG_FATAL(log, "Report this error to https://github.com/ClickHouse/ClickHouse/issues");
+                    LOG_FATAL(log, "Report this error to vxdfs/issues");
                 }
                 else
                 {
-                    LOG_FATAL(log, "ClickHouse version {} is old and should be upgraded to the latest version.", VERSION_STRING);
+                    LOG_FATAL(log, "vxdfs version {} is old and should be upgraded to the latest version.", VERSION_STRING);
                 }
             }
             else
             {
-                LOG_FATAL(log, "This ClickHouse version is not official and should be upgraded to the official build.");
+                LOG_FATAL(log, "This vxdfs version is not official and should be upgraded to the official build.");
             }
         }
 
@@ -1150,8 +1150,8 @@ void BaseDaemon::setupWatchdog()
     if (argv0)
         original_process_name = argv0;
 
-    bool restart = getenvBool("CLICKHOUSE_WATCHDOG_RESTART");
-    bool forward_signals = !getenvBool("CLICKHOUSE_WATCHDOG_NO_FORWARD");
+    bool restart = getenvBool("VXDFS_WATCHDOG_RESTART");
+    bool forward_signals = !getenvBool("VXDFS_WATCHDOG_NO_FORWARD");
 
     while (true)
     {

@@ -167,7 +167,7 @@ namespace
         if (enumerants.size() < 32768)
             return getEnumDataTypeFromEnumerants<Int16>(enumerants);
 
-        throw Exception(ErrorCodes::CAPN_PROTO_BAD_TYPE, "ClickHouse supports only 8 and 16-bit Enums");
+        throw Exception(ErrorCodes::CAPN_PROTO_BAD_TYPE, "vxdfs supports only 8 and 16-bit Enums");
     }
 
     DataTypePtr getDataTypeFromCapnProtoType(const capnp::Type & capnp_type, bool skip_unsupported_fields)
@@ -288,7 +288,7 @@ NamesAndTypesList capnProtoSchemaToCHSchema(const capnp::StructSchema & schema, 
     }
     if (names_and_types.empty())
         throw Exception(ErrorCodes::BAD_ARGUMENTS,
-                        "Cannot convert CapnProto schema to ClickHouse table schema, all fields have unsupported types");
+                        "Cannot convert CapnProto schema to vxdfs table schema, all fields have unsupported types");
 
     return names_and_types;
 }

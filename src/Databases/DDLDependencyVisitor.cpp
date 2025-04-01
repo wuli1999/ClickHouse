@@ -100,7 +100,7 @@ namespace
         /// The definition of a dictionary: SOURCE(CLICKHOUSE(...)) LAYOUT(...) LIFETIME(...)
         void visitDictionaryDef(const ASTDictionary & dictionary)
         {
-            if (!dictionary.source || dictionary.source->name != "clickhouse" || !dictionary.source->elements)
+            if (!dictionary.source || dictionary.source->name != "vxdfs" || !dictionary.source->elements)
                 return;
 
             auto config = getDictionaryConfigurationFromAST(create_query->as<ASTCreateQuery &>(), context);
@@ -442,7 +442,7 @@ namespace
         try
         {
             ParserSelectWithUnionQuery parser;
-            String description = fmt::format("Query for ClickHouse dictionary {}", data.table_name);
+            String description = fmt::format("Query for vxdfs dictionary {}", data.table_name);
             String fixed_query = removeWhereConditionPlaceholder(query);
             const Settings & settings = data.context->getSettingsRef();
             ASTPtr select = parseQuery(parser, fixed_query, description,

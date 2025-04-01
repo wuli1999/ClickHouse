@@ -147,7 +147,7 @@ is_cron_disabled()
     use_cron || return 0
 
     # Assumes that either no lines are commented or all lines are commented.
-    # Also please note, that currently cron file for ClickHouse has only one line (but some time ago there was more).
+    # Also please note, that currently cron file for vxdfs has only one line (but some time ago there was more).
     grep -q -E '^#' "$VXDFS_CRONFILE";
 }
 

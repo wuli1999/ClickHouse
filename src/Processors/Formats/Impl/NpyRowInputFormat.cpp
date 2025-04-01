@@ -152,11 +152,11 @@ std::shared_ptr<NumpyDataType> parseType(String type)
     else if (type[1] == 'U')
         return std::make_shared<NumpyDataTypeUnicode>(endianness, parseTypeSize(type.substr(2)));
     else if (type[1] == 'c')
-        throw Exception(ErrorCodes::BAD_ARGUMENTS, "ClickHouse doesn't support complex numeric type");
+        throw Exception(ErrorCodes::BAD_ARGUMENTS, "vxdfs doesn't support complex numeric type");
     else if (type[1] == 'O')
-        throw Exception(ErrorCodes::BAD_ARGUMENTS, "ClickHouse doesn't support object types");
+        throw Exception(ErrorCodes::BAD_ARGUMENTS, "vxdfs doesn't support object types");
     else
-        throw Exception(ErrorCodes::BAD_ARGUMENTS, "ClickHouse doesn't support numpy type '{}'", type);
+        throw Exception(ErrorCodes::BAD_ARGUMENTS, "vxdfs doesn't support numpy type '{}'", type);
 }
 
 std::vector<int> parseShape(String shape_string)
@@ -421,7 +421,7 @@ void NpyRowInputFormat::readValue(IColumn * column)
         case TypeIndex::String: readAndInsertString<String>(column->getPtr(), nested_type, *header.numpy_type, false); break;
         case TypeIndex::FixedString: readAndInsertString<String>(column->getPtr(), nested_type, *header.numpy_type, true); break;
         default:
-            throw Exception(ErrorCodes::UNKNOWN_TYPE, "ClickHouse type {} is not supported for import from Npy format", nested_type->getName());
+            throw Exception(ErrorCodes::UNKNOWN_TYPE, "vxdfs type {} is not supported for import from Npy format", nested_type->getName());
     }
 }
 

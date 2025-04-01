@@ -140,7 +140,7 @@ void FileChecker::save() const
         std::unique_ptr<WriteBufferFromFileBase> out = disk ? disk->writeFile(tmp_files_info_path) : std::make_unique<WriteBufferFromFile>(tmp_files_info_path);
 
         /// So complex JSON structure - for compatibility with the old format.
-        writeCString("{\"clickhouse\":{", *out);
+        writeCString("{\"vxdfs\":{", *out);
 
         auto settings = FormatSettings();
         for (auto it = map.begin(); it != map.end(); ++it)
@@ -187,7 +187,7 @@ void FileChecker::load()
     }
     JSON json(out.str());
 
-    JSON files = json.has("clickhouse") ? json["clickhouse"] : json["yandex"];
+    JSON files = json.has("vxdfs") ? json["vxdfs"] : json["vxdfs"];
     for (const JSON file : files) // NOLINT
         map[unescapeForFileName(file.getName())] = file.getValue()["size"].toUInt();
 }

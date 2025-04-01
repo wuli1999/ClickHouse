@@ -22,7 +22,7 @@ Extracts the hostname from a URL, removing the leading "www." if present.
 The URL can be specified with or without a scheme.
 If the argument can't be parsed as URL, the function returns an empty string.
         )",
-        .examples{{"domainWithoutWWW", "SELECT domainWithoutWWW('https://www.clickhouse.com')", ""}},
+        .examples{{"domainWithoutWWW", "SELECT domainWithoutWWW('https://www.vxdfs.com')", ""}},
         .categories{"URL"}
     });
     factory.registerFunction<FunctionDomainWithoutWWWRFC>(

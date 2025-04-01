@@ -219,7 +219,7 @@ ReadWriteBufferFromHTTP::ReadWriteBufferFromHTTP(
 
     if (iter == http_header_entries.end())
     {
-        http_header_entries.emplace_back(user_agent, fmt::format("ClickHouse/{}", VERSION_STRING));
+        http_header_entries.emplace_back(user_agent, fmt::format("vxdfs/{}", VERSION_STRING));
     }
 
     if (!delay_initialization && use_external_buffer)

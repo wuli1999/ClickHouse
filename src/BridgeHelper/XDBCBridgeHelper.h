@@ -119,7 +119,7 @@ protected:
     String serviceAlias() const override { return BridgeHelperMixin::serviceAlias(); }
 
     /// Same for odbc and jdbc
-    String serviceFileName() const override { return "clickhouse-odbc-bridge"; }
+    String serviceFileName() const override { return "vxdfs-odbc-bridge"; }
 
     String configPrefix() const override { return BridgeHelperMixin::configPrefix(); }
 
@@ -265,7 +265,7 @@ struct JDBCBridgeMixin
 
     static String serviceAlias()
     {
-        return "clickhouse-jdbc-bridge";
+        return "vxdfs-jdbc-bridge";
     }
 
     static String getName()
@@ -296,7 +296,7 @@ struct ODBCBridgeMixin
 
     static String serviceAlias()
     {
-        return "clickhouse-odbc-bridge";
+        return "vxdfs-odbc-bridge";
     }
 
     static String getName()

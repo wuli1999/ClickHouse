@@ -58,7 +58,7 @@ namespace
     {
         if (remote)
         {
-            String root_zk_path = context->getConfigRef().getString("backups.zookeeper_path", "/clickhouse/backups");
+            String root_zk_path = context->getConfigRef().getString("backups.zookeeper_path", "/vxdfs/backups");
 
             auto get_zookeeper = [global_context = context->getGlobalContext()] { return global_context->getZooKeeper(); };
 
@@ -89,7 +89,7 @@ namespace
     {
         if (remote)
         {
-            String root_zk_path = context->getConfigRef().getString("backups.zookeeper_path", "/clickhouse/backups");
+            String root_zk_path = context->getConfigRef().getString("backups.zookeeper_path", "/vxdfs/backups");
 
             auto get_zookeeper = [global_context = context->getGlobalContext()] { return global_context->getZooKeeper(); };
 

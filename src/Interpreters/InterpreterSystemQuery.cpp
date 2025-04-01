@@ -792,7 +792,7 @@ BlockIO InterpreterSystemQuery::execute()
         case Type::JEMALLOC_FLUSH_PROFILE:
         {
             getContext()->checkAccess(AccessType::SYSTEM_JEMALLOC);
-            flushJemallocProfile("/tmp/jemalloc_clickhouse");
+            flushJemallocProfile("/tmp/jemalloc_vxdfs");
             break;
         }
 #else

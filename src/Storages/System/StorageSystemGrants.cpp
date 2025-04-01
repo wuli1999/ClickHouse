@@ -24,7 +24,7 @@ ColumnsDescription StorageSystemGrants::getColumnsDescription()
     {
         {"user_name", std::make_shared<DataTypeNullable>(std::make_shared<DataTypeString>()), "User name."},
         {"role_name", std::make_shared<DataTypeNullable>(std::make_shared<DataTypeString>()), "Role assigned to user account."},
-        {"access_type", std::make_shared<DataTypeEnum16>(StorageSystemPrivileges::getAccessTypeEnumValues()), "Access parameters for ClickHouse user account."},
+        {"access_type", std::make_shared<DataTypeEnum16>(StorageSystemPrivileges::getAccessTypeEnumValues()), "Access parameters for vxdfs user account."},
         {"database", std::make_shared<DataTypeNullable>(std::make_shared<DataTypeString>()), "Name of a database."},
         {"table", std::make_shared<DataTypeNullable>(std::make_shared<DataTypeString>()), "Name of a table."},
         {"column", std::make_shared<DataTypeNullable>(std::make_shared<DataTypeString>()), "Name of a column to which access is granted."},

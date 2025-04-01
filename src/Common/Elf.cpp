@@ -190,7 +190,7 @@ String Elf::getBuildID(const char * nhdr_pos, size_t size)
 
 String Elf::getStoredBinaryHash() const
 {
-    if (auto section = findSectionByName(".clickhouse.hash"))
+    if (auto section = findSectionByName(".vxdfs.hash"))
         return {section->begin(), section->end()};
     else
         return {};

@@ -74,8 +74,8 @@ bool Span::addAttribute(const Exception & e) noexcept
     if (!this->isTraceEnabled())
         return false;
 
-    return addAttributeImpl("clickhouse.exception", getExceptionMessage(e, false))
-        && addAttributeImpl("clickhouse.exception_code", toString(e.code()));
+    return addAttributeImpl("vxdfs.exception", getExceptionMessage(e, false))
+        && addAttributeImpl("vxdfs.exception_code", toString(e.code()));
 }
 
 bool Span::addAttribute(std::exception_ptr e) noexcept
@@ -83,7 +83,7 @@ bool Span::addAttribute(std::exception_ptr e) noexcept
     if (!this->isTraceEnabled() || e == nullptr)
         return false;
 
-    return addAttributeImpl("clickhouse.exception", getExceptionMessage(e, false));
+    return addAttributeImpl("vxdfs.exception", getExceptionMessage(e, false));
 }
 
 bool Span::addAttribute(const ExecutionStatus & e) noexcept
@@ -91,8 +91,8 @@ bool Span::addAttribute(const ExecutionStatus & e) noexcept
     if (!this->isTraceEnabled())
         return false;
 
-    return addAttributeImpl("clickhouse.exception", e.message)
-        && addAttributeImpl("clickhouse.exception_code", toString(e.code));
+    return addAttributeImpl("vxdfs.exception", e.message)
+        && addAttributeImpl("vxdfs.exception_code", toString(e.code));
 }
 
 bool Span::addAttributeImpl(std::string_view name, std::string_view value) noexcept
@@ -126,7 +126,7 @@ SpanHolder::SpanHolder(std::string_view _operation_name, SpanKind _kind)
         this->start_time_us
             = std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
 
-        this->addAttribute("clickhouse.thread_id", getThreadId());
+        this->addAttribute("vxdfs.thread_id", getThreadId());
     }
     catch (...)
     {
@@ -384,7 +384,7 @@ TracingContextHolder::~TracingContextHolder()
             {
                 /// This object is created to initialize tracing context on a new thread,
                 /// it's helpful to record the thread_id so that we know the thread switching from the span log
-                this->root_span.addAttribute("clickhouse.thread_id", getThreadId());
+                this->root_span.addAttribute("vxdfs.thread_id", getThreadId());
             }
             catch (...) // NOLINT(bugprone-empty-catch)
             {

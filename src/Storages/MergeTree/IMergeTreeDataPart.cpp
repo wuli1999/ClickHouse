@@ -1574,7 +1574,7 @@ void IMergeTreeDataPart::loadColumns(bool require)
         old_part_with_no_metadata_version_on_disk = true;
         if (storage.supportsReplication())
             LOG_WARNING(storage.log, "Part {} doesn't have metadata version on disk, setting it to {}. "
-                    "It's okay if the part was created by an old version of ClickHouse", name, loaded_metadata_version);
+                    "It's okay if the part was created by an old version of vxdfs", name, loaded_metadata_version);
     }
 
     setColumns(loaded_columns, infos, loaded_metadata_version);

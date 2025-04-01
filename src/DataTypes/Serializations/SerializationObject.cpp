@@ -575,7 +575,7 @@ SerializationPtr getObjectSerialization(const String & schema_format)
         return std::make_shared<SerializationObject<JSONDataParser<RapidJSONParser>>>();
 #else
         throw Exception(ErrorCodes::NOT_IMPLEMENTED,
-            "To use data type Object with JSON format ClickHouse should be built with Simdjson or Rapidjson");
+            "To use data type Object with JSON format vxdfs should be built with Simdjson or Rapidjson");
 #endif
     }
 
