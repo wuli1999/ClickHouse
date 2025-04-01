@@ -1,0 +1,1 @@
+#*/10 * * * * root ((which service > /dev/null 2>&1 && (service vxdfs-server condstart ||:)) || /etc/init.d/vxdfs-server condstart) > /dev/null 2>&1

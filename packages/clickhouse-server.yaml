@@ -47,18 +47,21 @@ contents:
 - src: vxdfs-server.init
   dst: /etc/init.d/vxdfs-server
 - src: vxdfs-server.service
-  dst: /lib/systemd/system/vxdfs-server.service
+  dst: /etc/systemd/system/vxdfs-server.service
 
 - src: vxdfs
   dst: /usr/bin/vxdfs-server
   type: symlink
+
+- src: server-cron
+  dst: /etc/cron.d/vxdfs-server
 
 # vxdfs-keeper part
 - src: root/etc/vxdfs-keeper/keeper_config.xml
   dst: /etc/vxdfs-keeper/keeper_config.xml
   type: config|noreplace
 - src: vxdfs-keeper.service
-  dst: /lib/systemd/system/vxdfs-keeper.service
+  dst: /etc/systemd/system/vxdfs-keeper.service
 - src: vxdfs
   dst: /usr/bin/vxdfs-keeper
   type: symlink

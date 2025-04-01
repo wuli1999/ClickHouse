@@ -7,7 +7,7 @@
 /// If the event is generic (i.e. not server specific)
 /// it should be also added to src/Coordination/KeeperConstant.cpp
 #define APPLY_FOR_BUILTIN_EVENTS(M) \
-    M(Query, "Number of queries to be interpreted and potentially executed. Does not include queries that failed to parse or were rejected due to AST size limits, quota limits or limits on the number of simultaneously running queries. May include internal queries initiated by ClickHouse itself. Does not count subqueries.") \
+    M(Query, "Number of queries to be interpreted and potentially executed. Does not include queries that failed to parse or were rejected due to AST size limits, quota limits or limits on the number of simultaneously running queries. May include internal queries initiated by vxdfs itself. Does not count subqueries.") \
     M(SelectQuery, "Same as Query, but only for SELECT queries.") \
     M(InsertQuery, "Same as Query, but only for INSERT queries.") \
     M(InitialQuery, "Same as Query, but only counts initial queries (see is_initial_query).")\
@@ -79,10 +79,10 @@
     M(CreatedReadBufferMMapFailed, "Number of times a read buffer with 'mmap' was attempted to be created for reading data (while choosing among other read methods), but the OS did not allow it (due to lack of filesystem support or other reasons) and we fallen back to the ordinary reading method.") \
     M(DiskReadElapsedMicroseconds, "Total time spent waiting for read syscall. This include reads from page cache.") \
     M(DiskWriteElapsedMicroseconds, "Total time spent waiting for write syscall. This include writes to page cache.") \
-    M(NetworkReceiveElapsedMicroseconds, "Total time spent waiting for data to receive or receiving data from network. Only ClickHouse-related network interaction is included, not by 3rd party libraries.") \
-    M(NetworkSendElapsedMicroseconds, "Total time spent waiting for data to send to network or sending data to network. Only ClickHouse-related network interaction is included, not by 3rd party libraries.") \
-    M(NetworkReceiveBytes, "Total number of bytes received from network. Only ClickHouse-related network interaction is included, not by 3rd party libraries.") \
-    M(NetworkSendBytes, "Total number of bytes send to network. Only ClickHouse-related network interaction is included, not by 3rd party libraries.") \
+    M(NetworkReceiveElapsedMicroseconds, "Total time spent waiting for data to receive or receiving data from network. Only vxdfs-related network interaction is included, not by 3rd party libraries.") \
+    M(NetworkSendElapsedMicroseconds, "Total time spent waiting for data to send to network or sending data to network. Only vxdfs-related network interaction is included, not by 3rd party libraries.") \
+    M(NetworkReceiveBytes, "Total number of bytes received from network. Only vxdfs-related network interaction is included, not by 3rd party libraries.") \
+    M(NetworkSendBytes, "Total number of bytes send to network. Only vxdfs-related network interaction is included, not by 3rd party libraries.") \
     \
     M(DiskS3GetRequestThrottlerCount, "Number of DiskS3 GET and SELECT requests passed through throttler.") \
     M(DiskS3GetRequestThrottlerSleepMicroseconds, "Total time a query was sleeping to conform DiskS3 GET and SELECT request throttling.") \
@@ -302,7 +302,7 @@ The server successfully detected this situation and will download merged part fr
     M(MemoryAllocatorPurge, "Total number of times memory allocator purge was requested") \
     M(MemoryAllocatorPurgeTimeMicroseconds, "Total number of times memory allocator purge was requested") \
     M(SoftPageFaults, "The number of soft page faults in query execution threads. Soft page fault usually means a miss in the memory allocator cache, which requires a new memory mapping from the OS and subsequent allocation of a page of physical memory.") \
-    M(HardPageFaults, "The number of hard page faults in query execution threads. High values indicate either that you forgot to turn off swap on your server, or eviction of memory pages of the ClickHouse binary during very high memory pressure, or successful usage of the 'mmap' read method for the tables data.") \
+    M(HardPageFaults, "The number of hard page faults in query execution threads. High values indicate either that you forgot to turn off swap on your server, or eviction of memory pages of the vxdfs binary during very high memory pressure, or successful usage of the 'mmap' read method for the tables data.") \
     \
     M(OSIOWaitMicroseconds, "Total time a thread spent waiting for a result of IO operation, from the OS point of view. This is real IO that doesn't include page cache.") \
     M(OSCPUWaitMicroseconds, "Total time a thread was ready for execution but waiting to be scheduled by OS, from the OS point of view.") \
@@ -555,9 +555,9 @@ The server successfully detected this situation and will download merged part fr
     M(KafkaRebalanceRevocations, "Number of partition revocations (the first stage of consumer group rebalance)") \
     M(KafkaRebalanceAssignments, "Number of partition assignments (the final stage of consumer group rebalance)") \
     M(KafkaRebalanceErrors, "Number of failed consumer group rebalances") \
-    M(KafkaMessagesPolled, "Number of Kafka messages polled from librdkafka to ClickHouse") \
-    M(KafkaMessagesRead, "Number of Kafka messages already processed by ClickHouse") \
-    M(KafkaMessagesFailed, "Number of Kafka messages ClickHouse failed to parse") \
+    M(KafkaMessagesPolled, "Number of Kafka messages polled from librdkafka to vxdfs") \
+    M(KafkaMessagesRead, "Number of Kafka messages already processed by vxdfs") \
+    M(KafkaMessagesFailed, "Number of Kafka messages vxdfs failed to parse") \
     M(KafkaRowsRead, "Number of rows parsed from Kafka messages") \
     M(KafkaRowsRejected, "Number of parsed rows which were later rejected (due to rebalances / errors or similar reasons). Those rows will be consumed again after the rebalance.") \
     M(KafkaDirectReads, "Number of direct selects from Kafka tables since server start") \

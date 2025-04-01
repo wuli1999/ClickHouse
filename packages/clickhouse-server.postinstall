@@ -13,7 +13,7 @@ VXDFS_BINDIR=${VXDFS_BINDIR:-/usr/bin}
 VXDFS_GENERIC_PROGRAM=${VXDFS_GENERIC_PROGRAM:-vxdfs}
 VXDFS_PIDDIR=/var/run/$PROGRAM
 
-# Provide clickhouse-keeper
+# Provide vxdfs-keeper
 KEEPER_CONFDIR=${KEEPER_CONFDIR:-/etc/vxdfs-keeper}
 KEEPER_DATADIR=${KEEPER_DATADIR:-/var/lib/vxdfs}
 KEEPER_LOGDIR=${KEEPER_LOGDIR:-/var/log/vxdfs-keeper}
@@ -29,7 +29,7 @@ if [ "$1" = configure ] || [ -n "$not_deb_os" ]; then
 
     ${VXDFS_GENERIC_PROGRAM} install --user "${VXDFS_USER}" --group "${VXDFS_GROUP}" --pid-path "${VXDFS_PIDDIR}" --config-path "${VXDFS_CONFDIR}" --binary-path "${VXDFS_BINDIR}" --log-path "${VXDFS_LOGDIR}" --data-path "${VXDFS_DATADIR}"
 
-    if [ -x "/bin/systemctl" ] && [ -f /lib/systemd/system/vxdfs-server.service ] && [ -d /run/systemd/system ]; then
+    if [ -x "/bin/systemctl" ] && [ -f /etc/systemd/system/vxdfs-server.service ] && [ -d /run/systemd/system ]; then
         # if old rc.d service present - remove it
         if [ -x "/etc/init.d/vxdfs-server" ] && [ -x "/usr/sbin/update-rc.d" ]; then
             /usr/sbin/update-rc.d vxdfs-server remove
@@ -38,7 +38,7 @@ if [ "$1" = configure ] || [ -n "$not_deb_os" ]; then
         /bin/systemctl daemon-reload
         /bin/systemctl enable vxdfs-server
     else
-        # If you downgrading to version older than 1.1.54336 run: systemctl disable clickhouse-server
+        # If you downgrading to version older than 1.1.54336 run: systemctl disable vxdfs-server
         if [ -x "/etc/init.d/vxdfs-server" ]; then
             if [ -x "/usr/sbin/update-rc.d" ]; then
                 /usr/sbin/update-rc.d vxdfs-server defaults 19 19 >/dev/null || exit $?
@@ -48,7 +48,7 @@ if [ "$1" = configure ] || [ -n "$not_deb_os" ]; then
         fi
     fi
 
-    # /etc/systemd/system/clickhouse-server.service shouldn't be distributed by the package, but it was
+    # /etc/systemd/system/vxdfs-server.service shouldn't be distributed by the package, but it was
     # here we delete the service file if it was from our package
     if [ -f /etc/systemd/system/vxdfs-server.service ]; then
       SHA256=$(sha256sum /etc/systemd/system/vxdfs-server.service | cut -d' ' -f1)
@@ -60,7 +60,7 @@ if [ "$1" = configure ] || [ -n "$not_deb_os" ]; then
       done
     fi
 
-    # Setup clickhouse-keeper directories
+    # Setup vxdfs-keeper directories
     chown -R "${VXDFS_USER}:${VXDFS_GROUP}" "${KEEPER_CONFDIR}"
     chmod 0755 "${KEEPER_CONFDIR}"
 
