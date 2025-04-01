@@ -890,7 +890,7 @@ void LocalServer::readArguments(int argc, char ** argv, Arguments & common_argum
 #pragma clang diagnostic ignored "-Wunused-function"
 #pragma clang diagnostic ignored "-Wmissing-declarations"
 
-int mainEntryClickHouseLocal(int argc, char ** argv)
+int mainEntryVxdfsLocal(int argc, char ** argv)
 {
     try
     {

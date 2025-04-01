@@ -24,20 +24,20 @@
 
 
 /// Universal executable for various clickhouse applications
-int mainEntryClickHouseServer(int argc, char ** argv);
-int mainEntryClickHouseClient(int argc, char ** argv);
-int mainEntryClickHouseLocal(int argc, char ** argv);
-int mainEntryClickHouseBenchmark(int argc, char ** argv);
-int mainEntryClickHouseExtractFromConfig(int argc, char ** argv);
-int mainEntryClickHouseCompressor(int argc, char ** argv);
-int mainEntryClickHouseFormat(int argc, char ** argv);
-int mainEntryClickHouseObfuscator(int argc, char ** argv);
-int mainEntryClickHouseGitImport(int argc, char ** argv);
-int mainEntryClickHouseStaticFilesDiskUploader(int argc, char ** argv);
-int mainEntryClickHouseSU(int argc, char ** argv);
-int mainEntryClickHouseDisks(int argc, char ** argv);
+int mainEntryVxdfsServer(int argc, char ** argv);
+int mainEntryVxdfsClient(int argc, char ** argv);
+int mainEntryVxdfsLocal(int argc, char ** argv);
+int mainEntryVxdfsBenchmark(int argc, char ** argv);
+int mainEntryVxdfsExtractFromConfig(int argc, char ** argv);
+int mainEntryVxdfsCompressor(int argc, char ** argv);
+int mainEntryVxdfsFormat(int argc, char ** argv);
+int mainEntryVxdfsObfuscator(int argc, char ** argv);
+int mainEntryVxdfsGitImport(int argc, char ** argv);
+int mainEntryVxdfsStaticFilesDiskUploader(int argc, char ** argv);
+int mainEntryVxdfsSU(int argc, char ** argv);
+int mainEntryVxdfsDisks(int argc, char ** argv);
 
-int mainEntryClickHouseHashBinary(int, char **)
+int mainEntryVxdfsHashBinary(int, char **)
 {
     /// Intentionally without newline. So you can run:
     /// objcopy --add-section .clickhouse.hash=<(./clickhouse hash-binary) clickhouse
@@ -46,21 +46,21 @@ int mainEntryClickHouseHashBinary(int, char **)
 }
 
 #if ENABLE_CLICKHOUSE_KEEPER
-int mainEntryClickHouseKeeper(int argc, char ** argv);
+int mainEntryVxdfsKeeper(int argc, char ** argv);
 #endif
 #if ENABLE_CLICKHOUSE_KEEPER_CONVERTER
-int mainEntryClickHouseKeeperConverter(int argc, char ** argv);
+int mainEntryVxdfsKeeperConverter(int argc, char ** argv);
 #endif
 #if ENABLE_CLICKHOUSE_KEEPER_CLIENT
-int mainEntryClickHouseKeeperClient(int argc, char ** argv);
+int mainEntryVxdfsKeeperClient(int argc, char ** argv);
 #endif
 
 // install
-int mainEntryClickHouseInstall(int argc, char ** argv);
-int mainEntryClickHouseStart(int argc, char ** argv);
-int mainEntryClickHouseStop(int argc, char ** argv);
-int mainEntryClickHouseStatus(int argc, char ** argv);
-int mainEntryClickHouseRestart(int argc, char ** argv);
+int mainEntryVxdfsInstall(int argc, char ** argv);
+int mainEntryVxdfsStart(int argc, char ** argv);
+int mainEntryVxdfsStop(int argc, char ** argv);
+int mainEntryVxdfsStatus(int argc, char ** argv);
+int mainEntryVxdfsRestart(int argc, char ** argv);
 
 namespace
 {
@@ -70,37 +70,37 @@ using MainFunc = int (*)(int, char**);
 /// Add an item here to register new application
 std::pair<std::string_view, MainFunc> clickhouse_applications[] =
 {
-    {"local", mainEntryClickHouseLocal},
-    {"client", mainEntryClickHouseClient},
-    {"benchmark", mainEntryClickHouseBenchmark},
-    {"server", mainEntryClickHouseServer},
-    {"extract-from-config", mainEntryClickHouseExtractFromConfig},
-    {"compressor", mainEntryClickHouseCompressor},
-    {"format", mainEntryClickHouseFormat},
-    {"obfuscator", mainEntryClickHouseObfuscator},
-    {"git-import", mainEntryClickHouseGitImport},
-    {"static-files-disk-uploader", mainEntryClickHouseStaticFilesDiskUploader},
-    {"su", mainEntryClickHouseSU},
-    {"hash-binary", mainEntryClickHouseHashBinary},
-    {"disks", mainEntryClickHouseDisks},
+    {"local", mainEntryVxdfsLocal},
+    {"client", mainEntryVxdfsClient},
+    {"benchmark", mainEntryVxdfsBenchmark},
+    {"server", mainEntryVxdfsServer},
+    {"extract-from-config", mainEntryVxdfsExtractFromConfig},
+    {"compressor", mainEntryVxdfsCompressor},
+    {"format", mainEntryVxdfsFormat},
+    {"obfuscator", mainEntryVxdfsObfuscator},
+    {"git-import", mainEntryVxdfsGitImport},
+    {"static-files-disk-uploader", mainEntryVxdfsStaticFilesDiskUploader},
+    {"su", mainEntryVxdfsSU},
+    {"hash-binary", mainEntryVxdfsHashBinary},
+    {"disks", mainEntryVxdfsDisks},
 
     // keeper
 #if ENABLE_CLICKHOUSE_KEEPER
-    {"keeper", mainEntryClickHouseKeeper},
+    {"keeper", mainEntryVxdfsKeeper},
 #endif
 #if ENABLE_CLICKHOUSE_KEEPER_CONVERTER
-    {"keeper-converter", mainEntryClickHouseKeeperConverter},
+    {"keeper-converter", mainEntryVxdfsKeeperConverter},
 #endif
 #if ENABLE_CLICKHOUSE_KEEPER_CLIENT
-    {"keeper-client", mainEntryClickHouseKeeperClient},
+    {"keeper-client", mainEntryVxdfsKeeperClient},
 #endif
 
     // install
-    {"install", mainEntryClickHouseInstall},
-    {"start", mainEntryClickHouseStart},
-    {"stop", mainEntryClickHouseStop},
-    {"status", mainEntryClickHouseStatus},
-    {"restart", mainEntryClickHouseRestart},
+    {"install", mainEntryVxdfsInstall},
+    {"start", mainEntryVxdfsStart},
+    {"stop", mainEntryVxdfsStop},
+    {"status", mainEntryVxdfsStatus},
+    {"restart", mainEntryVxdfsRestart},
 };
 
 int printHelp(int, char **)
@@ -493,7 +493,7 @@ int main(int argc_, char ** argv_)
     ///     clickhouse local # spawn local
     ///
     if (main_func == printHelp && !argv.empty() && (argv.size() == 1 || argv[1][0] == '-'))
-        main_func = mainEntryClickHouseLocal;
+        main_func = mainEntryVxdfsLocal;
 
     int exit_code = main_func(static_cast<int>(argv.size()), argv.data());
 

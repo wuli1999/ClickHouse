@@ -1,1 +1,1 @@
-int mainEntryClickHouseStaticFilesDiskUploader(int argc, char ** argv);
+int mainEntryVxdfsStaticFilesDiskUploader(int argc, char ** argv);

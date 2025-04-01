@@ -139,7 +139,7 @@ void processTableFiles(const fs::path & data_path, fs::path dst_path, bool test_
 }
 }
 
-int mainEntryClickHouseStaticFilesDiskUploader(int argc, char ** argv)
+int mainEntryVxdfsStaticFilesDiskUploader(int argc, char ** argv)
 try
 {
     using namespace DB;

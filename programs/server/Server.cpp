@@ -189,7 +189,7 @@ static bool jemallocOptionEnabled(const char *name)
 static bool jemallocOptionEnabled(const char *) { return false; }
 #endif
 
-int mainEntryClickHouseServer(int argc, char ** argv)
+int mainEntryVxdfsServer(int argc, char ** argv)
 {
     DB::Server app;
 
@@ -991,7 +991,7 @@ try
                     /// Get the memory area with (current) code segment.
                     /// It's better to lock only the code segment instead of calling "mlockall",
                     /// because otherwise debug info will be also locked in memory, and it can be huge.
-                    auto [addr, len] = getMappedArea(reinterpret_cast<void *>(mainEntryClickHouseServer));
+                    auto [addr, len] = getMappedArea(reinterpret_cast<void *>(mainEntryVxdfsServer));
 
                     LOG_TRACE(log, "Will do mlock to prevent executable memory from being paged out. It may take a few seconds.");
                     if (0 != mlock(addr, len))

@@ -1,1 +1,1 @@
-int mainEntryClickHouseExtractFromConfig(int argc, char ** argv);
+int mainEntryVxdfsExtractFromConfig(int argc, char ** argv);

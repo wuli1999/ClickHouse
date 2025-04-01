@@ -1,6 +1,6 @@
 #include "LibraryBridge.h"
 
-int mainEntryClickHouseLibraryBridge(int argc, char ** argv)
+int mainEntryVxdfsLibraryBridge(int argc, char ** argv)
 {
     DB::LibraryBridge app;
     try

@@ -256,7 +256,7 @@ int DisksApp::main(const std::vector<String> & /*args*/)
 
 }
 
-int mainEntryClickHouseDisks(int argc, char ** argv)
+int mainEntryVxdfsDisks(int argc, char ** argv)
 {
     try
     {

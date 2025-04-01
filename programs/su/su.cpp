@@ -100,7 +100,7 @@ void setUserAndGroup(std::string arg_uid, std::string arg_gid)
 }
 
 
-int mainEntryClickHouseSU(int argc, char ** argv)
+int mainEntryVxdfsSU(int argc, char ** argv)
 try
 {
     using namespace DB;

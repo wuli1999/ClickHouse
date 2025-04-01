@@ -1,1 +1,1 @@
-int mainEntryClickHouseDisks(int argc, char ** argv);
+int mainEntryVxdfsDisks(int argc, char ** argv);

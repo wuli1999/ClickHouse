@@ -13,7 +13,7 @@
 #include <Disks/DiskLocal.h>
 
 
-int mainEntryClickHouseKeeperConverter(int argc, char ** argv)
+int mainEntryVxdfsKeeperConverter(int argc, char ** argv)
 {
     using namespace DB;
     namespace po = boost::program_options;

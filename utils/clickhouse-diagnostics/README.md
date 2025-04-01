@@ -2594,7 +2594,7 @@ trace:
 ./build/./base/poco/Util/src/Application.cpp:0: Poco::Util::Application::run() @ 0x1489B8A6
 ./build/./programs/server/Server.cpp:402: DB::Server::run() @ 0x0B651E91
 ./build/./base/poco/Util/src/ServerApplication.cpp:132: Poco::Util::ServerApplication::run(int, char**) @ 0x148AF4F1
-./build/./programs/server/Server.cpp:0: mainEntryClickHouseServer(int, char**) @ 0x0B64FA96
+./build/./programs/server/Server.cpp:0: mainEntryVxdfsServer(int, char**) @ 0x0B64FA96
 ./build/./programs/main.cpp:0: main @ 0x06AB8C92
 :  @ 0x7F6694A29D90
 :  @ 0x7F6694A29E40

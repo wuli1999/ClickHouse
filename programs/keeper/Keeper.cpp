@@ -59,7 +59,7 @@
 /// A minimal file used when the keeper is run without installation
 INCBIN(keeper_resource_embedded_xml, SOURCE_DIR "/programs/keeper/keeper_embedded.xml");
 
-int mainEntryClickHouseKeeper(int argc, char ** argv)
+int mainEntryVxdfsKeeper(int argc, char ** argv)
 {
     DB::Keeper app;
 

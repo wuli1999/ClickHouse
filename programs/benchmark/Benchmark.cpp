@@ -568,7 +568,7 @@ public:
 }
 
 
-int mainEntryClickHouseBenchmark(int argc, char ** argv)
+int mainEntryVxdfsBenchmark(int argc, char ** argv)
 {
     using namespace DB;
     bool print_stacktrace = true;

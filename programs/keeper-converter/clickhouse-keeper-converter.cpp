@@ -1,1 +1,1 @@
-int mainEntryClickHouseKeeperConverter(int argc, char ** argv);
+int mainEntryVxdfsKeeperConverter(int argc, char ** argv);

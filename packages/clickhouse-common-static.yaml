@@ -37,18 +37,18 @@ contents:
 - src: vxdfs
   dst: /usr/bin/vxdfs-extract-from-config
   type: symlink
-- src: root/usr/bin/vxdfs-library-bridge
-  dst: /usr/bin/vxdfs-library-bridge
+#- src: root/usr/bin/vxdfs-library-bridge
+#  dst: /usr/bin/vxdfs-library-bridge
 
-- src: root/usr/bin/vxdfs-odbc-bridge
-  dst: /usr/bin/vxdfs-odbc-bridge
+#- src: root/usr/bin/vxdfs-odbc-bridge
+#  dst: /usr/bin/vxdfs-odbc-bridge
 
-- #src: root/usr/share/bash-completion/completions
+# #src: root/usr/share/bash-completion/completions
   #dst: /usr/share/bash-completion/completions
 
-- src: vxdfs
-  dst: /usr/share/vxdfs
-  type: symlink
+#- src: vxdfs
+#  dst: /usr/share/vxdfs
+#  type: symlink
 # docs
 #- src: ../AUTHORS
 #  dst: /usr/share/doc/vxdfs-common-static/AUTHORS

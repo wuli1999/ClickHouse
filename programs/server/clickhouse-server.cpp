@@ -1,1 +1,1 @@
-int mainEntryClickHouseServer(int argc, char ** argv);
+int mainEntryVxdfsServer(int argc, char ** argv);

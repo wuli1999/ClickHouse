@@ -112,7 +112,7 @@ static std::vector<std::string> extractFromConfig(
 #pragma clang diagnostic ignored "-Wunused-function"
 #pragma clang diagnostic ignored "-Wmissing-declarations"
 
-int mainEntryClickHouseExtractFromConfig(int argc, char ** argv)
+int mainEntryVxdfsExtractFromConfig(int argc, char ** argv)
 {
     bool print_stacktrace = false;
     bool process_zk_includes = false;

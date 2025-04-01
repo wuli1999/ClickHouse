@@ -3,15 +3,15 @@ set -e
 # set -x
 
 PROGRAM=vxdfs-server
-CLICKHOUSE_USER=${CLICKHOUSE_USER:-vxdfs}
-CLICKHOUSE_GROUP=${CLICKHOUSE_GROUP:-${CLICKHOUSE_USER}}
+VXDFS_USER=${VXDFS_USER:-vxdfs}
+VXDFS_GROUP=${VXDFS_GROUP:-${VXDFS_USER}}
 # Please note that we don't support paths with whitespaces. This is rather ignorant.
-CLICKHOUSE_CONFDIR=${CLICKHOUSE_CONFDIR:-/etc/vxdfs-server}
-CLICKHOUSE_DATADIR=${CLICKHOUSE_DATADIR:-/var/lib/vxdfs}
-CLICKHOUSE_LOGDIR=${CLICKHOUSE_LOGDIR:-/var/log/vxdfs-server}
-CLICKHOUSE_BINDIR=${CLICKHOUSE_BINDIR:-/usr/bin}
-CLICKHOUSE_GENERIC_PROGRAM=${CLICKHOUSE_GENERIC_PROGRAM:-vxdfs}
-CLICKHOUSE_PIDDIR=/var/run/$PROGRAM
+VXDFS_CONFDIR=${VXDFS_CONFDIR:-/etc/vxdfs-server}
+VXDFS_DATADIR=${VXDFS_DATADIR:-/var/lib/vxdfs}
+VXDFS_LOGDIR=${VXDFS_LOGDIR:-/var/log/vxdfs-server}
+VXDFS_BINDIR=${VXDFS_BINDIR:-/usr/bin}
+VXDFS_GENERIC_PROGRAM=${VXDFS_GENERIC_PROGRAM:-vxdfs}
+VXDFS_PIDDIR=/var/run/$PROGRAM
 
 # Provide clickhouse-keeper
 KEEPER_CONFDIR=${KEEPER_CONFDIR:-/etc/vxdfs-keeper}
@@ -27,7 +27,7 @@ fi
 
 if [ "$1" = configure ] || [ -n "$not_deb_os" ]; then
 
-    ${CLICKHOUSE_GENERIC_PROGRAM} install --user "${CLICKHOUSE_USER}" --group "${CLICKHOUSE_GROUP}" --pid-path "${CLICKHOUSE_PIDDIR}" --config-path "${CLICKHOUSE_CONFDIR}" --binary-path "${CLICKHOUSE_BINDIR}" --log-path "${CLICKHOUSE_LOGDIR}" --data-path "${CLICKHOUSE_DATADIR}"
+    ${VXDFS_GENERIC_PROGRAM} install --user "${VXDFS_USER}" --group "${VXDFS_GROUP}" --pid-path "${VXDFS_PIDDIR}" --config-path "${VXDFS_CONFDIR}" --binary-path "${VXDFS_BINDIR}" --log-path "${VXDFS_LOGDIR}" --data-path "${VXDFS_DATADIR}"
 
     if [ -x "/bin/systemctl" ] && [ -f /lib/systemd/system/vxdfs-server.service ] && [ -d /run/systemd/system ]; then
         # if old rc.d service present - remove it
@@ -61,18 +61,18 @@ if [ "$1" = configure ] || [ -n "$not_deb_os" ]; then
     fi
 
     # Setup clickhouse-keeper directories
-    chown -R "${CLICKHOUSE_USER}:${CLICKHOUSE_GROUP}" "${KEEPER_CONFDIR}"
+    chown -R "${VXDFS_USER}:${VXDFS_GROUP}" "${KEEPER_CONFDIR}"
     chmod 0755 "${KEEPER_CONFDIR}"
 
     if ! [ -d "${KEEPER_DATADIR}" ]; then
         mkdir -p "${KEEPER_DATADIR}"
-        chown -R "${CLICKHOUSE_USER}:${CLICKHOUSE_GROUP}" "${KEEPER_DATADIR}"
+        chown -R "${VXDFS_USER}:${VXDFS_GROUP}" "${KEEPER_DATADIR}"
         chmod 0700 "${KEEPER_DATADIR}"
     fi
 
     if ! [ -d "${KEEPER_LOGDIR}" ]; then
         mkdir -p "${KEEPER_LOGDIR}"
-        chown -R "${CLICKHOUSE_USER}:${CLICKHOUSE_GROUP}" "${KEEPER_LOGDIR}"
+        chown -R "${VXDFS_USER}:${VXDFS_GROUP}" "${KEEPER_LOGDIR}"
         chmod 0770 "${KEEPER_LOGDIR}"
     fi
 fi

@@ -1,1 +1,1 @@
-int mainEntryClickHouseCompressor(int argc, char ** argv);
+int mainEntryVxdfsCompressor(int argc, char ** argv);

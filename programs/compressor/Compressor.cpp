@@ -61,7 +61,7 @@ void checkAndWriteHeader(DB::ReadBuffer & in, DB::WriteBuffer & out)
 
 }
 
-int mainEntryClickHouseCompressor(int argc, char ** argv)
+int mainEntryVxdfsCompressor(int argc, char ** argv)
 {
     using namespace DB;
     namespace po = boost::program_options;

@@ -15,17 +15,17 @@
 #
 #   [1]: https://wiki.debian.org/LSBInitScripts
 
-CLICKHOUSE_USER=vxdfs
-CLICKHOUSE_GROUP=${CLICKHOUSE_USER}
+VXDFS_USER=vxdfs
+VXDFS_GROUP=${VXDFS_USER}
 SHELL=/bin/bash
 PROGRAM=vxdfs-server
-CLICKHOUSE_GENERIC_PROGRAM=vxdfs
-CLICKHOUSE_PROGRAM_ENV=""
-EXTRACT_FROM_CONFIG=${CLICKHOUSE_GENERIC_PROGRAM}-extract-from-config
-CLICKHOUSE_CONFDIR=/etc/$PROGRAM
-CLICKHOUSE_LOGDIR=/var/log/vxdfs-server
-CLICKHOUSE_LOGDIR_USER=root
-CLICKHOUSE_DATADIR=/var/lib/vxdfs
+VXDFS_GENERIC_PROGRAM=vxdfs
+VXDFS_PROGRAM_ENV=""
+EXTRACT_FROM_CONFIG=${VXDFS_GENERIC_PROGRAM}-extract-from-config
+VXDFS_CONFDIR=/etc/$PROGRAM
+VXDFS_LOGDIR=/var/log/vxdfs-server
+VXDFS_LOGDIR_USER=root
+VXDFS_DATADIR=/var/lib/vxdfs
 if [ -d "/var/lock" ]; then
     LOCALSTATEDIR=/var/lock
 else
@@ -36,13 +36,13 @@ if [ ! -d "$LOCALSTATEDIR" ]; then
     mkdir -p "$LOCALSTATEDIR"
 fi
 
-CLICKHOUSE_BINDIR=/usr/bin
-CLICKHOUSE_CRONFILE=/etc/cron.d/vxdfs-server
-CLICKHOUSE_CONFIG=$CLICKHOUSE_CONFDIR/config.xml
+VXDFS_BINDIR=/usr/bin
+VXDFS_CRONFILE=/etc/cron.d/vxdfs-server
+VXDFS_CONFIG=$VXDFS_CONFDIR/config.xml
 LOCKFILE=$LOCALSTATEDIR/$PROGRAM
-CLICKHOUSE_PIDDIR=/var/run/$PROGRAM
-CLICKHOUSE_PIDFILE="$CLICKHOUSE_PIDDIR/$PROGRAM.pid"
-# CLICKHOUSE_STOP_TIMEOUT=60 # Disabled by default. Place to /etc/default/clickhouse if you need.
+VXDFS_PIDDIR=/var/run/$PROGRAM
+VXDFS_PIDFILE="$VXDFS_PIDDIR/$PROGRAM.pid"
+# VXDFS_STOP_TIMEOUT=60 # Disabled by default. Place to /etc/default/clickhouse if you need.
 
 # Some systems lack "flock"
 command -v flock >/dev/null && FLOCK=flock
@@ -62,39 +62,39 @@ die()
 # Check that configuration file is Ok.
 check_config()
 {
-    if [ -x "$CLICKHOUSE_BINDIR/$EXTRACT_FROM_CONFIG" ]; then
-        su -s $SHELL ${CLICKHOUSE_USER} -c "$CLICKHOUSE_BINDIR/$EXTRACT_FROM_CONFIG --config-file=\"$CLICKHOUSE_CONFIG\" --key=path" >/dev/null || die "Configuration file ${CLICKHOUSE_CONFIG} doesn't parse successfully. Won't restart server. You may use forcerestart if you are sure.";
+    if [ -x "$VXDFS_BINDIR/$EXTRACT_FROM_CONFIG" ]; then
+        su -s $SHELL ${VXDFS_USER} -c "$VXDFS_BINDIR/$EXTRACT_FROM_CONFIG --config-file=\"$VXDFS_CONFIG\" --key=path" >/dev/null || die "Configuration file ${VXDFS_CONFIG} doesn't parse successfully. Won't restart server. You may use forcerestart if you are sure.";
     fi
 }
 
 
 initdb()
 {
-    ${CLICKHOUSE_GENERIC_PROGRAM} install --user "${CLICKHOUSE_USER}" --pid-path "${CLICKHOUSE_PIDDIR}" --config-path "${CLICKHOUSE_CONFDIR}" --binary-path "${CLICKHOUSE_BINDIR}"
+    ${VXDFS_GENERIC_PROGRAM} install --user "${VXDFS_USER}" --pid-path "${VXDFS_PIDDIR}" --config-path "${VXDFS_CONFDIR}" --binary-path "${VXDFS_BINDIR}"
 }
 
 
 start()
 {
-    ${CLICKHOUSE_GENERIC_PROGRAM} start --user "${CLICKHOUSE_USER}" --pid-path "${CLICKHOUSE_PIDDIR}" --config-path "${CLICKHOUSE_CONFDIR}" --binary-path "${CLICKHOUSE_BINDIR}"
+    ${VXDFS_GENERIC_PROGRAM} start --user "${VXDFS_USER}" --pid-path "${VXDFS_PIDDIR}" --config-path "${VXDFS_CONFDIR}" --binary-path "${VXDFS_BINDIR}"
 }
 
 
 stop()
 {
-    ${CLICKHOUSE_GENERIC_PROGRAM} stop --pid-path "${CLICKHOUSE_PIDDIR}"
+    ${VXDFS_GENERIC_PROGRAM} stop --pid-path "${VXDFS_PIDDIR}"
 }
 
 
 restart()
 {
-    ${CLICKHOUSE_GENERIC_PROGRAM} restart --user "${CLICKHOUSE_USER}" --pid-path "${CLICKHOUSE_PIDDIR}" --config-path "${CLICKHOUSE_CONFDIR}" --binary-path "${CLICKHOUSE_BINDIR}"
+    ${VXDFS_GENERIC_PROGRAM} restart --user "${VXDFS_USER}" --pid-path "${VXDFS_PIDDIR}" --config-path "${VXDFS_CONFDIR}" --binary-path "${VXDFS_BINDIR}"
 }
 
 
 forcestop()
 {
-    ${CLICKHOUSE_GENERIC_PROGRAM} stop --force --pid-path "${CLICKHOUSE_PIDDIR}"
+    ${VXDFS_GENERIC_PROGRAM} stop --force --pid-path "${VXDFS_PIDDIR}"
 }
 
 
@@ -121,11 +121,11 @@ use_cron()
         return 1
     fi
     # 2. checking whether the config is existed
-    if [ ! -f "$CLICKHOUSE_CRONFILE" ]; then
+    if [ ! -f "$VXDFS_CRONFILE" ]; then
         return 1
     fi
     # 3. disabled by config
-    if [ -z "$CLICKHOUSE_CRONFILE" ]; then
+    if [ -z "$VXDFS_CRONFILE" ]; then
         return 2
     fi
     return 0
@@ -133,12 +133,12 @@ use_cron()
 # returns false if cron disabled (with systemd)
 enable_cron()
 {
-    use_cron && sed -i 's/^#*//' "$CLICKHOUSE_CRONFILE"
+    use_cron && sed -i 's/^#*//' "$VXDFS_CRONFILE"
 }
 # returns false if cron disabled (with systemd)
 disable_cron()
 {
-    use_cron && sed -i 's/^#*/#/' "$CLICKHOUSE_CRONFILE"
+    use_cron && sed -i 's/^#*/#/' "$VXDFS_CRONFILE"
 }
 
 
@@ -148,7 +148,7 @@ is_cron_disabled()
 
     # Assumes that either no lines are commented or all lines are commented.
     # Also please note, that currently cron file for ClickHouse has only one line (but some time ago there was more).
-    grep -q -E '^#' "$CLICKHOUSE_CRONFILE";
+    grep -q -E '^#' "$VXDFS_CRONFILE";
 }
 
 
@@ -210,7 +210,7 @@ main()
 
 status()
 {
-    ${CLICKHOUSE_GENERIC_PROGRAM} status --pid-path "${CLICKHOUSE_PIDDIR}"
+    ${VXDFS_GENERIC_PROGRAM} status --pid-path "${VXDFS_PIDDIR}"
 }
 
 

@@ -1,6 +1,6 @@
 #include "ODBCBridge.h"
 
-int mainEntryClickHouseODBCBridge(int argc, char ** argv)
+int mainEntryVxdfsODBCBridge(int argc, char ** argv)
 {
     DB::ODBCBridge app;
     try

@@ -1,1 +1,1 @@
-int mainEntryClickHouseFormat(int argc, char ** argv);
+int mainEntryVxdfsFormat(int argc, char ** argv);

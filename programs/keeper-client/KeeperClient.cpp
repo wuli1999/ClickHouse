@@ -419,7 +419,7 @@ int KeeperClient::main(const std::vector<String> & /* args */)
 }
 
 
-int mainEntryClickHouseKeeperClient(int argc, char ** argv)
+int mainEntryVxdfsKeeperClient(int argc, char ** argv)
 {
     try
     {

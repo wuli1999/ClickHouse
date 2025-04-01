@@ -13,7 +13,7 @@
 #include <Interpreters/Context.h>
 
 
-int mainEntryClickHouseServer(int argc, char ** argv);
+int mainEntryVxdfsServer(int argc, char ** argv);
 
 static std::string clickhouse("clickhouse-server");
 static std::vector<char *> args{clickhouse.data()};
@@ -51,7 +51,7 @@ int LLVMFuzzerInitialize(int * argc, char ***argv)
 
     args.push_back(nullptr);
 
-    main_app = std::async(std::launch::async, mainEntryClickHouseServer, args.size() - 1, args.data());
+    main_app = std::async(std::launch::async, mainEntryVxdfsServer, args.size() - 1, args.data());
 
     while (!DB::Context::getGlobalContextInstance() || !DB::Context::getGlobalContextInstance()->isServerCompletelyStarted())
     {

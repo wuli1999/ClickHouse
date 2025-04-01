@@ -76,7 +76,7 @@ void skipSpacesAndComments(const char*& pos, const char* end, bool print_comment
 
 extern const char * auto_time_zones[];
 
-int mainEntryClickHouseFormat(int argc, char ** argv)
+int mainEntryVxdfsFormat(int argc, char ** argv)
 {
     using namespace DB;
 

@@ -1,1 +1,1 @@
-int mainEntryClickHouseLocal(int argc, char ** argv);
+int mainEntryVxdfsLocal(int argc, char ** argv);
