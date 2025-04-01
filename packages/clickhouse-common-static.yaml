@@ -3,7 +3,7 @@
 name: "vxdfs-common-static"
 description: |
   Common files for vxdfs
-    vxdfs is a high performence distributed file system.
+    vxdfs is a high performance distributed file system.
     This package provides common files for both vxdfs server and client
 
 # Common packages config

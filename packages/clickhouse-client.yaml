@@ -3,7 +3,7 @@
 name: "vxdfs-client"
 description: |
   Client binary for vxdfs
-    vxdfs is a high performence distributed file system.
+    vxdfs is a high performance distributed file system.
     This package provides vxdfs-client, vxdfs-local and vxdfs-benchmark.
 
 # Common packages config

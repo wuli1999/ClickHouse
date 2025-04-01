@@ -3,7 +3,7 @@
 name: "vxdfs-server"
 description: |
   Server binary for vxdfs
-    vxdfs is a high performence distributed file system.
+    vxdfs is a high performance distributed file system.
     This package provides vxdfs common configuration files
 
 # Common packages config
