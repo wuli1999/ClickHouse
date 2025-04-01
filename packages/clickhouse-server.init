@@ -42,7 +42,7 @@ VXDFS_CONFIG=$VXDFS_CONFDIR/config.xml
 LOCKFILE=$LOCALSTATEDIR/$PROGRAM
 VXDFS_PIDDIR=/var/run/$PROGRAM
 VXDFS_PIDFILE="$VXDFS_PIDDIR/$PROGRAM.pid"
-# VXDFS_STOP_TIMEOUT=60 # Disabled by default. Place to /etc/default/clickhouse if you need.
+# VXDFS_STOP_TIMEOUT=60 # Disabled by default. Place to /etc/default/vxdfs if you need.
 
 # Some systems lack "flock"
 command -v flock >/dev/null && FLOCK=flock

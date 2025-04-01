@@ -4,7 +4,7 @@ name: "vxdfs-server"
 description: |
   Server binary for vxdfs
     vxdfs is a high performence distributed file system.
-    This package provides clickhouse common configuration files
+    This package provides vxdfs common configuration files
 
 # Common packages config
 arch: "${DEB_ARCH}" # amd64, arm64
