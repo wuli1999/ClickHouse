@@ -953,7 +953,7 @@ int mainEntryVxdfsInstall(int argc, char ** argv)
                 maybe_password);
         }
 
-        fmt::print("install completed.\n")
+        fmt::print("install completed.\n");
     }
     catch (const fs::filesystem_error &)
     {
