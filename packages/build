@@ -16,6 +16,7 @@ cd "$CUR_DIR"
 ROOT_DIR=$(readlink -f "$(git rev-parse --show-cdup)")
 
 PKG_ROOT='root'
+VERSION_STRING='24.3.11'
 
 DEB_ARCH=${DEB_ARCH:-amd64}
 OUTPUT_DIR=${OUTPUT_DIR:-$ROOT_DIR}

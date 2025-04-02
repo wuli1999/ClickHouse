@@ -36,7 +36,7 @@ if [ "$1" = configure ] || [ -n "$not_deb_os" ]; then
         fi
 
         /bin/systemctl daemon-reload
-        /bin/systemctl enable vxdfs-server
+        # /bin/systemctl enable vxdfs-server
     else
         # If you downgrading to version older than 1.1.54336 run: systemctl disable vxdfs-server
         if [ -x "/etc/init.d/vxdfs-server" ]; then
@@ -59,7 +59,6 @@ if [ "$1" = configure ] || [ -n "$not_deb_os" ]; then
         fi
       done
     fi
-
     # Setup vxdfs-keeper directories
     chown -R "${VXDFS_USER}:${VXDFS_GROUP}" "${KEEPER_CONFDIR}"
     chmod 0755 "${KEEPER_CONFDIR}"
@@ -75,4 +74,6 @@ if [ "$1" = configure ] || [ -n "$not_deb_os" ]; then
         chown -R "${VXDFS_USER}:${VXDFS_GROUP}" "${KEEPER_LOGDIR}"
         chmod 0770 "${KEEPER_LOGDIR}"
     fi
+
+    echo 'post install completed.'
 fi
