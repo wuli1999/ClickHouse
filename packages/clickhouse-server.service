@@ -20,7 +20,7 @@ RestartSec=30
 # The following vxdfs directives should be used instead of forcing SIGKILL by systemd:
 # - shutdown_wait_unfinished_queries
 # - shutdown_wait_unfinished
-TimeoutStopSec=infinity
+TimeoutStopSec=0
 # Disable forwarding signals by watchdog, since with default systemd's
 # kill-mode control-group, systemd will send signal to all process in cgroup.
 Environment=VXDFS_WATCHDOG_NO_FORWARD=1

@@ -367,7 +367,7 @@ bool ConfigProcessor::merge(XMLDocumentPtr config, XMLDocumentPtr with)
 
     /// For compatibility, we treat 'yandex' and 'clickhouse' equivalent.
     /// See https://clickhouse.com/blog/en/2021/clickhouse-inc/
-
+    /*
     if (config_root_node_name != merged_root_node_name
         && !((config_root_node_name == "yandex" || config_root_node_name == "clickhouse")
             && (merged_root_node_name == "yandex" || merged_root_node_name == "clickhouse")))
@@ -377,6 +377,12 @@ bool ConfigProcessor::merge(XMLDocumentPtr config, XMLDocumentPtr with)
 
         throw Poco::Exception("Root element doesn't have the corresponding root element as the config file."
             " It must be <" + config_root->nodeName() + ">");
+    }*/
+
+    if(config_root_node_name != "vxdfs" || merged_root_node_name != "vxdfs")
+    {
+        throw Poco::Exception("Root or merged element doesn't have the corresponding root element as the config file."
+            " It must be <vxdfs>");
     }
 
     mergeRecursive(config, config_root, with_root);

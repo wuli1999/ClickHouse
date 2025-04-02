@@ -433,17 +433,17 @@ int mainEntryVxdfsInstall(int argc, char ** argv)
             "vxdfs-client",
             "vxdfs-local",
             "vxdfs-benchmark",
-            "vxdfs-obfuscator",
-            "vxdfs-git-import",
+            //"vxdfs-obfuscator",
+            //"vxdfs-git-import",
             "vxdfs-compressor",
             "vxdfs-format",
             "vxdfs-extract-from-config",
             "vxdfs-keeper",
             "vxdfs-keeper-converter",
             "vxdfs-disks",
-            "ch",
-            "chl",
-            "chc",
+            //"ch",
+            //"chl",
+            //"chc",
         };
 
         for (const auto & tool : tools)
@@ -952,6 +952,8 @@ int mainEntryVxdfsInstall(int argc, char ** argv)
                 formatWithSudo("vxdfs start"),
                 maybe_password);
         }
+
+        fmt::print("install completed.\n")
     }
     catch (const fs::filesystem_error &)
     {
