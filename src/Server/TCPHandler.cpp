@@ -1449,7 +1449,7 @@ void TCPHandler::receiveHello()
         throw NetException(ErrorCodes::UNEXPECTED_PACKET_FROM_CLIENT, "Unexpected packet from client (no user in Hello package)");
 
     if (client_name != "vxdfs client" && client_name != "vxdfs server")
-        throw NetException(ErrorCodes::CLIENT_INFO_DOES_NOT_MATCH, "Unexpected information from client (unknown client name)");
+        throw NetException(ErrorCodes::CLIENT_INFO_DOES_NOT_MATCH, "Unexpected information from client (unknown client name:{})", client_name);
 
     LOG_DEBUG(log, "Connected {} version {}.{}.{}, revision: {}{}{}.",
         client_name,
